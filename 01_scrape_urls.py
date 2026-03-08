@@ -13,7 +13,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
-from config import BASE_URL, CHRONICLE_INDEX, IMAGE_BASE_URL, IMAGE_URLS_FILE, SECTIONS
+from config import BASE_URL, CHRONICLE_INDEX, IMAGE_URLS_FILE, SECTIONS
 
 
 def scrape_section_images(section_slug: str) -> list[dict]:

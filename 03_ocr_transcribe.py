@@ -111,7 +111,9 @@ def main():
         return
 
     with open(IMAGE_URLS_FILE, "r", encoding="utf-8") as f:
-        sections = json.load(f)
+        all_sections = json.load(f)
+
+    sections = all_sections
 
     # Filter sections
     if args.section:
@@ -127,6 +129,9 @@ def main():
             print(f"❌ Neplatný index sekce: {args.section_index}")
             return
 
+    # Build lookup: section_name -> 1-based index in full list
+    section_index_map = {s["section_name"]: i + 1 for i, s in enumerate(all_sections)}
+
     # Load existing transcriptions
     transcriptions = load_transcriptions()
 
@@ -141,14 +146,8 @@ def main():
     skipped = 0
     errors = 0
 
-    for sec_idx_global, section in enumerate(sections):
-        # Find the original section index for directory naming
-        with open(IMAGE_URLS_FILE, "r", encoding="utf-8") as f:
-            all_sections = json.load(f)
-        sec_num = next(
-            i + 1 for i, s in enumerate(all_sections)
-            if s["section_name"] == section["section_name"]
-        )
+    for section in sections:
+        sec_num = section_index_map[section["section_name"]]
 
         sec_name = section["section_name"]
         print(f"\n📖 {sec_name} ({len(section['images'])} stránek)")
