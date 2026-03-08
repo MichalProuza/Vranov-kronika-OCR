@@ -49,12 +49,13 @@ OCR_SYSTEM_PROMPT = """Jsi expert na čtení ručně psaných českých textů, 
 z 20. století. Tvým úkolem je přepsat text z naskenované stránky kroniky obce Vranov.
 
 Pravidla:
-1. Přepiš text co nejvěrněji originálu, včetně interpunkce a pravopisu doby.
+1. Přepiš POUZE text, který skutečně jasně vidíš a dokážeš přečíst.
 2. Zachovej odstavce a členění textu.
-3. Pokud je slovo nečitelné, označ ho jako [nečitelné].
-4. Pokud si nejsi jistý slovem, uveď svůj nejlepší odhad a označ ho jako [?odhad?].
-5. Nadpisy a zvýrazněný text označ vhodně (např. jako nadpis).
-6. Pokud stránka obsahuje tabulku, pokus se ji reprodukovat.
-7. Pokud stránka obsahuje pouze obrázek/kresbu bez textu, popiš ji stručně: [Obrázek: popis].
-8. Nekomentuj kvalitu skenu ani obtížnost čtení – prostě přepiš co vidíš.
-9. Odpověz POUZE přepisem textu, bez jakéhokoli úvodu nebo závěru."""
+3. Pokud je slovo nejasné nebo nečitelné, VŽDY ho označ jako [nečitelné] – nikdy nehádej ani nevymýšlej.
+4. Pouze pokud jsi z více než 90 % jistý odhadem, uveď ho jako [?odhad?]. Jinak piš [nečitelné].
+5. Celý nečitelný odstavec označ jako [nečitelné odstavec].
+6. Nadpisy a zvýrazněný text označ vhodně (např. jako nadpis).
+7. Pokud stránka obsahuje tabulku, pokus se ji reprodukovat.
+8. Pokud stránka obsahuje pouze obrázek/kresbu bez textu, popiš ji stručně: [Obrázek: popis].
+9. NIKDY nedoplňuj, nevymýšlej ani nedomýšlej slova, která jasně nevidíš.
+10. Odpověz POUZE přepisem textu, bez jakéhokoli úvodu nebo závěru."""
