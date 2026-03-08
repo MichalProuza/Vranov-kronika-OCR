@@ -15,7 +15,7 @@ import html
 import json
 import re
 
-from config import IMAGE_URLS_FILE, OUTPUT_HTML, SECTIONS, TRANSCRIPTIONS_FILE
+from config import OUTPUT_HTML, SECTIONS, TRANSCRIPTIONS_FILE
 
 
 def slugify(text: str) -> str:
@@ -51,13 +51,8 @@ def format_text(text: str) -> str:
     return "\n".join(result)
 
 
-def build_html(transcriptions: dict, image_data: list, with_thumbnails: bool = False) -> str:
+def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
     """Build the complete HTML page."""
-    # Build image lookup: section_name -> list of image info
-    img_lookup = {}
-    for section in image_data:
-        img_lookup[section["section_name"]] = section["images"]
-
     # Navigation
     nav_items = []
     for section in SECTIONS:
@@ -414,14 +409,8 @@ def main():
     with open(TRANSCRIPTIONS_FILE, "r", encoding="utf-8") as f:
         transcriptions = json.load(f)
 
-    # Load image data
-    image_data = []
-    if IMAGE_URLS_FILE.exists():
-        with open(IMAGE_URLS_FILE, "r", encoding="utf-8") as f:
-            image_data = json.load(f)
-
     # Build HTML
-    html_content = build_html(transcriptions, image_data, with_thumbnails=args.with_thumbnails)
+    html_content = build_html(transcriptions, with_thumbnails=args.with_thumbnails)
 
     # Write output
     OUTPUT_HTML.parent.mkdir(parents=True, exist_ok=True)
