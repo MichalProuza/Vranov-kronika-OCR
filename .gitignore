@@ -1,0 +1,19 @@
+# Data (large files)
+data/images/
+data/transcriptions.json
+
+# Output
+output/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
