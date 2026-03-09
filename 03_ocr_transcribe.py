@@ -7,10 +7,12 @@ Podporuje resume – přeskočí už přepsané stránky.
 Podporuje filtrování po sekcích.
 
 Použití:
-    python 03_ocr_transcribe.py                     # Vše
+    python 03_ocr_transcribe.py                             # Vše
     python 03_ocr_transcribe.py --section "Rok 1920–1929"  # Jen jedna sekce
-    python 03_ocr_transcribe.py --section-index 2    # Sekce č. 2 (1-indexed)
-    python 03_ocr_transcribe.py --dry-run            # Jen ukáže co by dělal
+    python 03_ocr_transcribe.py --section-index 2          # Sekce č. 2 (1-indexed)
+    python 03_ocr_transcribe.py --limit 5                  # Jen prvních 5 stránek
+    python 03_ocr_transcribe.py --section "Rok 1920–1929" --limit 5  # Kombinace
+    python 03_ocr_transcribe.py --dry-run                  # Jen ukáže co by dělal
 """
 
 import argparse
@@ -94,6 +96,7 @@ def main():
     parser.add_argument("--section-index", type=int, help="Číslo sekce (1-indexed)")
     parser.add_argument("--dry-run", action="store_true", help="Jen ukáže co by dělal")
     parser.add_argument("--force", action="store_true", help="Přepíše i už přepsané stránky")
+    parser.add_argument("--limit", type=int, help="Maximální počet stránek k přepsání")
     args = parser.parse_args()
 
     if not ANTHROPIC_API_KEY and not args.dry_run:
@@ -145,6 +148,7 @@ def main():
     processed = 0
     skipped = 0
     errors = 0
+    limit = args.limit
 
     for section in sections:
         sec_num = section_index_map[section["section_name"]]
@@ -155,9 +159,16 @@ def main():
         if sec_name not in transcriptions:
             transcriptions[sec_name] = {}
 
+        if limit is not None and processed >= limit:
+            break
+
         for img_idx, img in enumerate(section["images"], 1):
             img_id = str(img["id"])
             page_key = f"img_{img_id}"
+
+            # Stop if limit reached
+            if limit is not None and processed >= limit:
+                break
 
             # Check if already transcribed
             if page_key in transcriptions[sec_name] and not args.force:
