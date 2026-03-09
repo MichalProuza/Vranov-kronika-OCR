@@ -23,8 +23,21 @@ Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://w
 git clone <repo-url>
 cd kronika-vranov-ocr
 pip install -r requirements.txt
+```
+
+Nastav API klíč – podle prostředí:
+
+**Linux / macOS (bash/zsh):**
+```bash
 export ANTHROPIC_API_KEY='sk-ant-api03-...'
 ```
+
+**Windows PowerShell:**
+```powershell
+$env:ANTHROPIC_API_KEY = 'sk-ant-api03-...'
+```
+
+> Nastavení platí jen pro aktuální terminálovou session. Pro trvalé uložení přidej řádek do svého profilu (`$PROFILE`) nebo nastav proměnnou v Nastavení systému → Proměnné prostředí.
 
 ## Spuštění
 
