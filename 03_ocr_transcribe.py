@@ -18,6 +18,7 @@ Použití:
 
 import argparse
 import base64
+import io
 import json
 import time
 from pathlib import Path
@@ -79,8 +80,7 @@ def encode_image(image_path: Path, high_res: bool = False) -> tuple[str, str]:
             ratio = DEFAULT_MAX_DIMENSION / long_edge
             new_w = int(w * ratio)
             new_h = int(h * ratio)
-            img = img.resize((new_w, new_h), Image.LANCZOS)
-            import io
+            img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
 
             buf = io.BytesIO()
             img.save(buf, format="JPEG", quality=92)
