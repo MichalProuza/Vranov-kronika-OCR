@@ -44,7 +44,7 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
 - Podporuje resume (přeskočí už stažené)
 
 ### Krok 3: OCR přepis pomocí Claude API (`03_ocr_transcribe.py`)
-- Odešle každý obrázek do Claude API (claude-opus-4-0520 s vision)
+- Odešle každý obrázek do Claude API (claude-opus-4-20250514 s vision)
 - System prompt je optimalizovaný pro čtení ručně psaného českého textu
 - Posílá kontext přepisu předchozí stránky pro lepší rozpoznání jmen a míst
 - Výsledky ukládá průběžně do `data/transcriptions.json`
