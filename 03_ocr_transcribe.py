@@ -39,7 +39,8 @@ from config import (
 
 # Default max dimension for resized images (long edge).
 # With --high-res this limit is removed and the original image is sent.
-DEFAULT_MAX_DIMENSION = 2048
+# Higher resolution helps with handwriting recognition accuracy.
+DEFAULT_MAX_DIMENSION = 4096
 
 
 def load_transcriptions() -> dict:
@@ -106,30 +107,10 @@ def transcribe_image(
     """
     image_data, media_type = encode_image(image_path, high_res=high_res)
 
-    # Build user message content
+    # Build user message content – image first, then instructions
     content = []
 
-    # Add previous page context if available
-    if previous_transcription:
-        # Truncate very long transcriptions to last ~1500 chars to save tokens
-        ctx = previous_transcription
-        if len(ctx) > 1500:
-            ctx = "…" + ctx[-1500:]
-        content.append(
-            {
-                "type": "text",
-                "text": (
-                    "Pro kontext – přepis předchozí stránky kroniky:\n"
-                    "---\n"
-                    f"{ctx}\n"
-                    "---\n"
-                    "Nyní přepiš následující stránku. Využij kontext výše pro lepší "
-                    "rozpoznání jmen, míst a navazujícího textu, ale přepisuj POUZE "
-                    "to, co vidíš na obrázku níže."
-                ),
-            }
-        )
-
+    # Image goes first so the model sees it before instructions
     content.append(
         {
             "type": "image",
@@ -141,17 +122,42 @@ def transcribe_image(
         }
     )
 
-    content.append(
-        {
-            "type": "text",
-            "text": "Přepiš text z této stránky kroniky obce Vranov.",
-        }
-    )
+    # Add previous page context if available
+    if previous_transcription:
+        # Truncate very long transcriptions to last ~2000 chars to save tokens
+        ctx = previous_transcription
+        if len(ctx) > 2000:
+            ctx = "…" + ctx[-2000:]
+        content.append(
+            {
+                "type": "text",
+                "text": (
+                    "Přepiš text z této stránky kroniky obce Vranov. "
+                    "Přepisuj POUZE to, co skutečně vidíš na obrázku výše – nic nepřidávej.\n\n"
+                    "Pro kontext – přepis předchozí stránky (využij pro rozpoznání "
+                    "jmen a míst, ale NEPŘEPISUJ text z předchozí stránky):\n"
+                    "---\n"
+                    f"{ctx}\n"
+                    "---"
+                ),
+            }
+        )
+    else:
+        content.append(
+            {
+                "type": "text",
+                "text": (
+                    "Přepiš text z této stránky kroniky obce Vranov. "
+                    "Přepisuj POUZE to, co skutečně vidíš na obrázku výše – nic nepřidávej."
+                ),
+            }
+        )
 
     # Call Claude API
     message = client.messages.create(
         model=CLAUDE_MODEL,
         max_tokens=8192,
+        temperature=0,
         system=OCR_SYSTEM_PROMPT,
         messages=[{"role": "user", "content": content}],
     )
