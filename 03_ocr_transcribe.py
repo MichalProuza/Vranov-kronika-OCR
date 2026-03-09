@@ -7,12 +7,15 @@ Podporuje resume – přeskočí už přepsané stránky.
 Podporuje filtrování po sekcích.
 Posílá kontext předchozí stránky pro lepší kontinuitu přepisu.
 
+Ve výchozím režimu posílá obrázky přímo z URL (plná kvalita, jako v chatu).
+S --local čte obrázky z disku (vyžaduje předchozí stažení přes 02_download_images.py).
+
 Použití:
-    python 03_ocr_transcribe.py                             # Vše
+    python 03_ocr_transcribe.py                             # Vše (z URL)
     python 03_ocr_transcribe.py --section "Rok 1920–1929"  # Jen jedna sekce
     python 03_ocr_transcribe.py --section-index 2          # Sekce č. 2 (1-indexed)
     python 03_ocr_transcribe.py --limit 5                  # Jen prvních 5 stránek
-    python 03_ocr_transcribe.py --high-res                 # Plné rozlišení obrázků
+    python 03_ocr_transcribe.py --local                    # Čte z disku místo URL
     python 03_ocr_transcribe.py --dry-run                  # Jen ukáže co by dělal
 """
 
@@ -30,17 +33,13 @@ from tqdm import tqdm
 from config import (
     ANTHROPIC_API_KEY,
     CLAUDE_MODEL,
+    IMAGE_BASE_URL,
     IMAGE_URLS_FILE,
     IMAGES_DIR,
     OCR_SYSTEM_PROMPT,
     REQUEST_DELAY_SECONDS,
     TRANSCRIPTIONS_FILE,
 )
-
-# Default max dimension for resized images (long edge).
-# With --high-res this limit is removed and the original image is sent.
-# Higher resolution helps with handwriting recognition accuracy.
-DEFAULT_MAX_DIMENSION = 4096
 
 
 def load_transcriptions() -> dict:
@@ -57,13 +56,8 @@ def save_transcriptions(data: dict):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 
-def encode_image(image_path: Path, high_res: bool = False) -> tuple[str, str]:
-    """Read and encode image to base64. Returns (base64_data, media_type).
-
-    If high_res is False, resizes images so the long edge is at most
-    DEFAULT_MAX_DIMENSION pixels (saves tokens/cost for large scans).
-    If high_res is True, sends the original full-resolution image.
-    """
+def encode_image_from_file(image_path: Path) -> tuple[str, str]:
+    """Read a local image file and encode to base64. Returns (base64_data, media_type)."""
     suffix = image_path.suffix.lower()
     media_types = {
         ".jpg": "image/jpeg",
@@ -73,46 +67,20 @@ def encode_image(image_path: Path, high_res: bool = False) -> tuple[str, str]:
     }
     media_type = media_types.get(suffix, "image/jpeg")
 
-    if not high_res:
-        img = Image.open(image_path)
-        w, h = img.size
-        long_edge = max(w, h)
-        if long_edge > DEFAULT_MAX_DIMENSION:
-            ratio = DEFAULT_MAX_DIMENSION / long_edge
-            new_w = int(w * ratio)
-            new_h = int(h * ratio)
-            img = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
-
-            buf = io.BytesIO()
-            img.save(buf, format="JPEG", quality=92)
-            image_data = base64.standard_b64encode(buf.getvalue()).decode("utf-8")
-            media_type = "image/jpeg"
-            return image_data, media_type
-
     with open(image_path, "rb") as f:
         image_data = base64.standard_b64encode(f.read()).decode("utf-8")
     return image_data, media_type
 
 
-def transcribe_image(
-    client: anthropic.Anthropic,
-    image_path: Path,
-    previous_transcription: str | None = None,
-    high_res: bool = False,
-) -> str:
-    """Send a single image to Claude API and return the transcription.
+def build_image_content(img_id: int, local_path: Path | None = None) -> dict:
+    """Build the image content block for the API request.
 
-    If previous_transcription is provided, it is included as context
-    so the model can better recognize names, places, and continuing text.
+    If local_path is provided, sends base64-encoded local file.
+    Otherwise sends the image URL directly (full original quality).
     """
-    image_data, media_type = encode_image(image_path, high_res=high_res)
-
-    # Build user message content – image first, then instructions
-    content = []
-
-    # Image goes first so the model sees it before instructions
-    content.append(
-        {
+    if local_path is not None:
+        image_data, media_type = encode_image_from_file(local_path)
+        return {
             "type": "image",
             "source": {
                 "type": "base64",
@@ -120,7 +88,34 @@ def transcribe_image(
                 "data": image_data,
             },
         }
-    )
+    else:
+        # Send URL directly – Claude fetches the original image at full quality,
+        # identical to how images work when pasted in Claude.ai chat.
+        return {
+            "type": "image",
+            "source": {
+                "type": "url",
+                "url": f"{IMAGE_BASE_URL}{img_id}",
+            },
+        }
+
+
+def transcribe_image(
+    client: anthropic.Anthropic,
+    img_id: int,
+    local_path: Path | None = None,
+    previous_transcription: str | None = None,
+) -> str:
+    """Send a single image to Claude API and return the transcription.
+
+    If local_path is provided, reads from disk. Otherwise fetches from URL.
+    If previous_transcription is provided, it is included as context.
+    """
+    # Build user message content – image first, then instructions
+    content = []
+
+    # Image goes first so the model sees it before instructions
+    content.append(build_image_content(img_id, local_path))
 
     # Add previous page context if available
     if previous_transcription:
@@ -213,9 +208,9 @@ def main():
     parser.add_argument("--force", action="store_true", help="Přepíše i už přepsané stránky")
     parser.add_argument("--limit", type=int, help="Maximální počet stránek k přepsání")
     parser.add_argument(
-        "--high-res",
+        "--local",
         action="store_true",
-        help="Posílat obrázky v plném rozlišení (dražší, ale přesnější)",
+        help="Číst obrázky z disku místo z URL (vyžaduje 02_download_images.py)",
     )
     parser.add_argument(
         "--no-context",
@@ -229,10 +224,11 @@ def main():
         print("   export ANTHROPIC_API_KEY='sk-ant-...'")
         return
 
+    mode = "lokální soubory" if args.local else "URL (plná kvalita)"
     print("=" * 60)
     print("Kronika obce Vranov – OCR Transcription (Claude API)")
     print(f"Model: {CLAUDE_MODEL}")
-    print(f"Rozlišení: {'plné (high-res)' if args.high_res else f'max {DEFAULT_MAX_DIMENSION}px'}")
+    print(f"Zdroj obrázků: {mode}")
     print(f"Kontext předchozí stránky: {'ne' if args.no_context else 'ano'}")
     print("=" * 60)
 
@@ -291,7 +287,7 @@ def main():
             break
 
         for img_idx, img in enumerate(section["images"], 1):
-            img_id = str(img["id"])
+            img_id = img["id"]
             page_key = f"img_{img_id}"
 
             # Stop if limit reached
@@ -303,18 +299,20 @@ def main():
                 skipped += 1
                 continue
 
-            # Find the local file
-            filename = f"page_{img_idx:03d}_id{img['id']}.jpg"
-            filepath = IMAGES_DIR / f"section_{sec_num:02d}" / filename
-
-            if not filepath.exists():
-                print(f"  ⚠️  Soubor nenalezen: {filepath}")
-                print(f"      Spusť nejdřív 02_download_images.py")
-                errors += 1
-                continue
+            # Resolve local file path (needed for --local mode)
+            filename = f"page_{img_idx:03d}_id{img_id}.jpg"
+            local_path = None
+            if args.local:
+                local_path = IMAGES_DIR / f"section_{sec_num:02d}" / filename
+                if not local_path.exists():
+                    print(f"  ⚠️  Soubor nenalezen: {local_path}")
+                    print(f"      Spusť nejdřív 02_download_images.py")
+                    errors += 1
+                    continue
 
             if args.dry_run:
-                print(f"  [DRY RUN] Would transcribe: {filepath}")
+                src = local_path if local_path else f"{IMAGE_BASE_URL}{img_id}"
+                print(f"  [DRY RUN] Would transcribe: {src}")
                 processed += 1
                 continue
 
@@ -333,16 +331,17 @@ def main():
             # Transcribe
             try:
                 ctx_info = " (s kontextem)" if prev_text else ""
-                print(f"  🔍 Přepisuji: {filename} (img_id={img_id}){ctx_info}")
+                src_info = filename if args.local else f"URL id={img_id}"
+                print(f"  🔍 Přepisuji: {src_info}{ctx_info}")
                 text = transcribe_image(
                     client,
-                    filepath,
+                    img_id,
+                    local_path=local_path,
                     previous_transcription=prev_text,
-                    high_res=args.high_res,
                 )
 
                 transcriptions[sec_name][page_key] = {
-                    "img_id": img["id"],
+                    "img_id": img_id,
                     "filename": filename,
                     "text": text,
                 }
@@ -362,12 +361,12 @@ def main():
                 try:
                     text = transcribe_image(
                         client,
-                        filepath,
+                        img_id,
+                        local_path=local_path,
                         previous_transcription=prev_text,
-                        high_res=args.high_res,
                     )
                     transcriptions[sec_name][page_key] = {
-                        "img_id": img["id"],
+                        "img_id": img_id,
                         "filename": filename,
                         "text": text,
                     }

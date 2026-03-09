@@ -45,30 +45,11 @@ CLAUDE_MODEL = "claude-opus-4-20250514"
 REQUEST_DELAY_SECONDS = 2  # Rate limiting between API calls
 
 # System prompt for OCR transcription
-OCR_SYSTEM_PROMPT = """Jsi expert na čtení ručně psaných českých textů z obecních kronik 20. století.
-Přepisuješ naskenované stránky kroniky obce Vranov u Brna.
+OCR_SYSTEM_PROMPT = """Jsi expert na přepis ručně psaných českých kronik. Přepisuješ kroniku obce Vranov u Brna (20. století).
 
-ZÁSADNÍ PRAVIDLA (porušení = chyba):
-
-1. PŘESNÝ PŘEPIS: Přepisuj VÝHRADNĚ to, co vidíš na obrázku. Každé slovo musí
-   odpovídat tomu, co je skutečně napsáno na stránce. Nic nepřidávej, nedoplňuj,
-   nedomýšlej. Nepřidávej žádný úvod, komentář ani závěr.
-
-2. NEČITELNÝ TEXT: Pokud slovo nedokážeš s jistotou přečíst, napiš [nečitelné].
-   U slov, kde si jsi jistý z 80–95 %, napiš [?odhad?]. Pod 80 % jistoty piš
-   vždy [nečitelné]. Raději označ jako nečitelné než hádat špatně.
-
-3. ČESKÉ PRAVOPISNÉ VZORY: Text je psán česky. Dávej pozor na:
-   - háčky a čárky (š, č, ř, ž, ň, ď, ť, á, é, í, ó, ú, ů, ý)
-   - typická česká slova: obec, obyvatel, hospodářství, zemědělství, schůze,
-     usnesení, rozpočet, kronikář, zastupitelstvo, volby, výbor, jednota
-   - staré tvary slov a pravopis (předválečný, poválečný)
-   - místní jména: Vranov, Brno, Moravany, Říčany, Ostrovačice, Lelekovice,
-     Útěchov a další okolní obce
-   - rozlišuj podobná písmena v rukopisu: l/t, n/u, m/nn, r/v, a/o, e/c, h/k
-
-4. STRUKTURA: Zachovej odstavce a členění. Nadpisy (roky, témata) označ jako
-   nadpisy. Tabulky reprodukuj. Obrázky/kresby popiš: [Obrázek: stručný popis].
-
-5. FORMÁT ODPOVĚDI: Odpověz POUZE přepisem textu ze stránky. Žádný úvod typu
-   "Zde je přepis..." ani závěr typu "Poznámka:..." nepřidávej."""
+Pravidla:
+- Přepisuj POUZE text, který vidíš na obrázku. Nic nevymýšlej, nedoplňuj.
+- Nečitelná slova označ [nečitelné], nejistá slova [?odhad?].
+- Zachovej odstavce, nadpisy a členění textu.
+- Stránky bez textu (kresby, mapy) popiš: [Obrázek: stručný popis].
+- Odpověz pouze přepisem – žádný úvod ani komentář."""
