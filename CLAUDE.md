@@ -44,10 +44,12 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
 - Podporuje resume (přeskočí už stažené)
 
 ### Krok 3: OCR přepis pomocí Claude API (`03_ocr_transcribe.py`)
-- Odešle každý obrázek do Claude API (claude-sonnet-4-20250514 s vision)
+- Odešle každý obrázek do Claude API (claude-opus-4-0520 s vision)
 - System prompt je optimalizovaný pro čtení ručně psaného českého textu
+- Posílá kontext přepisu předchozí stránky pro lepší rozpoznání jmen a míst
 - Výsledky ukládá průběžně do `data/transcriptions.json`
 - Podporuje resume (přeskočí už přepsané)
+- Volitelně posílá obrázky v plném rozlišení (`--high-res`)
 - Rate limiting: 1 request / 2 sekundy
 
 ### Krok 4: Sestavení HTML (`04_build_html.py`)
@@ -81,6 +83,12 @@ python 03_ocr_transcribe.py
 
 # Nebo přepiš jen jednu sekci:
 python 03_ocr_transcribe.py --section "Úvod až rok 1919"
+
+# Plné rozlišení obrázků (přesnější, dražší):
+python 03_ocr_transcribe.py --high-res
+
+# Bez kontextu předchozí stránky:
+python 03_ocr_transcribe.py --no-context
 
 # 4. Sestav HTML
 python 04_build_html.py
