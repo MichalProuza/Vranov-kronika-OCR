@@ -41,7 +41,7 @@ SECTIONS = [
 
 # --- Claude API ---
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-CLAUDE_MODEL = "claude-sonnet-4-6"
+CLAUDE_MODEL = "claude-opus-4-0520"
 REQUEST_DELAY_SECONDS = 2  # Rate limiting between API calls
 
 # System prompt for OCR transcription
