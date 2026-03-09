@@ -56,6 +56,14 @@ python 03_ocr_transcribe.py
 python 03_ocr_transcribe.py --section "Úvod až rok 1919"
 python 03_ocr_transcribe.py --section-index 2
 
+#    Jen prvních 5 stránek (vhodné pro testování):
+python 03_ocr_transcribe.py --limit 5
+python 03_ocr_transcribe.py --section "Rok 1920–1929" --limit 5
+
+#    Přepsat znovu i už přepsané stránky:
+python 03_ocr_transcribe.py --force
+python 03_ocr_transcribe.py --section "Rok 1920–1929" --force
+
 #    Jen náhled bez volání API:
 python 03_ocr_transcribe.py --dry-run
 
