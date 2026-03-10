@@ -16,6 +16,7 @@ Použití:
     python 05_polish_text.py --limit 5                  # Jen prvních 5 stránek
     python 05_polish_text.py --dry-run                  # Jen ukáže co by dělal
     python 05_polish_text.py --force                    # Přepíše i už uhlazené
+    python 05_polish_text.py --model sonnet              # Použije levnější model
 """
 
 import argparse
@@ -35,6 +36,13 @@ from config import (
     TRANSCRIPTIONS_FILE,
 )
 
+# Available models for polishing
+MODELS = {
+    "opus": "claude-opus-4-20250514",
+    "sonnet": "claude-sonnet-4-20250514",
+    "haiku": "claude-haiku-4-5-20251001",
+}
+
 
 def load_polished() -> dict:
     """Load existing polished transcriptions (for resume support)."""
@@ -53,6 +61,7 @@ def save_polished(data: dict):
 def polish_text(
     client: anthropic.Anthropic,
     raw_text: str,
+    model: str,
     previous_polished: str | None = None,
 ) -> str:
     """Send raw OCR text to Claude for polishing. Returns cleaned text."""
@@ -74,7 +83,7 @@ def polish_text(
         )
 
     message = client.messages.create(
-        model=CLAUDE_MODEL,
+        model=model,
         max_tokens=8192,
         temperature=0,
         system=POLISH_SYSTEM_PROMPT,
@@ -96,6 +105,12 @@ def main():
         action="store_true",
         help="Neposílat kontext předchozí stránky",
     )
+    parser.add_argument(
+        "--model",
+        type=str,
+        choices=list(MODELS.keys()),
+        help="Model k použití (opus/sonnet/haiku). Bez přepínače se zeptá interaktivně.",
+    )
     args = parser.parse_args()
 
     if not ANTHROPIC_API_KEY and not args.dry_run:
@@ -103,9 +118,33 @@ def main():
         print("   export ANTHROPIC_API_KEY='sk-ant-...'")
         return
 
+    # Select model – interactive prompt if not specified
+    if args.model:
+        model = MODELS[args.model]
+    elif args.dry_run:
+        model = CLAUDE_MODEL
+    else:
+        print("Vyber model pro uhlazení textu:")
+        print("  1) opus   – nejkvalitnější, nejdražší  (~$38 za celou kroniku)")
+        print("  2) sonnet – dobrý poměr cena/kvalita   (~$8 za celou kroniku)")
+        print("  3) haiku  – nejlevnější, rychlý        (~$2 za celou kroniku)")
+        while True:
+            choice = input("\nVolba [1/2/3]: ").strip()
+            if choice in ("1", "opus"):
+                model = MODELS["opus"]
+                break
+            elif choice in ("2", "sonnet"):
+                model = MODELS["sonnet"]
+                break
+            elif choice in ("3", "haiku"):
+                model = MODELS["haiku"]
+                break
+            else:
+                print("Neplatná volba, zadej 1, 2 nebo 3.")
+
     print("=" * 60)
     print("Kronika obce Vranov – Uhlazení textu (Claude API)")
-    print(f"Model: {CLAUDE_MODEL}")
+    print(f"Model: {model}")
     print(f"Kontext předchozí stránky: {'ne' if args.no_context else 'ano'}")
     print("=" * 60)
 
@@ -193,7 +232,7 @@ def main():
                 print(f"  Uhlazuji: strana {img_id}{ctx_info}")
 
                 context = prev_polished_text if not args.no_context else None
-                polished_text = polish_text(client, raw_text, previous_polished=context)
+                polished_text = polish_text(client, raw_text, model, previous_polished=context)
 
                 polished[sec_name][page_key] = {
                     "img_id": page_data["img_id"],
@@ -215,7 +254,7 @@ def main():
                 time.sleep(60)
                 try:
                     context = prev_polished_text if not args.no_context else None
-                    polished_text = polish_text(client, raw_text, previous_polished=context)
+                    polished_text = polish_text(client, raw_text, model, previous_polished=context)
                     polished[sec_name][page_key] = {
                         "img_id": page_data["img_id"],
                         "filename": page_data.get("filename", ""),
