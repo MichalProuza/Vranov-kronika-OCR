@@ -175,6 +175,38 @@ def main():
     # Load existing polished transcriptions
     polished = load_polished()
 
+    # Check for already polished pages (in the sections we're about to process)
+    if not args.force and not args.dry_run:
+        existing_count = 0
+        total_raw = 0
+        for sec_name in section_names:
+            raw_section = raw_transcriptions.get(sec_name, {})
+            total_raw += len(raw_section)
+            if sec_name in polished:
+                existing_count += len(polished[sec_name])
+
+        if existing_count > 0:
+            print(f"\nUž existuje {existing_count} uhlazených stránek "
+                  f"(z {total_raw} celkem).")
+            print(f"Chceš je přepsat novým modelem ({model})?")
+            print("  1) Ano – přepsat vše (--force)")
+            print("  2) Ne  – zpracovat jen chybějící stránky")
+            print("  3) Zrušit")
+            while True:
+                choice = input("\nVolba [1/2/3]: ").strip()
+                if choice in ("1", "ano", "a"):
+                    args.force = True
+                    print("→ Přepisuji vše.\n")
+                    break
+                elif choice in ("2", "ne", "n"):
+                    print("→ Zpracuji jen chybějící.\n")
+                    break
+                elif choice in ("3", "zrusit", "z"):
+                    print("Zrušeno.")
+                    return
+                else:
+                    print("Neplatná volba, zadej 1, 2 nebo 3.")
+
     # Init API client
     client = None
     if not args.dry_run:
