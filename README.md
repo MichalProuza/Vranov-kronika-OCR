@@ -70,6 +70,9 @@ python 05_polish_text.py --model sonnet
 #    Po sekcích:
 python 05_polish_text.py --section "Úvod až rok 1919"
 
+#    Přepsat existující uhlazení jiným modelem:
+python 05_polish_text.py --force --model opus
+
 # 5. Sestav HTML stránku (automaticky použije uhlazené přepisy)
 python 04_build_html.py
 
@@ -85,10 +88,14 @@ python 04_build_html.py --with-thumbnails
 - `output/kronika_vranov.html` – kompletní přepis jako HTML stránka
 - Responzivní design, navigace po sekcích, tisk-friendly
 - Nejistá slova označena oranžově, nečitelná červeně
+- Text zarovnaný do bloku (justify) – OCR řádkové zlomy se automaticky spojují do plynulého textu
+- Rozdělovníky na konci řádku se automaticky spojí (např. `Schön-` + `brunn` → `Schönbrunn`)
 
 ## Resume podpora
 
 Skripty 02, 03 a 05 podporují přerušení a pokračování – přeskočí už stažené/přepsané/uhlazené stránky. Můžeš klidně zpracovávat po sekcích a průběžně kontrolovat kvalitu.
+
+Skript 05 při opakovaném spuštění detekuje existující uhlazené přepisy a nabídne přepsání jiným modelem, zpracování jen chybějících stránek, nebo zrušení.
 
 ## Struktura projektu
 
