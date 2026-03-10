@@ -45,8 +45,24 @@ def format_text(text: str) -> str:
     for p in paragraphs:
         p = p.strip()
         if p:
-            # Keep single line breaks within paragraphs
-            p = p.replace("\n", "<br>")
+            # Join single line breaks into flowing text (OCR often breaks
+            # at the original handwritten line endings which prevents
+            # proper text-align: justify). Keep explicit line breaks only
+            # when the line ends with a period/colon or looks intentional.
+            lines = p.split("\n")
+            merged = []
+            for i, line in enumerate(lines):
+                stripped = line.rstrip()
+                merged.append(stripped)
+                # Add space when joining, unless next line continues a hyphenated word
+                if i < len(lines) - 1:
+                    next_line = lines[i + 1].lstrip()
+                    if stripped.endswith("-") and next_line and next_line[0].islower():
+                        # Remove trailing hyphen – word continues on next line
+                        merged[-1] = stripped[:-1]
+                    else:
+                        merged[-1] = stripped + " "
+            p = "".join(merged).strip()
             result.append(f"<p>{p}</p>")
     return "\n".join(result)
 
