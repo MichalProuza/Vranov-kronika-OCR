@@ -9,7 +9,8 @@ Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://w
 1. **Scraping** – ze stránek obce se stáhnou URL všech naskenovaných stránek kroniky (~700+ obrázků)
 2. **Download** – obrázky se stáhnou v plném rozlišení
 3. **OCR přepis** – každý obrázek se odešle do Claude API (vision model), který přečte ručně psaný český text
-4. **HTML výstup** – z přepisů se sestaví přehledná webová stránka s navigací
+4. **Uhlazení textu** – surové OCR přepisy se pošlou jazykovému modelu, který opraví překlepy, gramatiku a chyby OCR
+5. **HTML výstup** – z přepisů se sestaví přehledná webová stránka s navigací
 
 ## Požadavky
 
@@ -59,8 +60,21 @@ python 03_ocr_transcribe.py --section-index 2
 #    Jen náhled bez volání API:
 python 03_ocr_transcribe.py --dry-run
 
-# 4. Sestav HTML stránku
+# 4. Uhlaď přepisy jazykovým modelem
+#    Interaktivně se zeptá na model (opus/sonnet/haiku):
+python 05_polish_text.py
+
+#    Nebo rovnou s konkrétním modelem:
+python 05_polish_text.py --model sonnet
+
+#    Po sekcích:
+python 05_polish_text.py --section "Úvod až rok 1919"
+
+# 5. Sestav HTML stránku (automaticky použije uhlazené přepisy)
 python 04_build_html.py
+
+# Ze surových OCR přepisů (bez uhlazení):
+python 04_build_html.py --raw
 
 # S miniaturami originálních skenů:
 python 04_build_html.py --with-thumbnails
@@ -74,7 +88,7 @@ python 04_build_html.py --with-thumbnails
 
 ## Resume podpora
 
-Skripty 02 a 03 podporují přerušení a pokračování – přeskočí už stažené/přepsané stránky. Můžeš klidně zpracovávat po sekcích a průběžně kontrolovat kvalitu.
+Skripty 02, 03 a 05 podporují přerušení a pokračování – přeskočí už stažené/přepsané/uhlazené stránky. Můžeš klidně zpracovávat po sekcích a průběžně kontrolovat kvalitu.
 
 ## Struktura projektu
 
@@ -87,10 +101,12 @@ Skripty 02 a 03 podporují přerušení a pokračování – přeskočí už sta
 ├── 02_download_images.py   # Stáhne obrázky
 ├── 03_ocr_transcribe.py    # OCR přepis (Claude API)
 ├── 04_build_html.py        # Sestaví HTML výstup
+├── 05_polish_text.py       # Uhlazení textu (Claude API)
 ├── data/
 │   ├── image_urls.json     # URL obrázků (generováno)
 │   ├── images/             # Stažené obrázky (generováno)
-│   └── transcriptions.json # Přepisy (generováno)
+│   ├── transcriptions.json # Surové OCR přepisy (generováno)
+│   └── transcriptions_polished.json # Uhlazené přepisy (generováno)
 └── output/
     └── kronika_vranov.html # Finální HTML (generováno)
 ```
@@ -99,5 +115,6 @@ Skripty 02 a 03 podporují přerušení a pokračování – přeskočí už sta
 
 - **Kvalita přepisu** závisí na čitelnosti originálu. Starší zápisy (kurent, ornamentální písmo) budou méně přesné.
 - **Po sekcích** – doporučuji zpracovat nejdřív 1–2 sekce a zkontrolovat kvalitu, než pustíš vše.
-- **Cena** – jeden obrázek stojí cca $0.01–0.02 (Sonnet). Celá kronika tak vyjde na $5–15.
+- **Cena OCR** – jeden obrázek stojí cca $0.01–0.02 (Sonnet). Celá kronika tak vyjde na $5–15.
+- **Cena uhlazení** – závisí na modelu: Opus ~$38, Sonnet ~$8, Haiku ~$2 za celou kroniku.
 - **Claude Code** – otevři projekt v Claude Code (`claude` v terminálu) a můžeš iterativně ladit přepisy.
