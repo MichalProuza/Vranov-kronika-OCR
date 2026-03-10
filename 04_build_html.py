@@ -15,7 +15,7 @@ import html
 import json
 import re
 
-from config import OUTPUT_HTML, SECTIONS, TRANSCRIPTIONS_FILE
+from config import OUTPUT_HTML, POLISHED_FILE, SECTIONS, TRANSCRIPTIONS_FILE
 
 
 def slugify(text: str) -> str:
@@ -395,19 +395,38 @@ def main():
     parser = argparse.ArgumentParser(description="Sestavení HTML z přepisů kroniky")
     parser.add_argument("--with-thumbnails", action="store_true",
                         help="Přidá miniatury originálních skenů (vyžaduje internet)")
+    parser.add_argument("--raw", action="store_true",
+                        help="Použije surové OCR přepisy místo uhlazených")
     args = parser.parse_args()
 
     print("=" * 60)
     print("Kronika obce Vranov – Building HTML")
     print("=" * 60)
 
-    # Load transcriptions
-    if not TRANSCRIPTIONS_FILE.exists():
-        print("❌ Nejdřív spusť 03_ocr_transcribe.py!")
+    # Load transcriptions – prefer polished version unless --raw
+    if not args.raw and POLISHED_FILE.exists():
+        print("Používám uhlazené přepisy (transcriptions_polished.json)")
+        with open(POLISHED_FILE, "r", encoding="utf-8") as f:
+            polished = json.load(f)
+        # Merge: use polished where available, fall back to raw
+        if TRANSCRIPTIONS_FILE.exists():
+            with open(TRANSCRIPTIONS_FILE, "r", encoding="utf-8") as f:
+                raw = json.load(f)
+            for sec_name, pages in raw.items():
+                if sec_name not in polished:
+                    polished[sec_name] = pages
+                else:
+                    for page_key, page_data in pages.items():
+                        if page_key not in polished[sec_name]:
+                            polished[sec_name][page_key] = page_data
+        transcriptions = polished
+    elif TRANSCRIPTIONS_FILE.exists():
+        print("Používám surové OCR přepisy (transcriptions.json)")
+        with open(TRANSCRIPTIONS_FILE, "r", encoding="utf-8") as f:
+            transcriptions = json.load(f)
+    else:
+        print("Nejdřív spusť 03_ocr_transcribe.py!")
         return
-
-    with open(TRANSCRIPTIONS_FILE, "r", encoding="utf-8") as f:
-        transcriptions = json.load(f)
 
     # Build HTML
     html_content = build_html(transcriptions, with_thumbnails=args.with_thumbnails)

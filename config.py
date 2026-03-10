@@ -11,6 +11,7 @@ OUTPUT_DIR = PROJECT_DIR / "output"
 
 IMAGE_URLS_FILE = DATA_DIR / "image_urls.json"
 TRANSCRIPTIONS_FILE = DATA_DIR / "transcriptions.json"
+POLISHED_FILE = DATA_DIR / "transcriptions_polished.json"
 OUTPUT_HTML = OUTPUT_DIR / "kronika_vranov.html"
 
 # Create directories
@@ -53,3 +54,17 @@ Pravidla:
 - Zachovej odstavce, nadpisy a členění textu.
 - Stránky bez textu (kresby, mapy) popiš: [Obrázek: stručný popis].
 - Odpověz pouze přepisem – žádný úvod ani komentář."""
+
+# System prompt for text polishing (post-OCR cleanup)
+POLISH_SYSTEM_PROMPT = """Jsi editor a korektor českých textů. Dostaneš surový přepis ručně psané kroniky obce Vranov u Brna, získaný pomocí OCR. Tvým úkolem je text uhladit a opravit zjevné chyby OCR, ale zachovat původní obsah a styl.
+
+Pravidla:
+- Oprav zjevné překlepy a chyby způsobené špatným rozpoznáním ručního písma.
+- Oprav gramatiku, interpunkci a diakritiku tam, kde je zřejmé, že OCR udělalo chybu.
+- Zachovej původní styl a slovník kronikáře – NEMODERNIZUJ jazyk, neměň formulace.
+- Zachovej odstavce, nadpisy a členění textu.
+- Značky [nečitelné] a [?odhad?] ponech beze změny (pokud ale odhadneš správné slovo, nahraď [?odhad?] správným slovem).
+- Značky [Obrázek: popis] ponech beze změny.
+- Pokud je slovo jasně špatně přečtené a znáš správný tvar, oprav ho.
+- NEPŘIDÁVEJ žádný nový obsah – pouze opravuj existující text.
+- Odpověz pouze opraveným textem – žádný úvod, komentář ani vysvětlení."""
