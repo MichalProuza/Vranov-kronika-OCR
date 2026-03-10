@@ -52,8 +52,19 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
 - Podporuje resume (přeskočí už přepsané)
 - Rate limiting: 1 request / 2 sekundy
 
-### Krok 4: Sestavení HTML (`04_build_html.py`)
+### Krok 4: Uhlazení textu jazykovým modelem (`05_polish_text.py`)
+- Projde surové OCR přepisy a pošle je Claude API k uhlazení
+- Opraví překlepy, gramatiku, interpunkci a chyby OCR
+- Zachová původní styl a obsah kronikáře
+- Posílá kontext předchozí stránky pro konzistenci jmen a míst
+- Výsledky ukládá do `data/transcriptions_polished.json`
+- Podporuje resume (přeskočí už uhlazené)
+- Rate limiting: 1 request / 2 sekundy
+
+### Krok 5: Sestavení HTML (`04_build_html.py`)
 - Načte přepisy a sestaví výslednou HTML stránku
+- Automaticky preferuje uhlazené přepisy, pokud existují (s fallbackem na surové)
+- S `--raw` použije pouze surové OCR přepisy
 - Struktura: navigace po sekcích, jednotlivé stránky s přepisem
 - Volitelně: vedle přepisu zobrazí i miniaturu originálu
 
@@ -91,8 +102,17 @@ python 03_ocr_transcribe.py --local
 # Bez kontextu předchozí stránky:
 python 03_ocr_transcribe.py --no-context
 
-# 4. Sestav HTML
+# 4. Uhlaď přepisy jazykovým modelem (trvá dlouho!)
+python 05_polish_text.py
+
+# Nebo uhlaď jen jednu sekci:
+python 05_polish_text.py --section "Úvod až rok 1919"
+
+# 5. Sestav HTML (automaticky použije uhlazené přepisy)
 python 04_build_html.py
+
+# Nebo sestav ze surových OCR přepisů:
+python 04_build_html.py --raw
 ```
 
 ## Výstup
