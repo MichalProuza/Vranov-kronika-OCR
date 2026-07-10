@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kronika obce Vranov – OCR prvních 5 stran</title>
+  <style>
+    :root { color-scheme: light; --ink:#2b2118; --muted:#6f6254; --paper:#fffdf8; --bg:#f3eee5; --line:#ded2c2; --accent:#7b3f19; }
+    body { margin:0; font:18px/1.65 Georgia, 'Times New Roman', serif; color:var(--ink); background:var(--bg); }
+    header { padding:3rem 1.25rem; text-align:center; background:var(--accent); color:white; }
+    header h1 { margin:.2rem 0; font-size:clamp(2rem,5vw,3.4rem); line-height:1.1; }
+    header p { max-width:850px; margin:.75rem auto 0; font-family:system-ui,sans-serif; }
+    nav { position:sticky; top:0; z-index:2; display:flex; gap:.5rem; overflow:auto; padding:.75rem; background:#fffaf1; border-bottom:1px solid var(--line); }
+    nav a { white-space:nowrap; color:var(--accent); text-decoration:none; border:1px solid var(--line); border-radius:999px; padding:.35rem .75rem; font-family:system-ui,sans-serif; font-size:.95rem; }
+    main { max-width:1180px; margin:0 auto; padding:1.5rem; }
+    .toolbar { display:flex; gap:1rem; flex-wrap:wrap; align-items:center; margin-bottom:1.5rem; padding:1rem; background:#fffaf1; border:1px solid var(--line); border-radius:1rem; font-family:system-ui,sans-serif; }
+    .toolbar input { flex:1 1 260px; padding:.7rem .9rem; border:1px solid var(--line); border-radius:.6rem; font:inherit; }
+    .toolbar a { color:var(--accent); font-weight:700; }
+    article { display:grid; grid-template-columns:minmax(280px,420px) 1fr; gap:1.25rem; margin:0 0 2rem; padding:1rem; background:var(--paper); border:1px solid var(--line); border-radius:1rem; box-shadow:0 8px 24px #0001; }
+    article img { width:100%; height:auto; border-radius:.5rem; border:1px solid var(--line); background:#eee; }
+    h2 { margin:.25rem 0 .5rem; color:var(--accent); line-height:1.2; }
+    .meta { color:var(--muted); font:0.95rem/1.4 system-ui,sans-serif; margin-bottom:1rem; }
+    .text { white-space:pre-wrap; overflow-wrap:anywhere; }
+    .uncertain { background:#fff1bd; border-bottom:2px dotted #ad7b00; }
+    footer { max-width:1180px; margin:0 auto; padding:2rem 1.5rem 4rem; color:var(--muted); font-family:system-ui,sans-serif; }
+    @media (max-width:760px) { article { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<header>
+  <p>Samostatný strojově čitelný webový výstup</p>
+  <h1>Kronika obce Vranov – OCR prvních 5 stran</h1>
+  <p>Začátek nejstarší sekce „Úvod až rok 1919“. Text je dostupný přímo v HTML a zároveň v souboru <code>data.json</code>.</p>
+</header>
+<nav id="nav"></nav>
+<main>
+  <section class="toolbar">
+    <label for="q">Hledat v přepisu:</label>
+    <input id="q" type="search" placeholder="např. Vranova, pamětní, 1924">
+    <a href="data.json">Stáhnout JSON</a>
+    <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/uvod-az-rok-1919-2cs.html">Zdrojová stránka</a>
+  </section>
+  <section id="pages"></section>
+</main>
+<footer>
+  <p><strong>Poznámka ke kvalitě:</strong> ručně psané části jsou přepsané konzervativně; nejisté úseky jsou označené jako <span class="uncertain">[?nejisté?]</span> a nečitelné části jako [nečitelné].</p>
+</footer>
+<script>
+const data = {
+  "pages": [
+    {"order":1,"image_id":8,"image_url":"https://www.vranov.cz/evt_image.php?img=8","title":"I. Kronika obce Vranov","text":"I.\nKronika\nobce\nVranova.\n\nDne 1. ledna r. 1916.\n\n[?Pavel Matěj?]\nkronikář."},
+    {"order":2,"image_id":9,"image_url":"https://www.vranov.cz/evt_image.php?img=9","title":"Pamětní list k divadelnímu představení","text":"V upomínku na operu slavného ruského skladatele Rimského-Korsakova, „Sněhurka čili město Kitěž“, hráno v zemském divadle v Brně dne 8. listopadu r. 1936. Kostýmy a dekorace vypracoval slavný ruský konservátor J. J. Bilibin..."},
+    {"order":3,"image_id":10,"image_url":"https://www.vranov.cz/evt_image.php?img=10","title":"Pamětní kniha obce Vranova","text":"PAMĚTNÍ\nKNIHA\nOBCE\nVRANOVA.\n\nPOL. OKRES BRNO-VENKOV.\n\nZALOŽENA BYLA ROKU 1923."},
+    {"order":4,"image_id":11,"image_url":"https://www.vranov.cz/evt_image.php?img=11","title":"Záznam o počtu stran","text":"6.\n\nTato pamětní kniha čítá 250, dvěstěpadesát, stran.\n\nVe Vranově dne 11. října, r. 1924.\n\n[?podpis?]\nstarosta.\n\n[?Pavel Matěj?]\nkronikář."},
+    {"order":5,"image_id":12,"image_url":"https://www.vranov.cz/evt_image.php?img=12","title":"Předmluva","text":"Předmluva.\n\nDne 11. října, r. 1924.\n\n500 roků od upálení Jeronýma [?Pražského?], dne bude v Čechách ve městě [?Příbuzlavi?], nedaleko svojí blahoslavené husitskou půní, jako [?zbohatlý?] našich dějin, nejznámější mučitel [nečitelné] a s nimi spojenců pro [nečitelné] našich mučitelů. [?Římanův?], pan Žižka z Trocnova v povědomstvu [nečitelné] jméno jemu tato kniha. Rakouská [nečitelné] v samém písmě nastupitelstvo v roce 1923, ale nebylo [nečitelné] mimo obec a naplnila československá ministerstva školství [nečitelné].\n\n[nečitelné – pokračování stránky je rukopisně husté a vyžaduje odbornou revizi]"}
+  ]
+};
+function esc(s){return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));}
+function fmt(s){return esc(s).replace(/\[\?(.+?)\?\]/g,'<span class="uncertain">[?$1?]</span>');}
+function render(filter=''){
+  const q = filter.trim().toLowerCase();
+  const pages = data.pages.filter(p => !q || (p.title+' '+p.text).toLowerCase().includes(q));
+  document.querySelector('#nav').innerHTML = data.pages.map(p => `<a href="#page-${p.image_id}">${p.order}. strana ${p.image_id}</a>`).join('');
+  document.querySelector('#pages').innerHTML = pages.map(p => `<article id="page-${p.image_id}"><a href="${p.image_url}"><img src="${p.image_url}" alt="Sken strany ${p.image_id}" loading="lazy"></a><div><h2>${p.order}. ${esc(p.title)}</h2><p class="meta">Zdrojový obrázek ID ${p.image_id} · <a href="${p.image_url}">otevřít originál</a></p><div class="text">${fmt(p.text)}</div></div></article>`).join('') || '<p>Nenalezeno.</p>';
+}
+document.querySelector('#q').addEventListener('input', e => render(e.target.value));
+render();
+</script>
+</body>
+</html>
