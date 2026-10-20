@@ -4,6 +4,14 @@ Automatický přepis ručně psané obecní kroniky obce Vranov pomocí Claude A
 
 Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://www.vranov.cz/obec/historie/kronika-obce-vranov/)
 
+Úplný přepis sekce **1980–1984** (76 skenů, strany 363–438) je v
+[docs/transcriptions/1980-1984.md](docs/transcriptions/1980-1984.md).
+Vznikl přímým čtením skenů; zachovává dobový jazyk a zahrnuje okrajové poznámky,
+titulní kresby i prázdné strany. [Seznam míst k ověření](docs/transcriptions/1980-1984-k-overeni.md)
+obsahuje 18 označených nejistých čtení s odkazy na originály; další chyby čtení jsou možné.
+Jednotlivé strany jsou v `data/ocr_pages/section_11/` a `data/transcriptions.json`.
+HTML lze znovu sestavit příkazem `python 04_build_html.py --raw`.
+
 ## Jak to funguje
 
 1. **Scraping** – ze stránek obce se stáhnou URL všech naskenovaných stránek kroniky (~700+ obrázků)
