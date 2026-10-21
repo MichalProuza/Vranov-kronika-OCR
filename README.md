@@ -4,6 +4,8 @@ Automatický přepis ručně psané obecní kroniky obce Vranov pomocí Claude A
 
 Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://www.vranov.cz/obec/historie/kronika-obce-vranov/)
 
+Galerie **1955–1959** má [přehled skenů roku 1959](docs/transcriptions/1955-1959-index.md) a [rozpracovaný přepis stran 167–198](docs/transcriptions/1959-pracovni.md).
+
 Galerie **1960–1964** má [přehled všech 44 skenů](docs/transcriptions/1960-1964-index.md).
 U roku 1960 je k dispozici [rozpracovaný přepis stran 199–213](docs/transcriptions/1960-pracovni.md).
 U roku 1961 je k dispozici [rozpracovaný přepis stran 214–222](docs/transcriptions/1961-pracovni.md).
