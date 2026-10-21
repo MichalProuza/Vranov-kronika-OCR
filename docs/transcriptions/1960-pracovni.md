@@ -4,10 +4,10 @@ Z patnácti skenů jsou zatím přepsány pouze vybrané čitelné úseky. Hrana
 
 Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs.html
 
-## Strana 199 — sken 1/44
+## Strana 209 — sken 1/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=448)
 
-199.
+209.
 
 [Ozdobný titul „1960“. Úvodní novoroční text zatím nepřepsán.]
 
@@ -17,10 +17,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Zbytek projevu zatím nepřepsán.]
 
-## Strana 200 — sken 2/44
+## Strana 210 — sken 2/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=449)
 
-200.
+210.
 
 1960.
 
@@ -28,10 +28,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Okrajové datum: 12. 6. 1960.]
 
-## Strana 201 — sken 3/44
+## Strana 211 — sken 3/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=450)
 
-201.
+211.
 
 1960.
 
@@ -39,19 +39,19 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Následuje soupis členů rady a pléna MNV. Zbytek strany o JZD zatím nepřepsán.]
 
-## Strana 202 — sken 4/44
+## Strana 212 — sken 4/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=451)
 
-202.
+212.
 
 1960.
 
 [Okraj: Politická část; 1. květen. Strana zaznamenává obecní oslavy a průvod; většina textu zatím nepřepsána.]
 
-## Strana 203 — sken 5/44
+## Strana 213 — sken 5/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=452)
 
-203.
+213.
 
 1960.
 
@@ -59,10 +59,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 „Na to provedeny volby do komisí a výborů ...“
 
-## Strana 204 — sken 6/44
+## Strana 214 — sken 6/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=453)
 
-204.
+214.
 
 1960.
 
@@ -72,19 +72,19 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Další údaje o cenách a úrodě zatím nepřepsány.]
 
-## Strana 205 — sken 7/44
+## Strana 215 — sken 7/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=454)
 
-205.
+215.
 
 1960.
 
 [Okraj: Hospodářská část; les a zvěř. Popis dřeva, zvěře a místního lesa; většina strany zatím nepřepsána.]
 
-## Strana 206 — sken 8/44
+## Strana 216 — sken 8/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=455)
 
-206.
+216.
 
 1960.
 
@@ -92,10 +92,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 „[…] na schůzi J.Z.D. […] za účasti 10 členů a 8 hostů.“
 
-## Strana 207 — sken 9/44
+## Strana 217 — sken 9/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=456)
 
-207.
+217.
 
 1960.
 
@@ -103,10 +103,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 „[…] autem zájezdy do Brna.“
 
-## Strana 208 — sken 10/44
+## Strana 218 — sken 10/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=457)
 
-208.
+218.
 
 1960.
 
@@ -116,19 +116,19 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 „1. Vranov–Brno; 2. Vranov–Kuřim.“
 
-## Strana 209 — sken 11/44
+## Strana 219 — sken 11/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=458)
 
-209.
+219.
 
 1960.
 
 [Okraj: Kulturní část; poutě; škola. Většina strany zatím nepřepsána.]
 
-## Strana 210 — sken 12/44
+## Strana 220 — sken 12/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=459)
 
-210.
+220.
 
 1960.
 
@@ -136,10 +136,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 „Školu navštěvuje 72 dětí.“
 
-## Strana 211 — sken 13/44
+## Strana 221 — sken 13/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=460)
 
-211.
+221.
 
 1960.
 
@@ -147,10 +147,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 „Po 22/4 = zima, až na 0°–10° […]“
 
-## Strana 212 — sken 14/44
+## Strana 222 — sken 14/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=461)
 
-212.
+222.
 
 1960.
 
@@ -158,10 +158,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 „Konečně jeden den pěkně 26°, teplo, jasno […]“
 
-## Strana 213 — sken 15/44
+## Strana 223 — sken 15/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=462)
 
-213.
+223.
 
 1960.
 

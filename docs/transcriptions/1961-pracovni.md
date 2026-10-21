@@ -4,10 +4,10 @@ Z devíti skenů jsou zatím přepsány pouze vybrané čitelné úseky. Hranat�
 
 Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs.html
 
-## Strana 214 — sken 16/44
+## Strana 224 — sken 16/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=463)
 
-214.
+224.
 
 [Ozdobný titul „1961“. Většina novoročního proslovu zatím nepřepsána.]
 
@@ -17,10 +17,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Zbývající úvodní text a závěr proslovu vyžadují další čtení podle skenu.]
 
-## Strana 215 — sken 17/44
+## Strana 225 — sken 17/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=464)
 
-215.
+225.
 
 1961.
 
@@ -34,10 +34,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Zbývající zápisy o politických a obecních událostech zatím nepřepsány.]
 
-## Strana 216 — sken 18/44
+## Strana 226 — sken 18/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=465)
 
-216.
+226.
 
 1961.
 
@@ -49,10 +49,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Zprávy o hospodářství, úrodě a cenách zatím nepřepsány.]
 
-## Strana 217 — sken 19/44
+## Strana 227 — sken 19/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=466)
 
-217.
+227.
 
 1961.
 
@@ -66,10 +66,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Popis lesa a další zprávy o zásobování zatím nepřepsány.]
 
-## Strana 218 — sken 20/44
+## Strana 228 — sken 20/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=467)
 
-218.
+228.
 
 1961.
 
@@ -81,10 +81,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Zprávy o školním roce, zdravotním stavu a spolkové činnosti zatím nepřepsány.]
 
-## Strana 219 — sken 21/44
+## Strana 229 — sken 21/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=468)
 
-219.
+229.
 
 1961.
 
@@ -96,10 +96,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Podrobný jarní záznam počasí zatím nepřepsán.]
 
-## Strana 220 — sken 22/44
+## Strana 230 — sken 22/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=469)
 
-220.
+230.
 
 1961.
 
@@ -111,10 +111,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Zápisy od července do prosince zatím nepřepsány.]
 
-## Strana 221 — sken 23/44
+## Strana 231 — sken 23/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=470)
 
-221.
+231.
 
 1961.
 
@@ -124,10 +124,10 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs
 
 [Na straně následují jmenné záznamy o narozeních, sňatcích a úmrtích; zatím nepřepsány.]
 
-## Strana 222 — sken 24/44
+## Strana 232 — sken 24/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=471)
 
-222.
+232.
 
 1961.
 

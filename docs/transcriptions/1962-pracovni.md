@@ -4,10 +4,10 @@ Z osmi skenů jsou zatím přepsány pouze vybrané čitelné úseky. Hranaté z
 
 Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1960-1964-8cs.html
 
-## Strana 223 — sken 25/44
+## Strana 233 — sken 25/44
 [Originální sken](https://www.vranov.cz/evt_image.php?img=472)
 
-223.
+233.
 
 [Ozdobný titul „1962“. Úvodní řádky jsou zatím nepřepsány.]
 

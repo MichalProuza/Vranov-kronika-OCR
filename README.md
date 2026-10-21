@@ -7,9 +7,9 @@ Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://w
 Galerie **1955–1959** má [přehled skenů let 1958–1959](docs/transcriptions/1955-1959-index.md), [rozpracovaný přepis roku 1958](docs/transcriptions/1958-pracovni.md) a [rozpracovaný přepis roku 1959](docs/transcriptions/1959-pracovni.md). Oba roky zatím obsahují jen vybrané čitelné údaje; souvislý přepis zbývá doplnit.
 
 Galerie **1960–1964** má [přehled všech 44 skenů](docs/transcriptions/1960-1964-index.md).
-U roku 1960 je k dispozici [rozpracovaný přepis stran 199–213](docs/transcriptions/1960-pracovni.md).
-U roku 1961 je k dispozici [rozpracovaný přepis stran 214–222](docs/transcriptions/1961-pracovni.md).
-U roku 1962 je k dispozici [rozpracovaný přepis stran 223–230](docs/transcriptions/1962-pracovni.md).
+U roku 1960 je k dispozici [rozpracovaný přepis stran 209–223](docs/transcriptions/1960-pracovni.md).
+U roku 1961 je k dispozici [rozpracovaný přepis stran 224–232](docs/transcriptions/1961-pracovni.md).
+U roku 1962 je k dispozici [rozpracovaný přepis strany 233 a stran 224–230](docs/transcriptions/1962-pracovni.md).
 U roku 1963 je k dispozici [rozpracovaný přepis stran 231–236](docs/transcriptions/1963-pracovni.md).
 U roku 1964 je k dispozici [rozpracovaný přepis stran 237–242](docs/transcriptions/1964-pracovni.md);
 nepřepsané úseky jsou v něm výslovně označeny.
