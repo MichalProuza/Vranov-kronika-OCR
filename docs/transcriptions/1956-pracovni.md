@@ -57,6 +57,8 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1955-1959-7cs
 
 Bylo nás 170 i s dětima, jeli jsme autobusem […]
 
+Účast 170 osob. Dne 20/5 konají se ve všech obvodech volebních schůze spojené s brigádami na úpravu zahrádky u školy […]
+
 [Okrajová rubrika: Politická část. Zápis pokračuje zprávami o místních událostech a promítání filmů; zbytek textu zatím nepřepsán.]
 
 ## Strana 103 — sken 25/130
