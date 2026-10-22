@@ -178,7 +178,11 @@ Máme zde 20 včelařů, včelstev 90 na podzim […]
 
 1956.
 
-[Okrajová rubrika: hospodářská část. Zápis uvádí údaje o obci a zemědělství; souvislý text zatím nepřepsán.]
+Vranov má asi 5.000 stromů přes 5 let starých […]
+
+Celkem se odevzdalo jablek 340 q.
+
+[Okrajová rubrika: hospodářská část. Ostatní hospodářské údaje zatím nepřepsány.]
 
 ## Strana 112 — sken 34/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=351)
@@ -223,7 +227,9 @@ Máme zde 20 včelařů, včelstev 90 na podzim […]
 
 1956.
 
-[Okrajové rubriky: hospodářská část a kulturní činnost. Souvislý rukopisný text zatím nepřepsán.]
+Na starém jest poslední pochován Bartoš Leopold, obchodník ze […], 55 roků stár, umřel na srdce. […]
+
+[Okrajové rubriky: hospodářská část a kulturní činnost. Ostatní rukopisný text zatím nepřepsán.]
 
 ## Strana 117 — sken 39/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=356)
@@ -272,7 +278,11 @@ Na nový rok teplo nad 0° a celý týden do 8/1, pěkně jaro, teploty 0 až 3�
 
 1956.
 
-[Pokračování přehledu počasí, teplot a srážek. Číselné údaje zatím nepřepsány.]
+2/11 vítr se stočil k západu a tepleji 2 až 7°C+, sníh brzy roztál […]
+
+5/11 obrat, vítr se stočil na sev. záp., napadlo sněhu na 2 cm a mrzne 2 až 5°C−. […]
+
+[Pokračování přehledu počasí, teplot a srážek. Další číselné údaje zatím nepřepsány.]
 
 ## Strana 122 — sken 44/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=361)
