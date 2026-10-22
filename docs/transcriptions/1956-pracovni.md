@@ -222,7 +222,13 @@ Celkem se odevzdalo jablek 340 q.
 
 1956.
 
-[Okrajová rubrika: hospodářská část. Souvislý rukopisný text zatím nepřepsán.]
+[…] mořské ryby zde dostane 1 kg = 8 Kč; kapry 11 Kč. […]
+
+Při tom jsou mzdy hodinové 4 až 12 Kč. […]
+
+Cibuli za 2.50 až 4 Kč. […]
+
+[Okrajová rubrika: hospodářská část. Ostatní ceny a rukopisný text zatím nepřepsány.]
 
 ## Strana 116 — sken 38/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=355)
@@ -262,7 +268,11 @@ Na nový rok teplo nad 0° a celý týden do 8/1, pěkně jaro, teploty 0 až 3�
 
 1956.
 
-[Pokračování podrobného přehledu počasí, teplot a srážek. Číselné údaje zatím nepřepsány.]
+8/4 stále chladno, […] sněhu 5 cm, až 9°C−, ve dne 2°C+. […]
+
+15/4 již 20°C+. […]
+
+[Pokračování podrobného přehledu počasí, teplot a srážek. Ostatní číselné údaje zatím nepřepsány.]
 
 ## Strana 120 — sken 42/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=359)
@@ -315,7 +325,9 @@ Na nový rok teplo nad 0° a celý týden do 8/1, pěkně jaro, teploty 0 až 3�
 
 1956.
 
-[Okrajová rubrika: různé; závěrečné obecní zápisy a začátek výčtu lidových slov. Výčet zatím nepřepsán.]
+Nejčastější jména psů: Vořech, Azor, […], Sultan, […], Rek, […]
+
+[Okrajová rubrika: různé. Zbytek výčtu psích jmen a následující výčet místních slov zatím nepřepsány.]
 
 ## Strana 125 — sken 47/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=364)
