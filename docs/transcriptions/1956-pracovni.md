@@ -42,11 +42,15 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1955-1959-7cs
 
 1956.
 
-Žáků 7 děvčat a 13 hochů, […] členové „Svazu Mládeže“.[…]
+Žáků 7 děvčat a 13 hochů, […] členové „Svazu Mládeže“. […]
 
 70 žen a 51 mužů […] celkem = 1140 hodin.
 
-[Okrajová rubrika: Politická část; činnost mládeže a práce na kulturním domě. Na konci strany jsou zprávy o filmových představeních a úmrtí Bolesława Bieruta. Velká část textu a sloky vložené básně zatím nepřepsány.]
+[Uprostřed strany je báseň v pěti číslovaných slokách; její text zůstává nepřepsán.]
+
+Na pamětní den 18/3 smrti pres. Gottwalda […] Návštěva velká 161 osob. Dne 12/3 umřel v Moskvě na […] první tajemník Polské sjednocené strany dělnické (komunistické) soudruh Boleslav Bierut. […] stár 64 roků. Ve středu 14/3 byl letadlem přivezen do Varšavy.
+
+[Další text o politických a kulturních událostech na straně zatím nepřepsán.]
 
 ## Strana 102 — sken 24/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=341)
@@ -55,11 +59,17 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1955-1959-7cs
 
 1956.
 
-Bylo nás 170 i s dětima, jeli jsme autobusem […]
+[…] rodil se v Lublině, co syn chudých rodičů. […]
 
-Účast 170 osob. Dne 20/5 konají se ve všech obvodech volebních schůze spojené s brigádami na úpravu zahrádky u školy […]
+Dne 30/3, na velký pátek konána v krajském domě […]
 
-[Okrajová rubrika: Politická část. Zápis pokračuje zprávami o místních událostech a promítání filmů; zbytek textu zatím nepřepsán.]
+Bylo nás 170 i s dětima, jeli jsme autobusem o ½ 9 hod. […] Účast 120 osob.
+
+Dne 20/5 konají se ve všech obvodech volebních schůze spojené s brigádami na úpravu zahrádky u školy […]
+
+Dne 26 května konala se v slavnostně vyzdobeném kulturním domě jubilejní schůze organisace K.S.Č. za účasti 141 soudružek a soudruhů. […]
+
+[Zbytek politických a obecních zápisů zatím nepřepsán.]
 
 ## Strana 103 — sken 25/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=342)
@@ -68,7 +78,13 @@ Bylo nás 170 i s dětima, jeli jsme autobusem […]
 
 1956.
 
-[Okrajová rubrika: Politická část. Na straně jsou zprávy o schůzích, událostech v obci a hospodaření; souvislý text zatím nepřepsán.]
+Dnes 30/6 konána zajímavá veřejná schůze strany K.S.Č. […]
+
+16/7 o 20 h. konala se v kulturním domě schůze […]
+
+[…] v tisku a oslavy se konaly jen ve městech.
+
+[Další politické a obecní zápisy na této straně zatím nepřepsány.]
 
 ## Strana 104 — sken 26/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=343)
@@ -77,7 +93,9 @@ Bylo nás 170 i s dětima, jeli jsme autobusem […]
 
 1956.
 
-[Okrajové rubriky: Politická část; další obecní zápisy. Souvislý rukopisný text zatím nepřepsán.]
+Návštěva velká 400 osob, hrálo se to 4×, vždy sál nabitý, malými i velkými. […]
+
+[Další zprávy o obecním životě, kulturních akcích a hospodaření jsou zatím nepřepsány.]
 
 ## Strana 105 — sken 27/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=344)
@@ -86,7 +104,11 @@ Bylo nás 170 i s dětima, jeli jsme autobusem […]
 
 1956.
 
-[Okrajové rubriky: Politická část, schůze MNV a další místní události. Souvislý rukopisný text zatím nepřepsán.]
+[…] 15.980 Kč. […]
+
+[…] film: „Hudba z Marsu“. […]
+
+[Okrajové rubriky: Politická část, schůze MNV a další místní události. Zbytek rukopisného textu zatím nepřepsán.]
 
 ## Strana 106 — sken 28/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=345)
@@ -95,7 +117,11 @@ Bylo nás 170 i s dětima, jeli jsme autobusem […]
 
 1956.
 
-[Okrajové rubriky: osvětová činnost, hospodářské a obecní události. Souvislý rukopisný text zatím nepřepsán.]
+19/2 konala se v kulturním domě za účasti 217 osob […] filmů. […]
+
+24/3 pořádala Jednota besedu o knihách spojenou s prodejem knih. […]
+
+[Na straně jsou také zprávy o dalších filmových představeních a prvomájových akcích. Zbytek textu zatím nepřepsán.]
 
 ## Strana 107 — sken 29/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=346)
@@ -104,7 +130,11 @@ Bylo nás 170 i s dětima, jeli jsme autobusem […]
 
 1956.
 
-[Okrajové rubriky: kulturní poměry a hospodářské zápisy. Souvislý rukopisný text zatím nepřepsán.]
+[…] v neděli […] konalo cvičení […] na loukách […]
+
+[…] za účasti 65 osob. […]
+
+[Okrajové rubriky: kulturní poměry, hasiči a hospodářské zápisy. Zbytek rukopisného textu zatím nepřepsán.]
 
 ## Strana 108 — sken 30/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=347)
@@ -113,7 +143,11 @@ Bylo nás 170 i s dětima, jeli jsme autobusem […]
 
 1956.
 
-[Okrajové rubriky: kulturní poměry, škola, výstava v Brně. Souvislý rukopisný text zatím nepřepsán.]
+[…] škola má 3 třídy […] 95 […]
+
+Dnes přijelo do Brna na 900 autobusů. […]
+
+[Okrajové rubriky: kulturní poměry, škola a výstava v Brně. Zbytek rukopisného textu zatím nepřepsán.]
 
 ## Strana 109 — sken 31/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=348)
@@ -122,7 +156,9 @@ Bylo nás 170 i s dětima, jeli jsme autobusem […]
 
 1956.
 
-[Okrajové rubriky: kulturní poměry a hospodářská část. Souvislý rukopisný text zatím nepřepsán.]
+[…] M.N.V. příjmy 45.000 Kč jako státní příděl […]
+
+[Okrajové rubriky: kulturní poměry a hospodářská část. Zbytek rukopisného textu, včetně rozpočtových čísel, zatím nepřepsán.]
 
 ## Strana 110 — sken 32/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=349)
@@ -131,7 +167,9 @@ Bylo nás 170 i s dětima, jeli jsme autobusem […]
 
 1956.
 
-[Okrajové rubriky: hospodářská část a zemědělství. Souvislý rukopisný text zatím nepřepsán.]
+Máme zde 20 včelařů, včelstev 90 na podzim […]
+
+[Okrajové rubriky: hospodářská část a zemědělství. Zbytek rukopisného textu zatím nepřepsán.]
 
 ## Strana 111 — sken 33/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=350)
