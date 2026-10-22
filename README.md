@@ -51,7 +51,8 @@ jen pracovní fragment. V říjnu 2026 jde o 448 z 828 skenů (288 bez záznamu 
 `.venv/bin/python 02_download_images.py` ze zdroje `www.vranov.cz`.
 
 Po nastavení `ANTHROPIC_API_KEY` lze vytvořit první dávku návrhů příkazem
-`.venv/bin/python 07_ocr_backlog.py --run --limit 5`. Výstupy se ukládají do
+`.venv/bin/python 07_ocr_backlog.py --run --limit 5 --model claude-sonnet-4-20250514`.
+Výstupy se ukládají do
 ignorovaného `output/ocr_candidates/`, takže se dosud ověřené pasáže nepřepíší.
 Každý návrh je třeba porovnat se skenem a teprve potom vložit do příslušného
 stránkového TXT, `data/transcriptions.json` a pracovního dokumentu. Přímé
