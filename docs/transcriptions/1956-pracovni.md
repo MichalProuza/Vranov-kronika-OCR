@@ -48,7 +48,7 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1955-1959-7cs
 
 [Uprostřed strany je báseň v pěti číslovaných slokách; její text zůstává nepřepsán.]
 
-Na pamětní den 18/3 smrti pres. Gottwalda […] Návštěva velká 161 osob. Dne 12/3 umřel v Moskvě na […] první tajemník Polské sjednocené strany dělnické (komunistické) soudruh Boleslav Bierut. […] stár 64 roků. Ve středu 14/3 byl letadlem přivezen do Varšavy.
+Na pamětní den 14/3 smrti pres. Gottwalda […] Návštěva velká 161 osob. Dne 12/3 umřel v Moskvě na […] první tajemník Polské sjednocené strany dělnické (komunistické) soudruh Boleslav Bierut. […] stár 64 roků. Ve středu 14/3 byl letadlem přivezen do Varšavy.
 
 [Další text o politických a kulturních událostech na straně zatím nepřepsán.]
 
