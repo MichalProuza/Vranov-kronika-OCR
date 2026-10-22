@@ -58,6 +58,11 @@ Každý návrh je třeba porovnat se skenem a teprve potom vložit do přísluš
 stránkového TXT, `data/transcriptions.json` a pracovního dokumentu. Přímé
 spuštění `03_ocr_transcribe.py --force` by existující pracovní přepisy nahradilo.
 
+API klíč je potřeba pouze pro volitelné automatické skripty. Při ručním přepisu
+stačí otevřít lokální sken z `data/images/`, přepsat bezpečně čitelné pasáže a
+nejistá místa výslovně označit. Ověřený text patří do stránkového TXT,
+`data/transcriptions.json` a příslušného dokumentu v `docs/transcriptions/`.
+
 ## Jak to funguje
 
 1. **Scraping** – ze stránek obce se stáhnou URL všech naskenovaných stránek kroniky (~700+ obrázků)
@@ -69,8 +74,8 @@ spuštění `03_ocr_transcribe.py --force` by existující pracovní přepisy na
 ## Požadavky
 
 - Python 3.10+
-- Anthropic API klíč (Claude Sonnet 4)
-- Cca 700 API volání → odhadem **$5–15** dle velikosti obrázků
+- Anthropic API klíč jen při použití automatického OCR přes Claude API
+- Při automatickém zpracování cca 700 API volání → odhadem **$5–15** dle velikosti obrázků
 
 ## Instalace
 
@@ -80,7 +85,7 @@ cd kronika-vranov-ocr
 pip install -r requirements.txt
 ```
 
-Nastav API klíč – podle prostředí:
+Pokud chceš použít automatické OCR, nastav API klíč podle prostředí:
 
 **Linux / macOS (bash/zsh):**
 ```bash
