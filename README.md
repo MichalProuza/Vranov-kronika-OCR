@@ -4,7 +4,7 @@ Automatický přepis ručně psané obecní kroniky obce Vranov pomocí Claude A
 
 Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://www.vranov.cz/obec/historie/kronika-obce-vranov/)
 
-Galerie **1955–1959** má [přehled skenů let 1956–1959](docs/transcriptions/1955-1959-index.md), [pracovní záznamy všech stran roku 1956](docs/transcriptions/1956-pracovni.md), [rok 1957](docs/transcriptions/1957-pracovni.md), [rozpracovaný přepis roku 1958](docs/transcriptions/1958-pracovni.md) a [rozpracovaný přepis roku 1959](docs/transcriptions/1959-pracovni.md). Všechny tyto přepisy jsou zatím neúplné; u roku 1956 jsou některé strany zatím jen popsány redakční poznámkou.
+Galerie **1955–1959** má [přehled skenů let 1955–1959](docs/transcriptions/1955-1959-index.md), [pracovní záznamy všech stran roku 1956](docs/transcriptions/1956-pracovni.md), [rok 1957](docs/transcriptions/1957-pracovni.md), [rozpracovaný přepis roku 1958](docs/transcriptions/1958-pracovni.md) a [rozpracovaný přepis roku 1959](docs/transcriptions/1959-pracovni.md). Rok 1955 zatím nemá přepis; přepisy let 1956–1959 jsou neúplné; u roku 1956 jsou některé strany zatím jen popsány redakční poznámkou.
 
 Galerie **1960–1964** má [přehled všech 44 skenů](docs/transcriptions/1960-1964-index.md).
 U roku 1960 je k dispozici [rozpracovaný přepis stran 209–223](docs/transcriptions/1960-pracovni.md).
@@ -47,8 +47,8 @@ HTML lze znovu sestavit příkazem `python 04_build_html.py --raw`.
 
 `python 07_ocr_backlog.py` vypíše skeny bez přepisu i stránky, na nichž je zatím
 jen pracovní fragment. V říjnu 2026 jde o 448 z 828 skenů (288 bez záznamu a
-160 rozpracovaných). U 269 z těchto skenů chybí také lokální obrázek, který je
-třeba po zpřístupnění `www.vranov.cz` stáhnout skriptem `02_download_images.py`.
+160 rozpracovaných). Pokud lokální obrázky chybí, stáhni je skriptem
+`.venv/bin/python 02_download_images.py` ze zdroje `www.vranov.cz`.
 
 Po nastavení `ANTHROPIC_API_KEY` lze vytvořit první dávku návrhů příkazem
 `.venv/bin/python 07_ocr_backlog.py --run --limit 5`. Výstupy se ukládají do
