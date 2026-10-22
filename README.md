@@ -43,6 +43,20 @@ obsahuje 18 označených nejistých čtení s odkazy na originály; další chyb
 Jednotlivé strany jsou v `data/ocr_pages/section_11/` a `data/transcriptions.json`.
 HTML lze znovu sestavit příkazem `python 04_build_html.py --raw`.
 
+## Zbývající OCR
+
+`python 07_ocr_backlog.py` vypíše skeny bez přepisu i stránky, na nichž je zatím
+jen pracovní fragment. V říjnu 2026 jde o 448 z 828 skenů (288 bez záznamu a
+160 rozpracovaných). U 269 z těchto skenů chybí také lokální obrázek, který je
+třeba po zpřístupnění `www.vranov.cz` stáhnout skriptem `02_download_images.py`.
+
+Po nastavení `ANTHROPIC_API_KEY` lze vytvořit první dávku návrhů příkazem
+`.venv/bin/python 07_ocr_backlog.py --run --limit 5`. Výstupy se ukládají do
+ignorovaného `output/ocr_candidates/`, takže se dosud ověřené pasáže nepřepíší.
+Každý návrh je třeba porovnat se skenem a teprve potom vložit do příslušného
+stránkového TXT, `data/transcriptions.json` a pracovního dokumentu. Přímé
+spuštění `03_ocr_transcribe.py --force` by existující pracovní přepisy nahradilo.
+
 ## Jak to funguje
 
 1. **Scraping** – ze stránek obce se stáhnou URL všech naskenovaných stránek kroniky (~700+ obrázků)
