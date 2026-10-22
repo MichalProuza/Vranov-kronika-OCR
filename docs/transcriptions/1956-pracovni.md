@@ -11,7 +11,7 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1955-1959-7cs
 
 1956.
 
-[Ozdobný titul „1956“. Úvodní novoroční text zatím nepřepsán.]
+[Ozdobný titul „1956“.] […] Rok 1956 bude prvním rokem naší druhé pětiletky. […]
 
 [Okraj: Část novoročního projevu presidenta republiky Antonína Zápotockého.]
 
@@ -33,7 +33,11 @@ Zdroj: https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1955-1959-7cs
 
 1956.
 
-[Okraj: Politická část; obecní volby a místní události. Většina rukopisného textu zatím nepřepsána.]
+5/II. konala organisace K.S.Č. slavnostní schůzi v kulturním domě za účasti 56 členů. (Celkem jest členů 122.) […]
+
+[…] dne 4/3 v kulturním domě […] Slavnost za účasti 145 občanů […]
+
+[Okraj: Politická část; obecní volby a místní události. Ostatní rukopisný text zatím nepřepsán.]
 
 ## Strana 101 — sken 23/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=340)
