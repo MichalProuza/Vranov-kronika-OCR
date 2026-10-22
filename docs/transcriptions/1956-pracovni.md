@@ -241,6 +241,8 @@ Máme zde 20 včelařů, včelstev 90 na podzim […]
 
 1956.
 
+Na nový rok teplo nad 0° a celý týden do 8/1, pěkně jaro, teploty 0 až 3°C. […]
+
 [Okrajové rubriky: počasí v únoru, teplo v lednu a mrazy. Podrobný denní záznam teplot zatím nepřepsán.]
 
 ## Strana 119 — sken 41/130
@@ -259,7 +261,9 @@ Máme zde 20 včelařů, včelstev 90 na podzim […]
 
 1956.
 
-[Pokračování přehledu počasí, teplot a srážek. Číselné údaje zatím nepřepsány.]
+20/5 – 6 až 14°C […] do 27/5 jasno a teplo 14 až 26°C. […]
+
+[Pokračování přehledu počasí, teplot a srážek. Další číselné údaje zatím nepřepsány.]
 
 ## Strana 121 — sken 43/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=360)
@@ -277,7 +281,9 @@ Máme zde 20 včelařů, včelstev 90 na podzim […]
 
 1956.
 
-[Okrajové rubriky: počasí a různé místní události. Souvislý rukopisný text zatím nepřepsán.]
+23/12 – Vánoce v blátě, […] 2 až 7°C. […]
+
+[Okrajové rubriky: počasí a různé místní události. Zbytek rukopisného textu zatím nepřepsán.]
 
 ## Strana 123 — sken 45/130
 [Originální sken](https://www.vranov.cz/evt_image.php?img=362)
