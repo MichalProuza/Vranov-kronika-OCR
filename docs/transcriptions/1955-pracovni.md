@@ -141,3 +141,35 @@ Na hříbky jest letos úroda. [Následující zpráva o sběru hub zatím nepř
 16/10 schůze veřejná M. N. V. a rozprava o dodávkách. [Další zápis ze schůze zatím nepřepsán.]
 
 [Na konci strany je soupis obyvatel a dodávek; zatím nepřepsáno.]
+
+## Strana 88 — sken 10/130
+
+[Originální sken](https://www.vranov.cz/evt_image.php?img=327)
+
+88.
+
+1955.
+
+Hospodářská část: [Následuje soupis úrody, dodávek mléka a vajec; čísla jsou zatím nepřepsána.]
+
+Celkem obilí dodáno na 106 %, brambory na 107 %. [Další hospodářské údaje zatím nepřepsány.]
+
+[Zápis o kultuře a zásobování:] Ceny hovězí 20 až 28 Kč, vepřové 14 až 30 Kč na 1 kg. [Další ceny zatím nepřepsány.]
+
+[Na konci strany je zpráva o školní jídelně; zatím nepřepsáno.]
+
+## Strana 89 — sken 11/130
+
+[Originální sken](https://www.vranov.cz/evt_image.php?img=328)
+
+89.
+
+1955.
+
+[Začátek strany s přehledem cen potravin a obecních dodávek zatím nepřepsán.]
+
+Hlavní dodavatel pro Brno i Prahu jest Vranov. [Následují počty dodané drůbeže; zatím nepřepsáno.]
+
+[Další zprávy o hospodaření zatím nepřepsány.]
+
+[Konec strany obsahuje osobní vzpomínku pisatele; zatím nepřepsáno.]
