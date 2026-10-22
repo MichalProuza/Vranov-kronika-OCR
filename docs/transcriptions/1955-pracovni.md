@@ -107,3 +107,37 @@ Ve škole jest stav dobrý a trvalý. V I. třídě je asi 11 dětí, ve II. 37 
 [Záznam o dopravě:] U Lelekovic jest stanoviště; [část textu nečitelná] doprava každých 15 minut.
 
 [Záznam o počasí:] Na Václava bylo 16 °C nad nulou. Na Vánoce 6 °C nad nulou. [Ostatní zprávy a závěr stránky zatím nepřepsány.]
+
+## Strana 86 — sken 8/130
+
+[Originální sken](https://www.vranov.cz/evt_image.php?img=325)
+
+86.
+
+1955.
+
+[Začátek strany s místními hospodářskými zprávami zatím nepřepsán.]
+
+Opravna se nyní v červnu dobře staví. [Další zpráva o stavbě zatím nepřepsána.]
+
+Obilí husté, klasy budou hluché, jest málo much, komárů, všelijací včely špatně létají pro chladna. [Další záznamy zatím nepřepsány.]
+
+Na hříbky jest letos úroda. [Následující zpráva o sběru hub zatím nepřepsána.]
+
+14/8 začaly nové hlídky [část věty nečitelná]. 24/8 [záznam o dovolené zatím nepřepsán]. [Konec strany zatím nepřepsán.]
+
+## Strana 87 — sken 9/130
+
+[Originální sken](https://www.vranov.cz/evt_image.php?img=326)
+
+87.
+
+1955.
+
+[Začátek strany s údaji o úrodě a místních pracích zatím nepřepsán.]
+
+18/9 začaly se vybírati brambory, [další zprávy o sklizni zatím nepřepsány]. Jeteliny a otavy se špatně suší letos. [Další záznamy o počasí a úrodě zatím nepřepsány.]
+
+16/10 schůze veřejná M. N. V. a rozprava o dodávkách. [Další zápis ze schůze zatím nepřepsán.]
+
+[Na konci strany je soupis obyvatel a dodávek; zatím nepřepsáno.]
