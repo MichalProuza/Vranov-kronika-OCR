@@ -93,3 +93,17 @@ Strana K. S. Č. i hasiči pořádali plesy, hojně navštívené. [Další čá
 27/11 se konala mimořádná schůze M. N. V. ohledně mateřské školky. Chodí tam 6 až 12 dětí a někdy v Brně tvrdí, že stav tento jest neudržitelný. [Další část jednání zatím nepřepsána.]
 
 Ve škole jest stav dobrý a trvalý. V I. třídě je asi 11 dětí, ve II. 37 dětí a ve III. 38 dětí. [Jména učitelů zatím nepřepsána.] Knihovna má asi 1.000 svazků. [Zbytek stránky zatím nepřepsán.]
+
+## Strana 85 — sken 7/130
+
+[Originální sken](https://www.vranov.cz/evt_image.php?img=324)
+
+85.
+
+1955.
+
+[Začátek stránky se zprávami o místních organizacích, dopravě a občanských záležitostech zatím nepřepsán.]
+
+[Záznam o dopravě:] U Lelekovic jest stanoviště; [část textu nečitelná] doprava každých 15 minut.
+
+[Záznam o počasí:] Na Václava bylo 16 °C nad nulou. Na Vánoce 6 °C nad nulou. [Ostatní zprávy a závěr stránky zatím nepřepsány.]

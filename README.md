@@ -46,8 +46,8 @@ HTML lze znovu sestavit příkazem `python 04_build_html.py --raw`.
 ## Zbývající OCR
 
 `python 07_ocr_backlog.py` vypíše skeny bez přepisu i stránky, na nichž je zatím
-jen pracovní fragment. V říjnu 2026 jde o 448 z 828 skenů (281 bez záznamu a
-167 rozpracovaných). Pokud lokální obrázky chybí, stáhni je skriptem
+jen pracovní fragment. Skript vždy vypíše aktuální počty chybějících a
+rozpracovaných stran. Pokud lokální obrázky chybí, stáhni je skriptem
 `.venv/bin/python 02_download_images.py` ze zdroje `www.vranov.cz`.
 
 Po nastavení `ANTHROPIC_API_KEY` lze vytvořit první dávku návrhů příkazem
