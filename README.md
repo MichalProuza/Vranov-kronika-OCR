@@ -8,6 +8,11 @@ Galerie **1960–1964** má [přehled všech 44 skenů](docs/transcriptions/1960
 U roku 1964 je k dispozici [rozpracovaný přepis stran 237–242](docs/transcriptions/1964-pracovni.md);
 nepřepsané úseky jsou v něm výslovně označeny.
 
+Úplný přepis sekce **1930–1939** (63 skenů, strany 63–125) je v
+[docs/transcriptions/1930-1939.md](docs/transcriptions/1930-1939.md)
+([místa k ověření](docs/transcriptions/1930-1939-k-overeni.md)); jednotlivé strany
+jsou v `data/ocr_pages/section_03/`.
+
 Úplný přepis sekce **1980–1984** (76 skenů, strany 363–438) je v
 [docs/transcriptions/1980-1984.md](docs/transcriptions/1980-1984.md).
 Vznikl přímým čtením skenů; zachovává dobový jazyk a zahrnuje okrajové poznámky,
