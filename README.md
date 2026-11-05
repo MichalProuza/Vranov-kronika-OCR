@@ -4,53 +4,34 @@ Automatický přepis ručně psané obecní kroniky obce Vranov pomocí Claude A
 
 Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://www.vranov.cz/obec/historie/kronika-obce-vranov/)
 
-Úplný přepis sekce **1920–1929** (38 skenů, strany 27–63) je v
-[docs/transcriptions/1920-1929.md](docs/transcriptions/1920-1929.md)
-([místa k ověření](docs/transcriptions/1920-1929-k-overeni.md)); jednotlivé strany
-jsou v `data/ocr_pages/section_02/`.
+**Kronika je přepsaná celá: všech 828 skenů ve 13 sekcích.** Přepis vznikl přímým
+čtením skenů (a jejich zvětšených výřezů) jazykovým modelem s vizí; zachovává
+dobový jazyk, řádky rukopisu, okrajové poznámky, popisy kreseb a razítek.
+Nejistá čtení jsou označena `[?slovo?]`, nerozpoznaný text `[nečitelné]`. Nejde
+o kritickou edici – zejména u vlastních jmen a v kurzívě starších kronikářů jsou
+další chyby čtení možné.
 
-Úplný přepis sekce **1940–1951** (112 skenů, strany 125–236) je v
-[docs/transcriptions/1940-1951.md](docs/transcriptions/1940-1951.md)
-([místa k ověření](docs/transcriptions/1940-1951-k-overeni.md)); jednotlivé strany
-jsou v `data/ocr_pages/section_04/`.
+| Sekce | Skenů | Strany kroniky | Souvislý přepis | Místa k ověření | Strany |
+| --- | --- | --- | --- | --- | --- |
+| Úvod až rok 1919 | 24 | I–26 | — | — | `data/ocr_pages/section_01/` |
+| 1920–1929 | 38 | 27–63 | [1920-1929.md](docs/transcriptions/1920-1929.md) | [seznam](docs/transcriptions/1920-1929-k-overeni.md) | `data/ocr_pages/section_02/` |
+| 1930–1939 | 63 | 63–125 | [1930-1939.md](docs/transcriptions/1930-1939.md) | [seznam](docs/transcriptions/1930-1939-k-overeni.md) | `data/ocr_pages/section_03/` |
+| 1940–1951 | 112 | 125–236 (konec I. dílu) | [1940-1951.md](docs/transcriptions/1940-1951.md) | [seznam](docs/transcriptions/1940-1951-k-overeni.md) | `data/ocr_pages/section_04/` |
+| 1951–1954 | 73 | II. díl 1–78 | [1951-1954.md](docs/transcriptions/1951-1954.md) | [seznam](docs/transcriptions/1951-1954-k-overeni.md) | `data/ocr_pages/section_05/` |
+| 1955–1959 | 130 | II. díl 79–208 | [1955-1959.md](docs/transcriptions/1955-1959.md) | [seznam](docs/transcriptions/1955-1959-k-overeni.md) | `data/ocr_pages/section_06/` |
+| 1960–1964 | 44 | 209–242 | [1960-1964.md](docs/transcriptions/1960-1964.md) | [seznam](docs/transcriptions/1960-1964-k-overeni.md) | `data/ocr_pages/section_07/` |
+| 1965–1969 | 17 | 243–259 | [1965-1969.md](docs/transcriptions/1965-1969.md) | [seznam](docs/transcriptions/1965-1969-k-overeni.md) | `data/ocr_pages/section_08/` |
+| 1970–1974 | 37 | 260–296 | [1970-1974.md](docs/transcriptions/1970-1974.md) | [seznam](docs/transcriptions/1970-1974-k-overeni.md) | `data/ocr_pages/section_09/` |
+| 1975–1979 | 66 | 297–362 | [1975-1979.md](docs/transcriptions/1975-1979.md) | [seznam](docs/transcriptions/1975-1979-k-overeni.md) | `data/ocr_pages/section_10/` |
+| 1980–1984 | 76 | 363–438 | [1980-1984.md](docs/transcriptions/1980-1984.md) | [seznam](docs/transcriptions/1980-1984-k-overeni.md) | `data/ocr_pages/section_11/` |
+| 1985–1989 | 80 | 439–517 | [1985-1989.md](docs/transcriptions/1985-1989.md) | [seznam](docs/transcriptions/1985-1989-k-overeni.md) | `data/ocr_pages/section_12/` |
+| 1990–1993 | 68 | 518–584 + nečíslovaná | [1990-1993.md](docs/transcriptions/1990-1993.md) | — | `data/ocr_pages/section_13/` |
 
-Úplný přepis sekce **1951–1954** (73 skenů, II. díl kroniky, strany 1–78) je v
-[docs/transcriptions/1951-1954.md](docs/transcriptions/1951-1954.md)
-([místa k ověření](docs/transcriptions/1951-1954-k-overeni.md)); jednotlivé strany
-jsou v `data/ocr_pages/section_05/`.
-
-Úplný přepis sekce **1960–1964** (44 skenů, strany 209–242) je v
-[docs/transcriptions/1960-1964.md](docs/transcriptions/1960-1964.md)
-([místa k ověření](docs/transcriptions/1960-1964-k-overeni.md)); jednotlivé strany
-jsou v `data/ocr_pages/section_07/`. Nahrazuje dřívější rozpracovaný přepis roku 1964.
-
-Úplný přepis sekce **1930–1939** (63 skenů, strany 63–125) je v
-[docs/transcriptions/1930-1939.md](docs/transcriptions/1930-1939.md)
-([místa k ověření](docs/transcriptions/1930-1939-k-overeni.md)); jednotlivé strany
-jsou v `data/ocr_pages/section_03/`.
-
-Úplný přepis sekce **1975–1979** (66 skenů, strany 297–362) je v
-[docs/transcriptions/1975-1979.md](docs/transcriptions/1975-1979.md)
-([místa k ověření](docs/transcriptions/1975-1979-k-overeni.md)); jednotlivé strany
-jsou v `data/ocr_pages/section_10/`.
-
-Úplný přepis sekce **1965–1969** (17 skenů, strany 243–259) je v
-[docs/transcriptions/1965-1969.md](docs/transcriptions/1965-1969.md)
-([místa k ověření](docs/transcriptions/1965-1969-k-overeni.md)); jednotlivé strany
-jsou v `data/ocr_pages/section_08/`.
-
-Úplný přepis sekce **1970–1974** (37 skenů, strany 260–296) je v
-[docs/transcriptions/1970-1974.md](docs/transcriptions/1970-1974.md)
-([místa k ověření](docs/transcriptions/1970-1974-k-overeni.md)); jednotlivé strany
-jsou v `data/ocr_pages/section_09/`.
-
-Úplný přepis sekce **1980–1984** (76 skenů, strany 363–438) je v
-[docs/transcriptions/1980-1984.md](docs/transcriptions/1980-1984.md).
-Vznikl přímým čtením skenů; zachovává dobový jazyk a zahrnuje okrajové poznámky,
-titulní kresby i prázdné strany. [Seznam míst k ověření](docs/transcriptions/1980-1984-k-overeni.md)
-obsahuje 18 označených nejistých čtení s odkazy na originály; další chyby čtení jsou možné.
-Jednotlivé strany jsou v `data/ocr_pages/section_11/` a `data/transcriptions.json`.
-HTML lze znovu sestavit příkazem `python 04_build_html.py --raw`.
+Všechny strany jsou také v `data/transcriptions.json`; HTML stránku s celým
+přepisem sestavíte příkazem `python 04_build_html.py --raw`
+(výstup `output/kronika_vranov.html`). Podrobnosti k jednotlivým sekcím (kronikáři,
+číslování stran, duplicitní skeny mezi galeriemi, známé nejistoty) jsou v souborech
+`README.md` v adresářích `data/ocr_pages/section_XX/`.
 
 ## Jak to funguje
 
