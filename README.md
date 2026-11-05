@@ -9,6 +9,11 @@ Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://w
 ([místa k ověření](docs/transcriptions/1920-1929-k-overeni.md)); jednotlivé strany
 jsou v `data/ocr_pages/section_02/`.
 
+Úplný přepis sekce **1940–1951** (112 skenů, strany 125–236) je v
+[docs/transcriptions/1940-1951.md](docs/transcriptions/1940-1951.md)
+([místa k ověření](docs/transcriptions/1940-1951-k-overeni.md)); jednotlivé strany
+jsou v `data/ocr_pages/section_04/`.
+
 Úplný přepis sekce **1951–1954** (73 skenů, II. díl kroniky, strany 1–78) je v
 [docs/transcriptions/1951-1954.md](docs/transcriptions/1951-1954.md)
 ([místa k ověření](docs/transcriptions/1951-1954-k-overeni.md)); jednotlivé strany
