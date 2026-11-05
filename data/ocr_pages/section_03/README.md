@@ -5,6 +5,9 @@ https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1930-1939-4cs.html
 
 - Obrazová ID 70–132, číslované strany kroniky 63–125.
 - Obsah: konec roku 1929 (str. 63), roky 1930–1939, začátek roku 1940 (str. 125).
+- První sken (ID 70, str. 63) je totožný s posledním skenem galerie 1920–1929
+  (ID 69) a poslední sken (ID 132, str. 125) s prvním skenem galerie 1940–1951
+  (ID 133); obec tyto strany zveřejnila v obou galeriích.
 - Číslo strany 121 (sken 59, ID 128) je v rohu skenu oříznuté a bylo odvozeno z návaznosti.
 
 Přepsáno přímým čtením skenů (≈610 × 1024 px) a jejich zvětšených výřezů,
