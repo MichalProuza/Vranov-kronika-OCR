@@ -30,6 +30,36 @@ def slugify(text: str) -> str:
     return re.sub(r"-+", "-", slug).strip("-")
 
 
+PAGE_NUM_RE = re.compile(r"^(?:Strana\s+)?(\[\??|\[)?(\d+|[IVXLC]+)\.?(\?\])?\]?(?:\s+(.*))?$")
+YEAR_RE = re.compile(r"^(?:v\s+)?(?:r\.?|R\.?|Rok|rok)?\s*\d{4}\b.*$")
+
+
+def split_page_header(text: str) -> tuple[str, str, str]:
+    """Split a page transcription into (page number, year, body).
+
+    Page files start with the chronicle page number on the first line and the
+    year (or an empty line) on the second. Pages without a number (drawings,
+    blank pages) are returned unchanged with an empty page number.
+    """
+    lines = text.split("\n")
+    m = PAGE_NUM_RE.match(lines[0].strip()) if lines else None
+    if not m:
+        return "", "", text
+    number = m.group(2)
+    if m.group(1):  # number derived by the transcriber, e.g. "[305]"
+        number = f"[{number}]"
+    year = (m.group(4) or "").strip()
+    body_start = 1
+    if len(lines) > 1:
+        second = lines[1].strip()
+        if not second:
+            body_start = 2
+        elif len(second) <= 30 and YEAR_RE.match(second):
+            year = f"{year} {second}".strip() if year else second
+            body_start = 2
+    return number, year.rstrip("."), "\n".join(lines[body_start:]).strip("\n")
+
+
 def format_text(text: str) -> str:
     """Convert plain transcription text to HTML paragraphs."""
     escaped = html.escape(text)
@@ -99,7 +129,12 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
             for page_key, page_data in sorted_pages:
                 img_id = page_data.get("img_id", "?")
                 text = page_data.get("text", "")
-                formatted = format_text(text)
+                number, year, body = split_page_header(text)
+                formatted = format_text(body)
+                label = f"Strana {html.escape(number)}" if number else "Nečíslovaná strana"
+                if year:
+                    label += f" · {html.escape(year)}"
+                scan_url = f"https://www.vranov.cz/evt_image.php?img={img_id}"
 
                 thumb_html = ""
                 if with_thumbnails:
@@ -115,7 +150,8 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
                 pages_html.append(f'''
                 <div class="page" id="page-{img_id}">
                     <div class="page-header">
-                        <span class="page-number">Strana {img_id}</span>
+                        <span class="page-number">{label}</span>
+                        <a class="scan-link" href="{scan_url}" target="_blank" rel="noopener">originální sken ↗</a>
                     </div>
                     <div class="page-content">
                         {thumb_html}
@@ -140,6 +176,8 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
         for section in transcriptions.values()
         for p in section.values()
     )
+
+    total_chars_fmt = f"{total_chars:,}".replace(",", "\u00a0")
 
     return f'''<!DOCTYPE html>
 <html lang="cs">
@@ -278,7 +316,35 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
             background: var(--color-bg);
             padding: 0.4rem 1.2rem;
             border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
         }}
+        .scan-link {{
+            font-family: var(--font-ui);
+            font-size: 0.75rem;
+            color: var(--color-accent);
+            text-decoration: none;
+            white-space: nowrap;
+        }}
+        .scan-link:hover {{ text-decoration: underline; }}
+        .notice {{
+            max-width: 760px;
+            width: calc(100% - 2rem);
+            margin: 1.5rem auto 0;
+            padding: 1rem 1.25rem;
+            background: var(--color-paper);
+            border: 1px solid var(--color-border);
+            border-left: 4px solid var(--color-accent-light);
+            border-radius: 4px;
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            line-height: 1.55;
+            color: var(--color-text-light);
+        }}
+        .notice strong {{ color: var(--color-text); }}
+        .notice a {{ color: var(--color-accent); }}
         .page-number {{
             font-family: var(--font-ui);
             font-size: 0.8rem;
@@ -374,7 +440,15 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
     <div class="header">
         <h1>Kronika obce Vranov</h1>
         <p class="subtitle">Přepis ručně psané obecní kroniky</p>
-        <p class="stats">Přepsáno {total_pages} stránek · {total_chars:,} znaků · Zdroj: <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/" style="color: inherit;">vranov.cz</a></p>
+        <p class="stats">Přepsáno {total_pages} stránek · {total_chars_fmt} znaků · Zdroj: <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/" style="color: inherit;">vranov.cz</a></p>
+    </div>
+
+    <div class="notice">
+        <strong>O přepisu.</strong> Text vznikl čtením naskenovaných stran pomocí umělé inteligence (Claude, Anthropic)
+        a není kritickou edicí. Pravopis a údaje kronikářů nejsou opravovány. Přepis může obsahovat chyby čtení,
+        zejména u vlastních jmen. <span class="uncertain">Čárkovaně podtržená</span> místa jsou nejistá,
+        <span class="unreadable">[nečitelné]</span> označuje nerozpoznaný text. Rozhodující je vždy originál: u každé strany
+        je odkaz na její sken na <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/">webu obce Vranov</a>.
     </div>
 
     <div class="container">

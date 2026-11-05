@@ -4,6 +4,10 @@ Automatický přepis ručně psané obecní kroniky obce Vranov pomocí Claude A
 
 Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://www.vranov.cz/obec/historie/kronika-obce-vranov/)
 
+**Přepis online:** [michalprouza.github.io/Vranov-kronika-OCR](https://michalprouza.github.io/Vranov-kronika-OCR/)
+(stránku sestavuje a publikuje workflow `.github/workflows/pages.yml` při každé změně
+`data/transcriptions.json` ve větvi `main`).
+
 **Kronika je přepsaná celá: všech 828 skenů ve 13 sekcích.** Přepis vznikl přímým
 čtením skenů (a jejich zvětšených výřezů) jazykovým modelem s vizí; zachovává
 dobový jazyk, řádky rukopisu, okrajové poznámky, popisy kreseb a razítek.
