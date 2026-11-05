@@ -13,6 +13,11 @@ nepřepsané úseky jsou v něm výslovně označeny.
 ([místa k ověření](docs/transcriptions/1930-1939-k-overeni.md)); jednotlivé strany
 jsou v `data/ocr_pages/section_03/`.
 
+Úplný přepis sekce **1970–1974** (37 skenů, strany 260–296) je v
+[docs/transcriptions/1970-1974.md](docs/transcriptions/1970-1974.md)
+([místa k ověření](docs/transcriptions/1970-1974-k-overeni.md)); jednotlivé strany
+jsou v `data/ocr_pages/section_09/`.
+
 Úplný přepis sekce **1980–1984** (76 skenů, strany 363–438) je v
 [docs/transcriptions/1980-1984.md](docs/transcriptions/1980-1984.md).
 Vznikl přímým čtením skenů; zachovává dobový jazyk a zahrnuje okrajové poznámky,
