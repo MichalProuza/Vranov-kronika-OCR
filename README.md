@@ -24,6 +24,11 @@ jsou v `data/ocr_pages/section_03/`.
 ([místa k ověření](docs/transcriptions/1975-1979-k-overeni.md)); jednotlivé strany
 jsou v `data/ocr_pages/section_10/`.
 
+Úplný přepis sekce **1965–1969** (17 skenů, strany 243–259) je v
+[docs/transcriptions/1965-1969.md](docs/transcriptions/1965-1969.md)
+([místa k ověření](docs/transcriptions/1965-1969-k-overeni.md)); jednotlivé strany
+jsou v `data/ocr_pages/section_08/`.
+
 Úplný přepis sekce **1970–1974** (37 skenů, strany 260–296) je v
 [docs/transcriptions/1970-1974.md](docs/transcriptions/1970-1974.md)
 ([místa k ověření](docs/transcriptions/1970-1974-k-overeni.md)); jednotlivé strany
