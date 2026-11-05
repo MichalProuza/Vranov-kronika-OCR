@@ -13,8 +13,8 @@ https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1970-1974-10cs.html
 Přepsáno přímým čtením skenů (≈610 × 1024 px) a jejich zvětšených výřezů,
 bez externího placeného OCR API. Pisatel píše „l“ podobně jako „t“
 („Hotešovský“ = Holešovský, „Buchtov“ = Buchlov); jména jsou zapsána
-v ustáleném tvaru, je-li doložen v jiných částech kroniky. Podpis kronikáře
-(str. 263 „N.“, 269, 288, 296) je čten jako [?Nedoma?].
+v ustáleném tvaru, je-li doložen v jiných částech kroniky. Kronikářem je
+Jaroslav Nedoma (podpisy na str. 263 „N.“, 269, 288, 296; potvrzeno v sekci 1980–1984).
 
 `[?slovo?]` označuje nejisté čtení, `[nečitelné]` nerozpoznaný text. Ostatní
 hranaté závorky jsou redakční popisy. Pravopis a rozpory v údajích nejsou
