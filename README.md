@@ -31,6 +31,11 @@ další chyby čtení možné.
 | 1985–1989 | 80 | 439–517 | [1985-1989.md](docs/transcriptions/1985-1989.md) | [seznam](docs/transcriptions/1985-1989-k-overeni.md) | `data/ocr_pages/section_12/` |
 | 1990–1993 | 68 | 518–584 + nečíslovaná | [1990-1993.md](docs/transcriptions/1990-1993.md) | — | `data/ocr_pages/section_13/` |
 
+Součástí stránky je **rejstřík příjmení** s vyhledáváním: abecední seznam
+osob, které kronika zmiňuje, s odkazy na strany (po kliknutí se jméno na
+stránce zvýrazní). Rejstřík se sestavuje automaticky z přepisu, viz
+[Rejstřík příjmení](#rejstřík-příjmení) níže.
+
 Všechny strany jsou také v `data/transcriptions.json`; HTML stránku s celým
 přepisem sestavíte příkazem `python 04_build_html.py --raw`
 (výstup `output/kronika_vranov.html`). Podrobnosti k jednotlivým sekcím (kronikáři,
@@ -120,9 +125,30 @@ python 04_build_html.py --with-thumbnails
 
 - `output/kronika_vranov.html` – kompletní přepis jako HTML stránka
 - Responzivní design, navigace po sekcích, tisk-friendly
+- Rejstřík příjmení s vyhledáváním (bez ohledu na diakritiku) a zvýrazněním jména na stránce
 - Nejistá slova označena oranžově, nečitelná červeně
 - Text zarovnaný do bloku (justify) – OCR řádkové zlomy se automaticky spojují do plynulého textu
 - Rozdělovníky na konci řádku se automaticky spojí (např. `Schön-` + `brunn` → `Schönbrunn`)
+
+## Rejstřík příjmení
+
+Rejstřík sestavuje `name_index.py` při každém spuštění `04_build_html.py`
+(není potřeba API ani žádný další krok). Příjmení se hledají heuristicky:
+
+1. slovo s velkým písmenem vedle křestního jména („Josef Skoupý“, „Skoupý Josef“,
+   „Fr. Kudla“, „J. Novák“) nebo za titulem („Ing. Nehyba“, „s. Puchar“, „pí Nečasová“),
+2. pak se dohledají všechny stránky, kde se kterýkoli tvar už známého příjmení
+   vyskytuje i samostatně („Holešovský řekl…“).
+
+Skloňované tvary a ženská příjmení se slučují pod jedno heslo
+(„Holešovský, Holešovská“ zahrnuje i „Holešovského“, „Holešovskou“…), stejně jako
+pravopisné varianty lišící se jen diakritikou (Svitil/Svítil). Hesla jsou řazena
+podle české abecedy (ch za h).
+
+Jde o strojovou pomůcku – některá jména mohou chybět a výjimečně se do rejstříku
+dostane i slovo, které příjmením není. Taková slova se vyřadí zapsáním do
+`data/rejstrik_vyjimky.txt` (vyřadí se i jejich ostatní tvary) a novým sestavením
+HTML.
 
 ## Resume podpora
 
@@ -142,9 +168,11 @@ Skript 05 při opakovaném spuštění detekuje existující uhlazené přepisy 
 ├── 03_ocr_transcribe.py    # OCR přepis (Claude API)
 ├── 04_build_html.py        # Sestaví HTML výstup
 ├── 05_polish_text.py       # Uhlazení textu (Claude API)
+├── name_index.py           # Rejstřík příjmení (používá 04_build_html.py)
 ├── data/
 │   ├── image_urls.json     # URL obrázků (generováno)
 │   ├── images/             # Stažené obrázky (generováno)
+│   ├── rejstrik_vyjimky.txt # Slova vyřazená z rejstříku příjmení
 │   ├── transcriptions.json # Surové OCR přepisy (generováno)
 │   └── transcriptions_polished.json # Uhlazené přepisy (generováno)
 └── output/

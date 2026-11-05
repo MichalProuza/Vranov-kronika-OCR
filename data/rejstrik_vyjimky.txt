@@ -1,0 +1,13 @@
+# Slova, která se do rejstříku příjmení dostala omylem (name_index.py).
+# Jedno nebo více slov na řádek, tvar přesně tak, jak stojí v textu.
+# Vyřadí se i ostatní tvary se stejným kmenem (např. „Celkem“ vyřadí i „Celková“).
+# Za znakem # je komentář.
+
+Celkem Celková          # „Celkem přítomno…“
+Otčím                   # příbuzenský vztah
+Matka Mamka
+Chepos Kovolit Adast Agitka Čedok Škoda   # podniky a organizace
+Colonel Maskér Univerzity Yorku Moravce Olivy Krušiny
+Údernou Uvízl Musel Rozebíral
+Hotulanupřednášeli      # chyba přepisu (slitá slova)
+Amose Jose Boleslavna Čovalné Dania Kardu Vetam Trnego
