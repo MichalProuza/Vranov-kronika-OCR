@@ -1,30 +1,27 @@
-# Pracovní přepisy skenů 32–41
+# Rok 1920–1929 — úplný přepis galerie
 
-Deset prvních skenů sekce **Rok 1920–1929**, číslované strany kroniky
-27–36 (zápisy z let 1920–1924). Přepsáno přímo z obrazů dne 20. 10. 2026,
-bez volání Anthropic API a bez následného jazykového uhlazení. Všech deset
-stránek bylo následně znovu porovnáno po řádcích se skeny; sporné pasáže,
-jména a čísla byly kontrolovány na samostatných zvětšených výřezech.
+Přepis všech 38 skenů veřejné galerie obce Vranov:
+https://www.vranov.cz/obec/historie/kronika-obce-vranov/rok-1920-1929-3cs.html
 
-Zdroj každé stránky: `https://www.vranov.cz/evt_image.php?img=ID`.
-Stažené obrazy jsou v ignorovaném adresáři `data/images/section_02/`.
-Poskytnuté skeny mají výšku 1024 pixelů; zvětšené výřezy byly použity pro čtení.
+- Obrazová ID 32–69, číslované strany kroniky 27–63 (roky 1920–1929).
+- Kronikář Metoděj Drexler (kurzíva, inkoust).
+- Kronikář použil číslo strany 39 dvakrát (skeny 13 a 14); od skenu 14 jsou
+  tedy čísla o jednu nižší, než by odpovídalo pořadí.
+- Poslední sken (ID 69, strana 63) je totožný obrázek jako první sken galerie
+  1930–1939 (ID 70). Obec stranu zveřejnila v obou galeriích; přepis vznikl
+  v obou sekcích nezávisle a drobné rozdíly ve čtení ukazují nejistá místa.
 
-**Jde o pracovní, neověřené přepisy.** Obsahují mnoho nejistých čtení,
-zejména na straně 27 (sken 32). Pro spolehlivé citování je nutná kontrola
-podle originálu nebo kvalitnějšího skenu. Nejasná slova a delší pasáže jsou
-označeny `[?odhad?]`, nerozpoznané úseky `[nečitelné]`. Poznámky přepisujícího
-a okrajové poznámky jsou v hranatých závorkách. Zlomky a některé číselné údaje
-rovněž vyžadují kontrolu. Řádky odpovídají skenům; slova rozdělená na konci
-řádku se při sestavení HTML spojují. Text pokračující mezi stránkami zůstává
-rozdělen. Nejisté úseky označené `[?…?]` nejsou potvrzeným čtením ani po revizi.
+Skeny 1–10 (strany 27–36) byly přepsány 20. 10. 2026 jako pracovní verze
+a následně revidovány po řádcích; skeny 11–38 byly přepsány 5. 11. 2026.
+Vše přímým čtením skenů (≈610 × 1024 px) a jejich zvětšených výřezů, bez
+externího placeného OCR API. Řádky odpovídají řádkům rukopisu; slova dělená
+na konci řádku se při sestavení HTML spojují.
 
-Na straně 36 byly rozpočtové částky ponechány podle čtení skenu, přestože
-zmínka o schodku s uvedenými příjmy a výdaji početně nesouhlasí. Text nebyl
-opravován dopočítáváním ani podle očekávaného historického vývoje.
+`[?slovo?]` označuje nejisté čtení, `[nečitelné]` nerozpoznaný text. Ostatní
+hranaté závorky jsou redakční popisy (razítka, okrajové poznámky). Pravopis,
+data a částky nejsou opravovány ani dopočítávány. Nejde o kritickou edici;
+přepis obsahuje řadu nejistých míst, zejména u vlastních jmen.
 
-Jednotlivé soubory používají formát `page_NNN_idID.txt` podporovaný skriptem
-`06_merge_page_texts.py`; stejné texty jsou přidané v `data/transcriptions.json`.
-Při této aktualizaci bylo přidáno pouze těchto deset záznamů, původní záznamy
-zůstaly zachovány. Pro zobrazení použijte `python 04_build_html.py`;
-samostatný ukázkový web v `vranov-kronika-ocr-web/` obsahuje původních pět stran.
+Přepisy jsou také v sekci `Rok 1920–1929` v `data/transcriptions.json`.
+Souvislý přepis s odkazy na skeny je v `docs/transcriptions/1920-1929.md`,
+seznam míst k ověření v `docs/transcriptions/1920-1929-k-overeni.md`.
