@@ -67,6 +67,8 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
 - S `--raw` použije pouze surové OCR přepisy
 - Struktura: navigace po sekcích, jednotlivé stránky s přepisem
 - Volitelně: vedle přepisu zobrazí i miniaturu originálu
+- Na konec stránky přidá rejstřík příjmení s vyhledáváním (`name_index.py`);
+  omylem zařazená slova se vyřazují v `data/rejstrik_vyjimky.txt`
 
 ## Důležité poznámky
 
