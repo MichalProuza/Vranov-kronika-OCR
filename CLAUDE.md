@@ -69,6 +69,10 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
 - Volitelně: vedle přepisu zobrazí i miniaturu originálu
 - Na konec stránky přidá rejstřík příjmení s vyhledáváním (`name_index.py`);
   omylem zařazená slova se vyřazují v `data/rejstrik_vyjimky.txt`
+- Dále rejstřík míst a rejstřík domů (`place_index.py`): místa podle ručního
+  seznamu `data/rejstrik_mist.txt` (chybějící kandidáty vypíše
+  `python place_index.py --kandidati`), domy podle „č. 35“ / „č. p. 35“
+  s úryvkem okolního textu
 
 ## Důležité poznámky
 

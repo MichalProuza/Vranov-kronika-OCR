@@ -10,7 +10,9 @@ on:
       - "data/transcriptions.json"
       - "04_build_html.py"
       - "name_index.py"
+      - "place_index.py"
       - "data/rejstrik_vyjimky.txt"
+      - "data/rejstrik_mist.txt"
       - "config.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:

@@ -17,6 +17,7 @@ import re
 
 from config import OUTPUT_HTML, POLISHED_FILE, SECTIONS, TRANSCRIPTIONS_FILE
 from name_index import build_index
+from place_index import build_house_index, build_place_index
 
 
 def slugify(text: str) -> str:
@@ -112,10 +113,11 @@ def _index_letter(heading: str) -> str:
     return _LETTER_BASE.get(first, first)
 
 
-def build_name_index_html(transcriptions: dict) -> tuple[str, int]:
-    """Build the surname index section. Returns (html, number of surnames)."""
+def _collect_pages(transcriptions: dict) -> tuple[list[dict], dict]:
+    """All pages in chronicle order and their metadata for index links.
+    meta: img_id -> (section order, section label, page label, year)."""
     pages = []
-    meta = {}  # img_id -> (section order, section label, page label, year)
+    meta = {}
     for order, section in enumerate(SECTIONS):
         name = section["name"]
         short = SECTION_SHORT.sub("", name)
@@ -125,57 +127,149 @@ def build_name_index_html(transcriptions: dict) -> tuple[str, int]:
             number, year, _ = split_page_header(text)
             meta[img_id] = (order, short, number or f"sken {img_id}", year)
             pages.append({"id": img_id, "text": text})
+    return pages, meta
 
+
+def _page_title(meta: dict, pid) -> str:
+    _, short, number, year = meta[pid]
+    return f"{short}, strana {number}" + (f" ({year})" if year else "")
+
+
+def _page_links(page_ids, meta: dict) -> str:
+    """Page links grouped by chronicle section: „1920–1929: 12 14 15“."""
+    parts, current = [], None
+    for pid in sorted(page_ids, key=lambda i: (meta[i][0], i)):
+        _, short, number, _ = meta[pid]
+        if short != current:
+            if current is not None:
+                parts.append("</span>")
+            parts.append(f'<span class="ni-sec"><span class="ni-sec-name">{html.escape(short)}:</span> ')
+            current = short
+        parts.append(f'<a href="#page-{pid}" title="{html.escape(_page_title(meta, pid))}">{html.escape(number)}</a> ')
+    parts.append("</span>")
+    return "".join(parts)
+
+
+def _plural(n: int, one: str, few: str, many: str) -> str:
+    return f"{n} {one if n == 1 else few if 2 <= n <= 4 else many}"
+
+
+def _pages_count(n: int) -> str:
+    return _plural(n, "strana", "strany", "stran")
+
+
+def _index_entry(heading: str, count: str, search_terms, forms, body: str) -> str:
+    search = " ".join(dict.fromkeys(t for t in search_terms if t))
+    return (f'<li class="ni-entry" data-search="{html.escape(search)}" data-forms="{html.escape("|".join(forms))}">'
+            f'<details><summary><span class="ni-name">{html.escape(heading)}</span> '
+            f'<span class="ni-count">{html.escape(count)}</span></summary>'
+            f'<div class="ni-pages">{body}</div></details></li>')
+
+
+def _index_section(section_id: str, prefix: str, title: str, intro: str, placeholder: str,
+                   total_label: str, groups: list[tuple[str, str, list[str]]]) -> str:
+    """groups: (short label for the jump bar, group heading, entry html list)."""
+    jump_bar = " ".join(f'<a href="#{prefix}-{i}">{html.escape(label)}</a>' for i, (label, _, _) in enumerate(groups))
+    blocks = "\n".join(
+        f'<div class="ni-group" id="{prefix}-{i}"><h3>{html.escape(heading)}</h3><ul>{"".join(entries)}</ul></div>'
+        for i, (_, heading, entries) in enumerate(groups)
+    )
+    return f'''
+        <section id="{section_id}" class="chronicle-section name-index" data-total="{html.escape(total_label)}">
+            <h2>{html.escape(title)}</h2>
+            <p class="ni-intro">{intro}</p>
+            <div class="ni-tools">
+                <input type="search" class="ni-search" placeholder="{html.escape(placeholder)}" autocomplete="off" aria-label="{html.escape(placeholder)}">
+                <span class="ni-status">{html.escape(total_label)}</span>
+            </div>
+            <nav class="ni-letters" aria-label="Skupiny rejstříku">{jump_bar}</nav>
+            <div class="ni-list">{blocks}</div>
+            <p class="ni-empty empty" hidden>Nic neodpovídá hledání. Zkuste jiný tvar nebo hledejte v celém textu (Ctrl+F).</p>
+        </section>'''
+
+
+def build_name_index_html(pages: list[dict], meta: dict) -> tuple[str, int]:
+    """Build the surname index section. Returns (html, number of surnames)."""
     surnames = build_index(pages)
 
     groups: dict[str, list[str]] = {}
     for s in surnames:
-        page_ids = sorted(s.pages, key=lambda i: (meta[i][0], i))
-        parts, current = [], None
-        for pid in page_ids:
-            order, short, number, year = meta[pid]
-            if short != current:
-                if current is not None:
-                    parts.append("</span>")
-                parts.append(f'<span class="ni-sec"><span class="ni-sec-name">{html.escape(short)}:</span> ')
-                current = short
-            title = f"{short}, strana {number}" + (f" ({year})" if year else "")
-            parts.append(f'<a href="#page-{pid}" title="{html.escape(title)}">{html.escape(number)}</a> ')
-        parts.append("</span>")
-        n = len(page_ids)
-        count = f"{n} {'strana' if n == 1 else 'strany' if 2 <= n <= 4 else 'stran'}"
         forms = sorted(s.forms, key=len, reverse=True)
-        search = " ".join(dict.fromkeys(_fold_js(f) for f in [*s.heading.split(", "), *forms]))
+        search = [_fold_js(f) for f in [*s.heading.split(", "), *forms]]
         groups.setdefault(_index_letter(s.heading), []).append(
-            f'<li class="ni-entry" data-search="{html.escape(search)}" data-forms="{html.escape("|".join(forms))}">'
-            f'<details><summary><span class="ni-name">{html.escape(s.heading)}</span> '
-            f'<span class="ni-count">{count}</span></summary>'
-            f'<div class="ni-pages">{"".join(parts)}</div></details></li>'
-        )
+            _index_entry(s.heading, _pages_count(len(s.pages)), search, forms, _page_links(s.pages, meta)))
 
     letters = [c for c in INDEX_ALPHABET if c in groups] + [c for c in groups if c not in INDEX_ALPHABET]
-    letter_bar = " ".join(f'<a href="#ni-{html.escape(c)}">{html.escape(c)}</a>' for c in letters)
-    blocks = "\n".join(
-        f'<div class="ni-group" id="ni-{html.escape(c)}"><h3>{html.escape(c)}</h3>'
-        f'<ul>{"".join(groups[c])}</ul></div>'
-        for c in letters
-    )
-    section_html = f'''
-        <section id="rejstrik" class="chronicle-section name-index">
-            <h2>Rejstřík příjmení</h2>
-            <p class="ni-intro">Abecední seznam příjmení, která se v přepisu kroniky vyskytují, s odkazy na strany.
-            Skloňované tvary a ženská příjmení jsou sloučeny pod jedno heslo (Holešovský, Holešovského, Holešovská…).
-            Rejstřík je sestaven strojově z přepisu – některá jména mohou chybět nebo být zkomolená stejně jako v přepisu;
-            pro jistotu hledejte i v celém textu (Ctrl+F). Po kliknutí na číslo strany se jméno na stránce zvýrazní.</p>
-            <div class="ni-tools">
-                <input type="search" id="ni-search" placeholder="Hledat příjmení, např. Skoupý" autocomplete="off" aria-label="Hledat příjmení">
-                <span id="ni-status" class="ni-status">{len(surnames)} příjmení</span>
-            </div>
-            <nav class="ni-letters" aria-label="Písmena rejstříku">{letter_bar}</nav>
-            <div id="ni-list">{blocks}</div>
-            <p id="ni-empty" class="empty" hidden>Žádné příjmení neodpovídá hledání. Zkuste jiný tvar nebo hledejte v celém textu (Ctrl+F).</p>
-        </section>'''
+    intro = ('Abecední seznam příjmení, která se v přepisu kroniky vyskytují, s odkazy na strany. '
+             'Skloňované tvary a ženská příjmení jsou sloučeny pod jedno heslo (Holešovský, Holešovského, Holešovská…). '
+             'Rejstřík je sestaven strojově z přepisu – některá jména mohou chybět nebo být zkomolená stejně jako v přepisu; '
+             'pro jistotu hledejte i v celém textu (Ctrl+F). Po kliknutí na číslo strany se jméno na stránce zvýrazní.')
+    section_html = _index_section(
+        "rejstrik", "ni", "Rejstřík příjmení", intro, "Hledat příjmení, např. Skoupý",
+        _plural(len(surnames), "příjmení", "příjmení", "příjmení"),
+        [(c, c, groups[c]) for c in letters])
     return section_html, len(surnames)
+
+
+def build_place_index_html(pages: list[dict], meta: dict) -> tuple[str, int]:
+    """Build the place index section. Returns (html, number of places)."""
+    place_groups = build_place_index(pages)
+    groups = []
+    total = 0
+    for group, places in place_groups.items():
+        entries = []
+        for p in places:
+            forms = sorted(p.forms, key=len, reverse=True)
+            search = [_fold_js(w) for w in re.split(r"[\s(),]+", p.heading)] + [_fold_js(f) for f in forms]
+            entries.append(_index_entry(p.heading, _pages_count(len(p.pages)), search, forms,
+                                        _page_links(p.pages, meta)))
+        total += len(entries)
+        groups.append((group.split(" – ")[0], group, entries))
+    intro = ('Obce, části Vranova, pomístní názvy, budovy, země a řeky zmíněné v kronice, s odkazy na strany. '
+             'Rejstřík vychází z ručně sestaveného seznamu míst a jejich tvarů (soubor <code>data/rejstrik_mist.txt</code> '
+             'v repozitáři projektu), který lze doplňovat. Místo zapsané v přepisu zkomoleně se nenajde – '
+             'hledejte i v celém textu (Ctrl+F). Po kliknutí na číslo strany se místo na stránce zvýrazní.')
+    section_html = _index_section(
+        "rejstrik-mist", "nm", "Rejstřík míst", intro, "Hledat místo, např. Babí lom",
+        _plural(total, "místo", "místa", "míst"), groups)
+    return section_html, total
+
+
+HOUSE_GROUP_SIZE = 50
+
+
+def build_house_index_html(pages: list[dict], meta: dict) -> tuple[str, int]:
+    """Build the house-number index section. Returns (html, number of houses)."""
+    houses = build_house_index(pages)
+    groups: dict[int, list[str]] = {}
+    for h in houses:
+        items = []
+        for m in sorted(h.mentions, key=lambda m: (meta[m.page_id][0], m.page_id)):
+            before, hit, after = (html.escape(x) for x in m.snippet)
+            _, short, number, year = meta[m.page_id]
+            label = f"{short}, s.\u00a0{number}" + (f" ({year})" if year else "")
+            items.append(f'<li><a href="#page-{m.page_id}" title="{html.escape(_page_title(meta, m.page_id))}">'
+                         f'{html.escape(label)}</a> {before}<b>{hit}</b>{after}</li>')
+        words = {_fold_js(w) for m in h.mentions for w in re.findall(r"\w{3,}", m.snippet[0] + " " + m.snippet[2])
+                 if not w.isdigit()}
+        forms = sorted({m.form for m in h.mentions}, key=len, reverse=True)
+        n = len(h.mentions)
+        count = _plural(n, "zmínka", "zmínky", "zmínek")
+        groups.setdefault((h.number - 1) // HOUSE_GROUP_SIZE, []).append(
+            _index_entry(f"č. {h.number}", count, [str(h.number), *sorted(words)], forms,
+                         f'<ul class="nd-mentions">{"".join(items)}</ul>'))
+    group_list = []
+    for g in sorted(groups):
+        lo, hi = g * HOUSE_GROUP_SIZE + 1, (g + 1) * HOUSE_GROUP_SIZE
+        group_list.append((f"{lo}–{hi}", f"Čísla {lo}–{hi}", groups[g]))
+    intro = ('Čísla domů (popisná čísla) zmíněná v kronice – „č. 35“, „č. p. 35“ – s úryvkem textu, '
+             'takže je vidět, kdo v domě bydlel nebo co se v něm stalo. Hledat lze číslo domu i jméno z úryvku '
+             '(např. Holešovský). Rejstřík je sestaven strojově: číslo stojí u domů ve Vranově i v okolních obcích '
+             '(z úryvku je obvykle poznat, o kterou jde) a výjimečně může jít o jiné číslo než popisné.')
+    section_html = _index_section(
+        "rejstrik-domu", "nd", "Rejstřík domů", intro, "Hledat číslo domu nebo jméno, např. 35",
+        _plural(len(houses), "dům", "domy", "domů"), group_list)
+    return section_html, len(houses)
 
 
 def _fold_js(s: str) -> str:
@@ -196,7 +290,10 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
         nav_items.append(f'<a href="#{slug}" class="nav-item">{html.escape(name)}<span class="count">{status}</span></a>')
 
     nav_html = "\n".join(nav_items)
-    index_html, surname_count = build_name_index_html(transcriptions)
+    index_pages, index_meta = _collect_pages(transcriptions)
+    index_html, surname_count = build_name_index_html(index_pages, index_meta)
+    place_html, place_count = build_place_index_html(index_pages, index_meta)
+    house_html, house_count = build_house_index_html(index_pages, index_meta)
 
     # Content sections
     content_sections = []
@@ -255,7 +352,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
             {"".join(pages_html)}
         </section>''')
 
-    content_sections.append(index_html)
+    content_sections += [index_html, place_html, house_html]
     content_html = "\n".join(content_sections)
 
     # Stats
@@ -492,13 +589,15 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
             text-align: center;
         }}
 
-        /* --- Rejstřík příjmení --- */
+        /* --- Rejstříky (příjmení, místa, domy) --- */
+        .nav-indexes {{
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+        }}
         .nav-index {{
             font-weight: 600;
             color: var(--color-accent);
-            border-bottom: 1px solid var(--color-border);
-            margin-bottom: 1rem;
-            padding-bottom: 0.9rem;
         }}
         .ni-intro {{
             font-family: var(--font-ui);
@@ -518,7 +617,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
             padding: 0.6rem 0;
             z-index: 2;
         }}
-        #ni-search {{
+        .ni-search {{
             flex: 1;
             min-width: 0;
             font: inherit;
@@ -530,7 +629,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
             background: var(--color-paper);
             color: var(--color-text);
         }}
-        #ni-search:focus {{ outline: 2px solid var(--color-accent); outline-offset: 1px; }}
+        .ni-search:focus {{ outline: 2px solid var(--color-accent); outline-offset: 1px; }}
         .ni-status {{
             font-family: var(--font-ui);
             font-size: 0.85rem;
@@ -592,6 +691,19 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
             border-radius: 2px;
             padding: 0 0.1em;
         }}
+        .nd-mentions {{
+            list-style: none;
+            padding-left: 0;
+        }}
+        .nd-mentions li {{
+            padding: 0.25rem 0;
+            line-height: 1.5;
+            color: var(--color-text-light);
+        }}
+        .nd-mentions li + li {{ border-top: 1px dotted var(--color-border); }}
+        .nd-mentions a {{ font-weight: 600; padding: 0 0.3em 0 0; }}
+        .nd-mentions b {{ color: var(--color-text); }}
+        .ni-intro code {{ font-size: 0.85em; }}
         .page.ni-target {{ box-shadow: 0 0 0 2px var(--color-accent-light); }}
         #ni-back {{
             position: fixed;
@@ -647,7 +759,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
     <div class="header">
         <h1>Kronika obce Vranov</h1>
         <p class="subtitle">Přepis ručně psané obecní kroniky</p>
-        <p class="stats">Přepsáno {total_pages} stránek · {total_chars_fmt} znaků · <a href="#rejstrik" style="color: inherit;">rejstřík příjmení</a> · Zdroj: <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/" style="color: inherit;">vranov.cz</a></p>
+        <p class="stats">Přepsáno {total_pages} stránek · {total_chars_fmt} znaků · rejstřík <a href="#rejstrik" style="color: inherit;">příjmení</a>, <a href="#rejstrik-mist" style="color: inherit;">míst</a> a <a href="#rejstrik-domu" style="color: inherit;">domů</a> · Zdroj: <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/" style="color: inherit;">vranov.cz</a></p>
     </div>
 
     <div class="notice">
@@ -660,7 +772,11 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
 
     <div class="container">
         <nav class="sidebar">
-            <a href="#rejstrik" class="nav-item nav-index">Rejstřík příjmení<span class="count">({surname_count} příjmení)</span></a>
+            <div class="nav-indexes">
+                <a href="#rejstrik" class="nav-item nav-index">Rejstřík příjmení<span class="count">({surname_count} příjmení)</span></a>
+                <a href="#rejstrik-mist" class="nav-item nav-index">Rejstřík míst<span class="count">({place_count} míst)</span></a>
+                <a href="#rejstrik-domu" class="nav-item nav-index">Rejstřík domů<span class="count">({house_count} čísel domů)</span></a>
+            </div>
             <h3>Obsah kroniky</h3>
             {nav_html}
         </nav>
@@ -687,32 +803,38 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
             }});
         }});
 
-        // --- Rejstřík příjmení ---
+        // --- Rejstříky: příjmení, místa, domy ---
         (function () {{
             const foldText = s => s.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
-            const input = document.getElementById('ni-search');
-            const status = document.getElementById('ni-status');
-            const empty = document.getElementById('ni-empty');
-            const entries = Array.from(document.querySelectorAll('.ni-entry'));
-            const groups = Array.from(document.querySelectorAll('.ni-group'));
-            const keys = entries.map(li => li.dataset.search.split(' '));
-            const total = entries.length;
+            document.querySelectorAll('section.name-index').forEach(section => {{
+                const input = section.querySelector('.ni-search');
+                const status = section.querySelector('.ni-status');
+                const empty = section.querySelector('.ni-empty');
+                const entries = Array.from(section.querySelectorAll('.ni-entry'));
+                const groups = Array.from(section.querySelectorAll('.ni-group'));
+                const keys = entries.map(li => li.dataset.search.split(' '));
+                const total = entries.length;
 
-            function filter() {{
-                const q = foldText(input.value.trim());
-                let shown = 0;
-                entries.forEach((li, i) => {{
-                    const hit = !q || keys[i].some(k => k.startsWith(q)) || (q.length >= 3 && keys[i].some(k => k.includes(q)));
-                    li.hidden = !hit;
-                    if (hit) shown++;
-                }});
-                groups.forEach(g => {{ g.hidden = !g.querySelector('.ni-entry:not([hidden])'); }});
-                const open = q && shown <= 5;
-                entries.forEach(li => {{ if (!li.hidden) li.querySelector('details').open = open; }});
-                status.textContent = q ? `nalezeno ${{shown}} z ${{total}}` : `${{total}} příjmení`;
-                empty.hidden = shown > 0;
-            }}
-            input.addEventListener('input', filter);
+                function filter() {{
+                    const q = foldText(input.value.trim()).replace(/^c\\.\\s*(p\\.\\s*)?/, '');
+                    const numeric = /^\\d+$/.test(q);
+                    let shown = 0;
+                    entries.forEach((li, i) => {{
+                        const k = keys[i];
+                        // číslo domu hledej přesně (35 nenajde 135), slova i uprostřed
+                        const hit = !q || (numeric ? k[0] === q
+                            : k.some(w => w.startsWith(q)) || (q.length >= 3 && k.some(w => w.includes(q))));
+                        li.hidden = !hit;
+                        if (hit) shown++;
+                    }});
+                    groups.forEach(g => {{ g.hidden = !g.querySelector('.ni-entry:not([hidden])'); }});
+                    const open = q && shown <= 5;
+                    entries.forEach(li => {{ if (!li.hidden) li.querySelector('details').open = open; }});
+                    status.textContent = q ? `nalezeno ${{shown}} z ${{total}}` : section.dataset.total;
+                    empty.hidden = shown > 0;
+                }}
+                input.addEventListener('input', filter);
+            }});
 
             // Zvýraznění jména na cílové stránce
             const back = document.getElementById('ni-back');
@@ -722,8 +844,8 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False) -> str:
                 document.querySelectorAll('.page.ni-target').forEach(p => p.classList.remove('ni-target'));
             }}
             function highlight(page, forms) {{
-                const escaped = forms.map(f => f.replace(/[.*+?^${{}}()|[\\]\\\\]/g, '\\\\$&'));
-                const re = new RegExp(`(^|[^\\p{{L}}])(${{escaped.join('|')}})(?![\\p{{L}}])`, 'gu');
+                const escaped = forms.map(f => f.replace(/[.*+?^${{}}()|[\\]\\\\]/g, '\\\\$&').replace(/\\s+/g, '\\\\s*'));
+                const re = new RegExp(`(^|[^\\p{{L}}\\d])(${{escaped.join('|')}})(?![\\p{{L}}\\d])`, 'gu');
                 const walker = document.createTreeWalker(page.querySelector('.transcription'), NodeFilter.SHOW_TEXT);
                 const nodes = [];
                 while (walker.nextNode()) nodes.push(walker.currentNode);
