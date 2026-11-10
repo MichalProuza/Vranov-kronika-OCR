@@ -1,0 +1,182 @@
+# Seznam míst pro rejstřík míst (place_index.py).
+#
+# Řádek „[Název skupiny]“ zahajuje skupinu rejstříku. Každé další heslo:
+#
+#     Heslo: tvar, tvar, tvar
+#
+# Tvar je slovo nebo několik slov přesně tak, jak stojí v textu (záleží na
+# velikosti písmen). Hvězdička na konci slova zastoupí libovolnou koncovku:
+# „Adamov*“ najde Adamov, Adamova, Adamově i Adamovský. U slov, která mohou
+# znamenat i něco jiného (Kateřina – jméno i místo, Žižkova smrt), je lepší
+# vypsat tvary s předložkou („do Kateřiny“, „ze Žižkova“).
+#
+# Skupina [Nezařazovat] se v rejstříku nezobrazí: její tvary jen „spotřebují“
+# text, aby se nezapočítal jinam (např. „Vranov u Brna“ není zmínka o Brně).
+# Za znakem # je komentář.
+
+[Vranov – části obce a pomístní názvy]
+Babí lom: Bab* lom*, Bab* Lom*, Babílom*
+Bába: pod Bábou, nad Bábou, za Bábou, na Bábu, na Bábě, k Bábě
+Blatiny: Blatin*
+Březina: Březina, Březiny, Březině, Březinu, Březinou
+Čermákova studánka: Čermákov* studánk*, Čermákov* Studánk*
+Čertova zmola (Čertova rokle, Čerták): Čertov* zmol*, Čertov* mnol*, Čertov* rokl*, Čertův žleb*, Čerták*
+Coufavá (Čofavá): Coufav*, Čofav*
+Hatě: v Hatově, v Hatové
+Jelení skok: Jelen* skok*, Jelen* Skok*
+Jezírko: Jezírk*
+Katov: Katov, Katově, Katovou, v Katovém
+Kolonáda: Kolonád*
+Kozlovec: Kozlovc*, Kozlovec
+Krutí: Krutí
+Křížková: na Křížkové, na Křížkově, Křížkovy ulice
+Lupí: Lupí
+Kůty: Kůty, Kůtech, Kútech
+Lištová rokle: Lištov* rokl*
+Mokrá Hora: Mokr* Hor*, Mokr* hor*
+Na Čalounce: Čalounk*
+Podlesí: Podlesí
+Skalní sklep: Skaln* sklep*, Skaln* Sklep*
+Strouhanec: Strouhan*
+Svatá Kateřina: Sv. Kateřin*, Sv. Kateři, Svat* Kateřin*, do Kateřiny, u Kateřiny, od Kateřiny, z Kateřiny, ke Kateřině, ku Kateřině, na Kateřině, na Kateřinu, v Kateřině, Kateřinsk*
+Turistická chata (Turisťák): Turisťák*, Turistick* chat*
+Vranovský žleb: Vranovsk* žleb*, Vranovsk* Žleb*, Ve žlebě, ve žlebě
+Žluty: v Žlutech, ve Žlutech
+Žižkov: Žižkov, Žižkově, Žižkovem, Žižkovu, ze Žižkova, do Žižkova, od Žižkova, u Žižkova, na Žižkova, Žižkovsk*
+
+[Budovy a stavby ve Vranově]
+Dětský domov: Dětsk* domov*, dětsk* domov*, Dětsk* Domov*
+Fara: fara, fary, faře, faru, farou, Fara, Fary, Faře, Faru
+Hájenka: hájenk*, Hájenk*
+Hotel (Skřivánek): hotel, hotelu, hotelem, hotele, hotell*, Hotel, Hotelu, Hotelem, Hotell*, hotela
+Hřbitov: hřbitov, hřbitova, hřbitově, hřbitovu, hřbitovem, Hřbitov, Hřbitova, Hřbitově
+Hrobka Lichtenštejnů: hrobk*, Hrobk*
+Klášter: klášter*, Klášter*
+Kulturní dům: kulturní* dom*, Kulturní* dom*, Kulturní* Dom*
+Myslivna: myslivn*, Myslivn*
+Sokolovna: sokolovn*, Sokolovn*
+
+[Obce a města v okolí]
+Adamov: Adamov, Adamova, Adamově, Adamovem, Adamovu, Adamovsk*
+Babice nad Svitavou: Babice, Babic, Babicích, Babicím
+Bílovice nad Svitavou: Bílovice, Bílovic, Bílovicích, Bílovicím, Bílovick*
+Blansko: Blansko, Blanska, Blansku, Blanskem, Blanensk*
+Bohunice: Bohunice, Bohunic, Bohunicích
+Bořice: Bořice, Bořic, Bořicích
+Boskovice: Boskovice, Boskovic, Boskovicích
+Brno: Brno, Brna, Brně, Brnu, Brnem, Brněnsk*
+Bystrc: Bystrc, Bystrce, Bystrci
+Česká: v České, ve České, z České, ze České, do České, k České, ku České, u České, od České
+Drásov: Drásov, Drásova, Drásově
+Husovice: Husovice, Husovic, Husovicích
+Hynice: Hynice, Hynic
+Ivanovice: Ivanovice, Ivanovic, Ivanovicích
+Jedovnice: Jedovnice, Jedovnic, Jedovnicích
+Jehnice: Jehnice, Jehnic, Jehnicích, Jehnicím, Jehnici
+Kanice: Kanice, Kanic, Kanicích
+Komárov: Komárov, Komárova, Komárově
+Královo Pole: Královo Pole, Králova Pole, Králově Poli, Královopolsk*
+Křtiny: Křtiny, Křtin, Křtinách
+Josefov (u Adamova): Josefov, Josefově, k Josefovu, do Josefova, z Josefova
+Kunštát: Kunštát, Kunštátu, Kunštátě
+Kuřim: Kuřim, Kuřimi, Kuřimě, Kuřima, Kuřimy, Kuřimsk*
+Lelekovice: Lelekovice, Lelekovic, Lelekovicích, Lelekovicím, Lelekovicemi, Lelekovsk*, Lelekovick*
+Letovice: Letovice, Letovic, Letovicích
+Lipůvka: Lipůvka, Lipůvky, Lipůvce, Lipůvku
+Líšeň: Líšeň, Líšně, Líšni, Lišni
+Lednice: Lednice, Lednici
+Lomnice: Lomnice, Lomnici
+Lysice: Lysice, Lysic, Lysicích
+Medlánky: Medlánky, Medlánek, Medlánkách
+Milonice: Milonice, Milonic, Milonicích
+Modřice: Modřice, Modřic, Modřicích
+Nedvědice: Nedvědice, Nedvědici, Nedvědicích
+Ochoz: Ochoz, Ochozi, Ochoze
+Ořešín: Ořešín, Ořešína, Ořešíně, Ořešínu
+Pisárky: Pisárky, Pisárek, Písárek, Pisárkách
+Rájec: Rájec, Rájce, Rájci
+Řečkovice: Řečkovice, Řečkovic, Řečkovicích, Řečkovicím
+Skalička: Skalička, Skaličky, Skaličce, Skaličku, Skalickou
+Řícmanice: Řícmanice, Řícmanic, Řícmanicích
+Rosice: Rosice, Rosic, Rosicích
+Slatina: Slatina, Slatině, Slatiny
+Sloup: ve Sloupu, do Sloupu, do Sloupa, u Sloupa, ze Sloupa, ve Sloupě
+Soběšice: Soběšice, Soběšic, Soběšicích, Soběšicím, Soběšicemi
+Sokolnice: Sokolnice, Sokolnic, Sokolnicích
+Střelice: Střelice, Střelic, Střelicích
+Svinošice: Svinošice, Svinošic, Svinošicích
+Šebrov: Šebrov, Šebrova, Šebrově, Šebrovem, Šebrovu, Šebrovsk*
+Šlapanice: Šlapanice, Šlapanic, Šlapanicích
+Tišnov: Tišnov, Tišnova, Tišnově, Tišňově, Tišnovem, Tišnovsk*
+Útěchov: Útěchov, Útěchova, Útěchově, Útěchovem, Útěchovu, Útěchovsk*, Oustěchov*
+Veverská Bítýška: Veversk* Bítýšk*
+Vyškov: Vyškov, Vyškova, Vyškově
+Žabovřesky: Žabovřesky, Žabovřesk, Žabovřeskách
+Židenice: Židenice, Židenic, Židenicích
+
+[Další města v Československu]
+Bratislava: Bratislava, Bratislavy, Bratislavě, Bratislavu
+Gottwaldov (Zlín): Gottwaldov, Gottwaldova, Gottwaldově, Zlín, Zlína, Zlíně
+Chomutov: Chomutov, Chomutova, Chomutově
+Nitra: Nitra, Nitry, Nitře
+Olomouc: Olomouc, Olomouce, Olomouci
+Ostrava: Ostrava, Ostravy, Ostravě, Ostravu
+Praha: Praha, Prahy, Praze, Prahu, Prahou, Pražsk*
+Prostějov: Prostějov, Prostějova, Prostějově
+Ružomberok: Ružomberok, Ružomberoku
+Slavkov: Slavkov, Slavkova, Slavkově
+Těšín: Těšín, Těšína, Těšíně
+Znojmo: Znojmo, Znojma, Znojmě
+
+[Města v cizině]
+Berlín: Berlín, Berlína, Berlíně
+Budapešť: Budapešť, Budapešti, Budapeště
+Káhira: Káhira, Káhiře, Kahiry, Káhiry
+Kyjev: Kijev, Kijevě, Kyjev, Kyjevě, Kyjeva
+Mnichov: Mnichov, Mnichova, Mnichově
+Moskva: Moskva, Moskvy, Moskvě, Moskvu
+Paříž: Paříž, Paříži, Paříže
+Řím: Řím, Říma, Římě
+Vladivostok: Vladivostok, Vladivostoku
+Varšava: Varšava, Varšavy, Varšavě
+Vídeň: Vídeň, Vídně, Vídni, Vídeňsk*
+
+[Země a krajiny]
+Amerika (USA): Amerika, Ameriky, Americe, Ameriku, Amerikou, USA
+Afrika: Afrika, Afriky, Africe, Afriku, Afrikou
+Anglie: Anglie, Anglii
+Bulharsko: Bulharsko, Bulharska, Bulharsku
+Dukla (Dukelský průsmyk): Dukla, Dukly, Dukle, Duklu
+Čechy: Čechy, Čechách, z Čech, do Čech, ze Čech
+Egypt: Egypt, Egypta, Egyptě
+Francie: Francie, Francii
+Haná: Haná, Hané, Hanou
+Itálie: Itálie, Italie, Itálii, Italii
+Jugoslávie: Jugoslávie, Jugoslavie, Jugoslávii, Jugoslavii
+Korea: Korea, Koreje, Koreji, Koreju
+Maďarsko: Maďarsko, Maďarska, Maďarsku
+Morava: Morava, Moravy, Moravě, Moravu
+Německo: Německo, Německa, Německu, NDR, NSR
+Polsko: Polsko, Polska, Polsku
+Rakousko: Rakousko, Rakouska, Rakousku
+Rumunsko: Rumunsko, Rumunska, Rumunsku
+Rusko: Rusko, Rusku, Ruskem
+Sibiř: Sibiř, Sibiři
+Slovensko: Slovensko, Slovenska, Slovensku
+Sovětský svaz (SSSR): SSSR, Sovětsk* svaz*, Sovětsk* Svaz*
+Srbsko: Srbsko, Srbska, Srbsku
+Šumava: Šumava, Šumavy, Šumavě, Šumavu
+
+[Řeky, pohoří a přírodní místa]
+Beskydy: Beskydy, Beskyd, Beskydech
+Brněnská přehrada: Brněnsk* přehrad*
+Dyje: Dyje, Dyjí, Dyji
+Krkonoše: Krkonoše, Krkonoš
+Macocha: Macocha, Macochy, Macoše, Macochu
+Ponávka: Ponávk*
+Svitava (řeka): Svitava, Svitavy, Svitavě, Svitavu, Svitavou
+Tatry: Tatry, Tater, Tatrách
+
+[Nezařazovat]
+Vranov u Brna: Vranov u Brna, Vranova u Brna, Vranově u Brna
+Okresy Brno-venkov a Brno-město: Brno-venkov, Brno - venkov, Brno-Venkov, Brno-město

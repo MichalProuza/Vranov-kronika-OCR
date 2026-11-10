@@ -31,10 +31,15 @@ další chyby čtení možné.
 | 1985–1989 | 80 | 439–517 | [1985-1989.md](docs/transcriptions/1985-1989.md) | [seznam](docs/transcriptions/1985-1989-k-overeni.md) | `data/ocr_pages/section_12/` |
 | 1990–1993 | 68 | 518–584 + nečíslovaná | [1990-1993.md](docs/transcriptions/1990-1993.md) | — | `data/ocr_pages/section_13/` |
 
-Součástí stránky je **rejstřík příjmení** s vyhledáváním: abecední seznam
-osob, které kronika zmiňuje, s odkazy na strany (po kliknutí se jméno na
-stránce zvýrazní). Rejstřík se sestavuje automaticky z přepisu, viz
-[Rejstřík příjmení](#rejstřík-příjmení) níže.
+Součástí stránky jsou tři **rejstříky** s vyhledáváním a odkazy na strany (po
+kliknutí se hledané slovo na stránce zvýrazní):
+
+- **rejstřík příjmení** – osoby, které kronika zmiňuje, viz
+  [Rejstřík příjmení](#rejstřík-příjmení),
+- **rejstřík míst** – části Vranova, pomístní názvy (Babí lom, Žižkov, Vranovský
+  žleb…), budovy, okolní obce, země a řeky, viz [Rejstřík míst](#rejstřík-míst),
+- **rejstřík domů** – čísla domů („č. 35“) s úryvkem textu, takže je vidět, kdo
+  v domě v různých letech bydlel, viz [Rejstřík domů](#rejstřík-domů).
 
 Všechny strany jsou také v `data/transcriptions.json`; HTML stránku s celým
 přepisem sestavíte příkazem `python 04_build_html.py --raw`
@@ -125,7 +130,7 @@ python 04_build_html.py --with-thumbnails
 
 - `output/kronika_vranov.html` – kompletní přepis jako HTML stránka
 - Responzivní design, navigace po sekcích, tisk-friendly
-- Rejstřík příjmení s vyhledáváním (bez ohledu na diakritiku) a zvýrazněním jména na stránce
+- Rejstřík příjmení, míst a domů s vyhledáváním (bez ohledu na diakritiku) a zvýrazněním na stránce
 - Nejistá slova označena oranžově, nečitelná červeně
 - Text zarovnaný do bloku (justify) – OCR řádkové zlomy se automaticky spojují do plynulého textu
 - Rozdělovníky na konci řádku se automaticky spojí (např. `Schön-` + `brunn` → `Schönbrunn`)
@@ -150,6 +155,38 @@ dostane i slovo, které příjmením není. Taková slova se vyřadí zapsáním
 `data/rejstrik_vyjimky.txt` (vyřadí se i jejich ostatní tvary) a novým sestavením
 HTML.
 
+## Rejstřík míst
+
+Místní jména se strojově spolehlivě rozpoznat nedají („Kateřina“ je poutní místo
+i křestní jméno, „Březina“ část obce i příjmení), proto rejstřík míst
+(`place_index.py`) vychází z ručně sestaveného seznamu `data/rejstrik_mist.txt`.
+Každý řádek je heslo a jeho tvary v textu, hvězdička zastoupí koncovku:
+
+```
+[Vranov – části obce a pomístní názvy]
+Babí lom: Bab* lom*, Bab* Lom*, Babílom*
+Svatá Kateřina: Sv. Kateřin*, do Kateřiny, u Kateřiny, Kateřinsk*
+```
+
+Řádek v hranatých závorkách zahajuje skupinu rejstříku. Skupina `[Nezařazovat]` se
+nezobrazí – jen zabrání tomu, aby se např. „Vranov u Brna“ počítalo jako zmínka
+o Brně. Místa, která v seznamu ještě chybí (slova s velkým písmenem za předložkami
+do, ve, na…), vypíše:
+
+```bash
+python place_index.py --kandidati
+```
+
+## Rejstřík domů
+
+Rejstřík domů (také `place_index.py`) hledá čísla domů zapsaná jako „č. 35“,
+„č. p. 35“, „čp. 35“ nebo „čís. 35“ a u každého výskytu ukáže kousek okolního textu
+(„…Holešovský Frant. **č. 35**, předseda…“). Vyhledávat lze číslem domu i jménem
+z úryvku. Vynechává čísla, která domy nejsou: „K. č.“ (korun českých), „archiv
+kroniky č. 6/60“, „Strana č. 1“, „autobusy č. 57“, parcelní čísla s lomítkem.
+Čísla domů v okolních obcích se od vranovských automaticky nerozliší – pozná se to
+z úryvku.
+
 ## Resume podpora
 
 Skripty 02, 03 a 05 podporují přerušení a pokračování – přeskočí už stažené/přepsané/uhlazené stránky. Můžeš klidně zpracovávat po sekcích a průběžně kontrolovat kvalitu.
@@ -169,9 +206,11 @@ Skript 05 při opakovaném spuštění detekuje existující uhlazené přepisy 
 ├── 04_build_html.py        # Sestaví HTML výstup
 ├── 05_polish_text.py       # Uhlazení textu (Claude API)
 ├── name_index.py           # Rejstřík příjmení (používá 04_build_html.py)
+├── place_index.py          # Rejstřík míst a domů (používá 04_build_html.py)
 ├── data/
 │   ├── image_urls.json     # URL obrázků (generováno)
 │   ├── images/             # Stažené obrázky (generováno)
+│   ├── rejstrik_mist.txt   # Seznam míst a jejich tvarů pro rejstřík míst
 │   ├── rejstrik_vyjimky.txt # Slova vyřazená z rejstříku příjmení
 │   ├── transcriptions.json # Surové OCR přepisy (generováno)
 │   └── transcriptions_polished.json # Uhlazené přepisy (generováno)
