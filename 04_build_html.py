@@ -15,7 +15,7 @@ import html
 import json
 import re
 
-from config import OUTPUT_HTML, POLISHED_FILE, SECTIONS, TRANSCRIPTIONS_FILE
+from config import OUTPUT_HTML, POLISHED_FILE, RELATED_FILE, SECTIONS, TRANSCRIPTIONS_FILE
 from config import EXTRA_SECTIONS, PAGES_DIR
 from name_index import build_index
 from place_index import build_house_index, build_place_index
@@ -304,13 +304,71 @@ def build_house_index_html(pages: list[dict], meta: dict) -> tuple[str, int]:
     return section_html, len(houses)
 
 
+def load_related(path=RELATED_FILE) -> list[dict]:
+    """Articles from other sources that complement the chronicle (data/souvislosti.json)."""
+    if not path.exists():
+        return []
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f).get("clanky", [])
+
+
+def _related_source(article: dict) -> str:
+    source = article["zdroj"]
+    if article.get("strany_pdf"):
+        source += f', s. {article["strany_pdf"]}'
+    return source
+
+
+def _related_link(article: dict) -> str:
+    author = f' <span class="rel-author">({html.escape(article["autor"])})</span>' if article.get("autor") else ""
+    return (f'<a href="{html.escape(article["url"])}" target="_blank" rel="noopener">{html.escape(article["titul"])}</a>'
+            f'{author} <span class="rel-source">– {html.escape(_related_source(article))}, PDF ↗</span>')
+
+
+def build_page_related_html(articles: list[dict]) -> str:
+    """Box under a chronicle page listing the articles linked to it."""
+    if not articles:
+        return ""
+    items = "".join(f"<li>{_related_link(a)}</li>" for a in articles)
+    return (f'<aside class="related"><span class="rel-label">Souvislosti</span>'
+            f'<ul>{items}</ul><a class="rel-more" href="#souvislosti">všechny souvislosti</a></aside>')
+
+
+def build_related_section_html(related: list[dict], meta: dict) -> str:
+    """Overview of all related articles grouped by topic, with links back to chronicle pages."""
+    if not related:
+        return ""
+    groups: dict[str, list[dict]] = {}
+    for article in related:
+        groups.setdefault(article.get("tema") or "Ostatní", []).append(article)
+    blocks = []
+    for topic, articles in groups.items():
+        items = []
+        for a in articles:
+            pages = [pid for pid in a.get("strany", []) if pid in meta]
+            page_links = f'<div class="rel-pages">V kronice: {_page_links(pages, meta)}</div>' if pages else ""
+            items.append(f'<li class="rel-item">{_related_link(a)}'
+                         f'<p class="rel-desc">{html.escape(a.get("popis", ""))}</p>{page_links}</li>')
+        blocks.append(f'<div class="rel-group"><h3>{html.escape(topic)}</h3><ul>{"".join(items)}</ul></div>')
+    return f'''
+        <section id="souvislosti" class="chronicle-section related-section">
+            <h2>Souvislosti</h2>
+            <p class="ni-intro">Články z Vranovského zpravodaje (2002–2024), které zápisy kroniky doplňují: vzpomínky pamětníků,
+            výpisy z jiných kronik a komentáře obecních kronikářů. Odkazy vedou na PDF na
+            <a href="https://www.vranov.cz/obec/zpravodaj-/">webu obce Vranov</a>; u stran kroniky, kterých se článek týká,
+            je na něj odkaz přímo pod přepisem. Seznam je ruční výběr (soubor <code>data/souvislosti.json</code>) a není úplný.</p>
+            {"".join(blocks)}
+        </section>'''
+
+
 def _fold_js(s: str) -> str:
     """Lowercase without diacritics – must match foldText() in the page script."""
     import unicodedata
     return "".join(c for c in unicodedata.normalize("NFD", s.lower()) if unicodedata.category(c) != "Mn")
 
 
-def _page_html(page_id, label: str, scan_url: str, scan_label: str, formatted: str, thumb_html: str = "") -> str:
+def _page_html(page_id, label: str, scan_url: str, scan_label: str, formatted: str, thumb_html: str = "",
+               related_html: str = "") -> str:
     return f'''
                 <div class="page" id="page-{page_id}">
                     <div class="page-header">
@@ -323,15 +381,22 @@ def _page_html(page_id, label: str, scan_url: str, scan_label: str, formatted: s
                             {formatted}
                         </div>
                     </div>
+                    {related_html}
                 </div>'''
 
 
-def build_html(transcriptions: dict, with_thumbnails: bool = False, extras=None) -> str:
+def build_html(transcriptions: dict, with_thumbnails: bool = False, related: list[dict] | None = None,
+               extras=None) -> str:
     """Build the complete HTML page.
 
     extras: sekce tisků mimo kroniku (viz load_extra_sections); None = načíst z disku."""
     if extras is None:
         extras = load_extra_sections()
+    related = load_related() if related is None else related
+    related_by_page: dict[int, list[dict]] = {}
+    for article in related:
+        for pid in article.get("strany", []):
+            related_by_page.setdefault(pid, []).append(article)
     # Navigation
     nav_items = []
     for section in SECTIONS:
@@ -352,6 +417,9 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, extras=None)
     index_html, surname_count = build_name_index_html(index_pages, index_meta)
     place_html, place_count = build_place_index_html(index_pages, index_meta)
     house_html, house_count = build_house_index_html(index_pages, index_meta)
+    related_html = build_related_section_html(related, index_meta)
+    related_nav = (f'<a href="#souvislosti" class="nav-item nav-index">Souvislosti<span class="count">'
+                   f'({_plural(len(related), "článek", "články", "článků")})</span></a>') if related else ""
 
     # Content sections
     content_sections = []
@@ -390,7 +458,9 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, extras=None)
                         </a>
                     </div>'''
 
-                pages_html.append(_page_html(img_id, label, scan_url, "originální sken", formatted, thumb_html))
+                pages_html.append(_page_html(
+                    img_id, label, scan_url, "originální sken", formatted, thumb_html,
+                    build_page_related_html(related_by_page.get(img_id, []))))
 
         content_sections.append(f'''
         <section id="{slug}" class="chronicle-section">
@@ -412,7 +482,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, extras=None)
             {"".join(pages_html)}
         </section>''')
 
-    content_sections += [index_html, place_html, house_html]
+    content_sections += [related_html, index_html, place_html, house_html]
     content_html = "\n".join(content_sections)
 
     # Stats
@@ -649,6 +719,37 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, extras=None)
             text-align: center;
         }}
 
+        /* --- Souvislosti (články z jiných pramenů) --- */
+        .related {{
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            border-top: 1px dashed var(--color-border);
+            padding: 0.7rem 1.5rem 0.8rem;
+            color: var(--color-text-light);
+        }}
+        .rel-label {{
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+        }}
+        .related ul {{ list-style: none; margin: 0.3rem 0; padding: 0; }}
+        .related li {{ margin: 0.2rem 0; }}
+        .related a, .rel-item a {{ color: var(--color-accent); text-decoration: none; }}
+        .related a:hover, .rel-item a:hover {{ text-decoration: underline; }}
+        .rel-more {{ font-size: 0.8rem; }}
+        .related-section {{ font-family: var(--font-ui); }}
+        .rel-group h3 {{ font-size: 1rem; margin: 1.4rem 0 0.4rem; color: var(--color-text); }}
+        .rel-group ul {{ list-style: none; margin: 0; padding: 0; }}
+        .rel-item {{ padding: 0.6rem 0; border-bottom: 1px solid var(--color-border); font-size: 0.95rem; line-height: 1.5; }}
+        .rel-source, .rel-author {{ color: var(--color-text-light); font-size: 0.85rem; }}
+        .rel-desc {{ margin: 0.2rem 0 0; font-size: 0.88rem; color: var(--color-text-light); }}
+        .rel-pages {{ padding: 0.2rem 0 0; font-size: 0.85rem; color: var(--color-text-light); }}
+        .rel-pages .ni-sec {{ display: inline; margin-right: 0.6em; }}
+        .related-section .ni-intro a {{ color: var(--color-accent); }}
+
         /* --- Rejstříky (příjmení, místa, domy) --- */
         .nav-indexes {{
             border-bottom: 1px solid var(--color-border);
@@ -840,6 +941,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, extras=None)
                 <a href="#rejstrik" class="nav-item nav-index">Rejstřík příjmení<span class="count">({surname_count} příjmení)</span></a>
                 <a href="#rejstrik-mist" class="nav-item nav-index">Rejstřík míst<span class="count">({place_count} míst)</span></a>
                 <a href="#rejstrik-domu" class="nav-item nav-index">Rejstřík domů<span class="count">({house_count} čísel domů)</span></a>
+                {related_nav}
             </div>
             <h3>Obsah kroniky</h3>
             {nav_html}

@@ -16,6 +16,7 @@ on:
       - "data/rejstrik_mist.txt"
       - "data/ocr_pages/vranov_1240-1990/**"
       - "data/ocr_pages/vranovak_1990_1/**"
+      - "data/souvislosti.json"
       - "config.py"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
