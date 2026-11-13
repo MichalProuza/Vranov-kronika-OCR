@@ -19,3 +19,4 @@ jako nejisté; plánek obce (strana 16) je čten jen v přehledu, drobnější p
 monogram kreslíře na straně 13.
 
 Souvislý přepis pro čtení: `docs/transcriptions/vranovak-1990.md`.
+Na webu je zpravodaj zařazen jako sekce za kronikou (`EXTRA_SECTIONS` v `config.py`); v `data/transcriptions.json` není.

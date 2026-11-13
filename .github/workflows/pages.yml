@@ -1,4 +1,5 @@
 # Sestaví HTML stránku s přepisem kroniky z data/transcriptions.json
+# (a tisků mimo kroniku z data/ocr_pages, viz EXTRA_SECTIONS v config.py)
 # a publikuje ji na GitHub Pages.
 
 name: Publikace na GitHub Pages
@@ -13,6 +14,8 @@ on:
       - "place_index.py"
       - "data/rejstrik_vyjimky.txt"
       - "data/rejstrik_mist.txt"
+      - "data/ocr_pages/vranov_1240-1990/**"
+      - "data/ocr_pages/vranovak_1990_1/**"
       - "data/souvislosti.json"
       - "config.py"
       - ".github/workflows/pages.yml"

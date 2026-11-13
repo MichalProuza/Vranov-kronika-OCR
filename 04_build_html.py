@@ -16,6 +16,7 @@ import json
 import re
 
 from config import OUTPUT_HTML, POLISHED_FILE, RELATED_FILE, SECTIONS, TRANSCRIPTIONS_FILE
+from config import EXTRA_SECTIONS, PAGES_DIR
 from name_index import build_index
 from place_index import build_house_index, build_place_index
 
@@ -62,8 +63,11 @@ def split_page_header(text: str) -> tuple[str, str, str]:
     return number, year.rstrip("."), "\n".join(lines[body_start:]).strip("\n")
 
 
-def format_text(text: str) -> str:
-    """Convert plain transcription text to HTML paragraphs."""
+def format_text(text: str, keep_breaks: bool = False) -> str:
+    """Convert plain transcription text to HTML paragraphs.
+
+    keep_breaks: ponechá jednotlivé řádky (seznamy, tabulky strojopisných tisků)
+    místo jejich slévání do souvislého odstavce."""
     escaped = html.escape(text)
     # Mark uncertain words
     escaped = re.sub(r"\[\?(.+?)\?\]", r'<span class="uncertain" title="Nejistý přepis">\1</span>', escaped)
@@ -76,7 +80,9 @@ def format_text(text: str) -> str:
     result = []
     for p in paragraphs:
         p = p.strip()
-        if p:
+        if p and keep_breaks:
+            result.append("<p>" + "<br>\n".join(line.strip() for line in p.split("\n")) + "</p>")
+        elif p:
             # Join single line breaks into flowing text (OCR often breaks
             # at the original handwritten line endings which prevents
             # proper text-align: justify). Keep explicit line breaks only
@@ -113,7 +119,29 @@ def _index_letter(heading: str) -> str:
     return _LETTER_BASE.get(first, first)
 
 
-def _collect_pages(transcriptions: dict) -> tuple[list[dict], dict]:
+EXTRA_PAGE_NUM_RE = re.compile(r"^- (\d+) -\s*$")
+
+
+def load_extra_sections(sections=EXTRA_SECTIONS, pages_dir=PAGES_DIR) -> list[dict]:
+    """Načte tisky mimo kroniku (EXTRA_SECTIONS) ze souborů page_NNN.txt.
+
+    Vrací sekce s klíčem "pages": [{"id", "number", "scan", "text"}]; první řádek
+    „- 4 -“ je tištěné číslo strany a do textu se nezařazuje."""
+    result = []
+    for section in sections:
+        pages = []
+        for scan, path in enumerate(sorted((pages_dir / section["dir"]).glob("page_*.txt")), 1):
+            text = path.read_text(encoding="utf-8").strip()
+            first, _, rest = text.partition("\n")
+            m = EXTRA_PAGE_NUM_RE.match(first.strip())
+            pages.append({"id": section["id_base"] + scan, "number": m.group(1) if m else "",
+                          "scan": scan, "text": rest.strip() if m else text})
+        if pages:
+            result.append({**section, "pages": pages})
+    return result
+
+
+def _collect_pages(transcriptions: dict, extras=()) -> tuple[list[dict], dict]:
     """All pages in chronicle order and their metadata for index links.
     meta: img_id -> (section order, section label, page label, year)."""
     pages = []
@@ -127,6 +155,10 @@ def _collect_pages(transcriptions: dict) -> tuple[list[dict], dict]:
             number, year, _ = split_page_header(text)
             meta[img_id] = (order, short, number or f"sken {img_id}", year)
             pages.append({"id": img_id, "text": text})
+    for order, section in enumerate(extras, len(SECTIONS)):
+        for page in section["pages"]:
+            meta[page["id"]] = (order, section["short"], page["number"] or f"sken {page['scan']}", "")
+            pages.append({"id": page["id"], "text": page["text"]})
     return pages, meta
 
 
@@ -335,8 +367,31 @@ def _fold_js(s: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFD", s.lower()) if unicodedata.category(c) != "Mn")
 
 
-def build_html(transcriptions: dict, with_thumbnails: bool = False, related: list[dict] | None = None) -> str:
-    """Build the complete HTML page."""
+def _page_html(page_id, label: str, scan_url: str, scan_label: str, formatted: str, thumb_html: str = "",
+               related_html: str = "") -> str:
+    return f'''
+                <div class="page" id="page-{page_id}">
+                    <div class="page-header">
+                        <span class="page-number">{label}</span>
+                        <a class="scan-link" href="{scan_url}" target="_blank" rel="noopener">{scan_label} ↗</a>
+                    </div>
+                    <div class="page-content">
+                        {thumb_html}
+                        <div class="transcription">
+                            {formatted}
+                        </div>
+                    </div>
+                    {related_html}
+                </div>'''
+
+
+def build_html(transcriptions: dict, with_thumbnails: bool = False, related: list[dict] | None = None,
+               extras=None) -> str:
+    """Build the complete HTML page.
+
+    extras: sekce tisků mimo kroniku (viz load_extra_sections); None = načíst z disku."""
+    if extras is None:
+        extras = load_extra_sections()
     related = load_related() if related is None else related
     related_by_page: dict[int, list[dict]] = {}
     for article in related:
@@ -352,7 +407,13 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
         nav_items.append(f'<a href="#{slug}" class="nav-item">{html.escape(name)}<span class="count">{status}</span></a>')
 
     nav_html = "\n".join(nav_items)
-    index_pages, index_meta = _collect_pages(transcriptions)
+    extra_nav_html = ""
+    if extras:
+        extra_items = [
+            f'<a href="#{slugify(s["name"])}" class="nav-item">{html.escape(s["name"])}'
+            f'<span class="count"> ({len(s["pages"])} stránek)</span></a>' for s in extras]
+        extra_nav_html = "<h3>Tisky k 750. výročí (1990)</h3>\n" + "\n".join(extra_items)
+    index_pages, index_meta = _collect_pages(transcriptions, extras)
     index_html, surname_count = build_name_index_html(index_pages, index_meta)
     place_html, place_count = build_place_index_html(index_pages, index_meta)
     house_html, house_count = build_house_index_html(index_pages, index_meta)
@@ -397,20 +458,9 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
                         </a>
                     </div>'''
 
-                pages_html.append(f'''
-                <div class="page" id="page-{img_id}">
-                    <div class="page-header">
-                        <span class="page-number">{label}</span>
-                        <a class="scan-link" href="{scan_url}" target="_blank" rel="noopener">originální sken ↗</a>
-                    </div>
-                    <div class="page-content">
-                        {thumb_html}
-                        <div class="transcription">
-                            {formatted}
-                        </div>
-                    </div>
-                    {build_page_related_html(related_by_page.get(img_id, []))}
-                </div>''')
+                pages_html.append(_page_html(
+                    img_id, label, scan_url, "originální sken", formatted, thumb_html,
+                    build_page_related_html(related_by_page.get(img_id, []))))
 
         content_sections.append(f'''
         <section id="{slug}" class="chronicle-section">
@@ -418,16 +468,30 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             {"".join(pages_html)}
         </section>''')
 
+    for section in extras:
+        pages_html = []
+        for page in section["pages"]:
+            label = f"Strana {page['number']}" if page["number"] else "Nečíslovaná strana"
+            label += f" · sken {page['scan']}/{len(section['pages'])}"
+            pages_html.append(_page_html(page["id"], label, section["source_url"], "sken (PDF)",
+                                         format_text(page["text"], keep_breaks=True)))
+        content_sections.append(f'''
+        <section id="{slugify(section["name"])}" class="chronicle-section">
+            <h2>{html.escape(section["name"])}</h2>
+            <p class="section-intro">{html.escape(section["intro"])}</p>
+            {"".join(pages_html)}
+        </section>''')
+
     content_sections += [related_html, index_html, place_html, house_html]
     content_html = "\n".join(content_sections)
 
     # Stats
-    total_pages = sum(len(v) for v in transcriptions.values())
+    total_pages = sum(len(v) for v in transcriptions.values()) + sum(len(s["pages"]) for s in extras)
     total_chars = sum(
         len(p.get("text", ""))
         for section in transcriptions.values()
         for p in section.values()
-    )
+    ) + sum(len(p["text"]) for s in extras for p in s["pages"])
 
     total_chars_fmt = f"{total_chars:,}".replace(",", "\u00a0")
 
@@ -844,6 +908,8 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             .thumbnail img {{ width: 100%; max-width: 300px; }}
         }}
 
+        .section-intro {{ font-family: var(--font-ui); color: var(--color-text-light); margin-bottom: 1.5rem; }}
+
         /* --- Print --- */
         @media print {{
             .sidebar, .ni-tools, .ni-letters, #ni-back {{ display: none; }}
@@ -865,6 +931,8 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
         zejména u vlastních jmen. <span class="uncertain">Čárkovaně podtržená</span> místa jsou nejistá,
         <span class="unreadable">[nečitelné]</span> označuje nerozpoznaný text. Rozhodující je vždy originál: u každé strany
         je odkaz na její sken na <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/">webu obce Vranov</a>.
+        Za kronikou jsou zařazeny dva strojopisné tisky k 750. výročí obce z roku 1990; odkaz u jejich stran vede na sken v PDF
+        a rejstříky zahrnují i je.
     </div>
 
     <div class="container">
@@ -877,6 +945,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             </div>
             <h3>Obsah kroniky</h3>
             {nav_html}
+            {extra_nav_html}
         </nav>
 
         <main class="content">
@@ -1039,8 +1108,11 @@ def main():
         f.write(html_content)
 
     total_pages = sum(len(v) for v in transcriptions.values())
+    extras = load_extra_sections()
     print(f"\n✅ HTML vygenerováno: {OUTPUT_HTML}")
     print(f"   {total_pages} stránek přepisů v {len(transcriptions)} sekcích")
+    if extras:
+        print(f"   + {sum(len(s['pages']) for s in extras)} stran v {len(extras)} tiscích mimo kroniku")
 
 
 if __name__ == "__main__":

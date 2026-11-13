@@ -64,7 +64,9 @@ v releasu [Vranov_1990](https://github.com/MichalProuza/Vranov-kronika-OCR/relea
 | Vranov u Brna 750 (1240–1990) – historie v datech, pomístní jména | 33 | [vranov-u-brna-750-1240-1990.md](docs/transcriptions/vranov-u-brna-750-1240-1990.md) | `data/ocr_pages/vranov_1240-1990/` |
 | Vranovák, srpen–září 1990 | 16 | [vranovak-1990.md](docs/transcriptions/vranovak-1990.md) | `data/ocr_pages/vranovak_1990_1/` |
 
-Tyto přepisy nejsou součástí `data/transcriptions.json`, a tedy ani webu a rejstříků.
+Na webu jsou oba tisky zařazeny jako samostatné sekce za kronikou a rejstříky zahrnují i je. Nejsou
+v `data/transcriptions.json`; `04_build_html.py` je čte přímo ze souborů stran podle seznamu
+`EXTRA_SECTIONS` v `config.py`.
 
 ## Jak to funguje
 

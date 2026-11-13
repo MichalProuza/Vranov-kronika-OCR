@@ -23,4 +23,4 @@ křestní jméno u „Bauer“ mezi oběťmi bombardování a slovo „Západě�
 (Zhánělovi, Šinkorovi, Sáňka, Žitné, Othová). Číslo hesla /24/ je v předloze dvakrát.
 
 Souvislý přepis pro čtení: `docs/transcriptions/vranov-u-brna-750-1240-1990.md`.
-Brožura není součástí `data/transcriptions.json` ani webu s přepisem kroniky.
+Na webu je brožura zařazena jako sekce za kronikou (`EXTRA_SECTIONS` v `config.py`); v `data/transcriptions.json` není.

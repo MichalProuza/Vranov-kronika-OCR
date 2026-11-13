@@ -67,6 +67,9 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
 - S `--raw` použije pouze surové OCR přepisy
 - Struktura: navigace po sekcích, jednotlivé stránky s přepisem
 - Volitelně: vedle přepisu zobrazí i miniaturu originálu
+- Za kroniku zařadí tisky mimo kroniku ze seznamu `EXTRA_SECTIONS` v `config.py`
+  (strany v `data/ocr_pages/<dir>/page_NNN.txt`, první řádek „- 4 -“ je tištěné číslo strany);
+  rejstříky zahrnují i je
 - Na konec stránky přidá rejstřík příjmení s vyhledáváním (`name_index.py`);
   omylem zařazená slova se vyřazují v `data/rejstrik_vyjimky.txt`
 - Dále rejstřík míst a rejstřík domů (`place_index.py`): místa podle ručního
