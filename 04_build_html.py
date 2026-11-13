@@ -216,7 +216,7 @@ def _index_section(section_id: str, prefix: str, title: str, intro: str, placeho
             </div>
             <nav class="ni-letters" aria-label="Skupiny rejstříku">{jump_bar}</nav>
             <div class="ni-list">{blocks}</div>
-            <p class="ni-empty empty" hidden>Nic neodpovídá hledání. Zkuste jiný tvar nebo hledejte v celém textu (Ctrl+F).</p>
+            <p class="ni-empty empty" hidden>Nic neodpovídá hledání. Zkuste jiný tvar nebo <a href="#hledani">hledání v textu</a>.</p>
         </section>'''
 
 
@@ -235,7 +235,7 @@ def build_name_index_html(pages: list[dict], meta: dict) -> tuple[str, int]:
     intro = ('Abecední seznam příjmení, která se v přepisu kroniky vyskytují, s odkazy na strany. '
              'Skloňované tvary a ženská příjmení jsou sloučeny pod jedno heslo (Holešovský, Holešovského, Holešovská…). '
              'Rejstřík je sestaven strojově z přepisu – některá jména mohou chybět nebo být zkomolená stejně jako v přepisu; '
-             'pro jistotu hledejte i v celém textu (Ctrl+F). Po kliknutí na číslo strany se jméno na stránce zvýrazní.')
+             'pro jistotu použijte i <a href="#hledani">hledání v textu</a>. Po kliknutí na číslo strany se jméno na stránce zvýrazní.')
     section_html = _index_section(
         "rejstrik", "ni", "Rejstřík příjmení", intro, "Hledat příjmení, např. Skoupý",
         _plural(len(surnames), "příjmení", "příjmení", "příjmení"),
@@ -260,7 +260,7 @@ def build_place_index_html(pages: list[dict], meta: dict) -> tuple[str, int]:
     intro = ('Obce, části Vranova, pomístní názvy, budovy, země a řeky zmíněné v kronice, s odkazy na strany. '
              'Rejstřík vychází z ručně sestaveného seznamu míst a jejich tvarů (soubor <code>data/rejstrik_mist.txt</code> '
              'v repozitáři projektu), který lze doplňovat. Místo zapsané v přepisu zkomoleně se nenajde – '
-             'hledejte i v celém textu (Ctrl+F). Po kliknutí na číslo strany se místo na stránce zvýrazní.')
+             'použijte i <a href="#hledani">hledání v textu</a>. Po kliknutí na číslo strany se místo na stránce zvýrazní.')
     section_html = _index_section(
         "rejstrik-mist", "nm", "Rejstřík míst", intro, "Hledat místo, např. Babí lom",
         _plural(total, "místo", "místa", "míst"), groups)
@@ -367,6 +367,423 @@ def _fold_js(s: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFD", s.lower()) if unicodedata.category(c) != "Mn")
 
 
+def _section_bar_html(reading: list[tuple[str, str, str]], i: int, jump: list[tuple]) -> str:
+    """Lišta nad oddílem: předchozí / další oddíl a skok na stranu.
+
+    reading: (id oddílu, název, krátký název) v pořadí čtení; jump: (id strany, popisek)."""
+    prev_html = next_html = "<span></span>"
+    if i > 0:
+        prev_html = f'<a class="bar-prev" href="#{reading[i - 1][0]}" title="{html.escape(reading[i - 1][1])}">← {html.escape(reading[i - 1][2])}</a>'
+    if i < len(reading) - 1:
+        next_html = f'<a class="bar-next" href="#{reading[i + 1][0]}" title="{html.escape(reading[i + 1][1])}">{html.escape(reading[i + 1][2])} →</a>'
+    select = ""
+    if jump:
+        options = "".join(f'<option value="page-{pid}">{label}</option>' for pid, label in jump)
+        select = (f'<select class="page-jump js-only" aria-label="Přejít na stranu">'
+                  f'<option value="">Přejít na stranu… ({len(jump)})</option>{options}</select>')
+    return f'<nav class="section-bar" aria-label="Listování">{prev_html}{select}{next_html}</nav>'
+
+
+def _section_pager_html(reading: list[tuple[str, str, str]], i: int) -> str:
+    """Odkazy na předchozí a další oddíl pod koncem oddílu."""
+    prev_html = next_html = "<span></span>"
+    if i > 0:
+        prev_html = f'<a class="pager-prev" href="#{reading[i - 1][0]}"><span>← Předchozí</span>{html.escape(reading[i - 1][1])}</a>'
+    if i < len(reading) - 1:
+        next_html = f'<a class="pager-next" href="#{reading[i + 1][0]}"><span>Další →</span>{html.escape(reading[i + 1][1])}</a>'
+    return f'<nav class="section-pager" aria-label="Sousední oddíly">{prev_html}{next_html}</nav>'
+
+
+SEARCH_SECTION_HTML = '''
+        <section id="hledani" class="chronicle-section search-view js-only">
+            <h2>Hledání v textu</h2>
+            <p class="ni-intro">Hledá najednou v přepisu všech stran kroniky i obou tisků, bez ohledu na velikost písmen
+            a diakritiku. Stačí část slova (aspoň 3 znaky). Přepis může jméno zkomolit – zkuste i jiný tvar nebo rejstříky.</p>
+            <div class="ni-tools">
+                <input type="search" class="ni-search ft-search" placeholder="Hledat v celém textu, např. hasiči" autocomplete="off" aria-label="Hledat v celém textu">
+                <span class="ni-status ft-status"></span>
+            </div>
+            <div class="ft-results"></div>
+        </section>'''
+
+# Zobrazení po oddílech: bez JavaScriptu (a při tisku) zůstává vidět celá kronika pod sebou.
+VIEWS_CSS = '''
+        /* --- Zobrazení po oddílech --- */
+        .js-only { display: none; }
+        .js-views .nav-item.js-only, .js-views .page-jump.js-only { display: block; }
+        .js-views .chronicle-section { display: none; }
+        .js-views .chronicle-section.active { display: block; }
+        .nav-item.active {
+            background: var(--color-bg);
+            border-left-color: var(--color-accent);
+            font-weight: 600;
+        }
+        .page { scroll-margin-top: 3.5rem; }
+        .section-bar {
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--color-bg);
+            border-bottom: 1px solid var(--color-border);
+            padding: 0.5rem 0;
+            margin: -1.25rem 0 1.5rem;
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+        }
+        .section-bar a, .section-pager a { color: var(--color-accent); text-decoration: none; }
+        .section-bar a { white-space: nowrap; }
+        .section-bar a:hover { text-decoration: underline; }
+        .page-jump {
+            font: inherit;
+            min-width: 0;
+            max-width: 15rem;
+            padding: 0.3rem 0.5rem;
+            border: 1px solid var(--color-accent-light);
+            border-radius: 4px;
+            background: var(--color-paper);
+            color: var(--color-text);
+        }
+        .section-pager {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 3rem;
+            font-family: var(--font-ui);
+        }
+        .section-pager a {
+            display: block;
+            padding: 0.8rem 1rem;
+            background: var(--color-paper);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .section-pager a:hover { border-color: var(--color-accent-light); }
+        .section-pager a span {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--color-text-light);
+        }
+        .pager-next { text-align: right; }
+        .ft-results h3 {
+            font-family: var(--font-ui);
+            font-size: 1rem;
+            color: var(--color-accent);
+            margin: 1.5rem 0 0.3rem;
+        }
+        .ft-hit {
+            display: block;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--color-border);
+            color: inherit;
+            text-decoration: none;
+        }
+        .ft-hit:hover .ft-label { text-decoration: underline; }
+        .ft-label {
+            font-family: var(--font-ui);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+        .ft-snippet { display: block; font-size: 0.9rem; line-height: 1.5; color: var(--color-text-light); }
+        .ft-snippet b { color: var(--color-text); background: #f7dc8f; border-radius: 2px; }
+        #nav-toggle {
+            display: none;
+            position: fixed;
+            left: 1.2rem;
+            bottom: 1.2rem;
+            font-family: var(--font-ui);
+            font-size: 0.9rem;
+            background: var(--color-accent);
+            color: #faf3eb;
+            border: none;
+            border-radius: 4px;
+            padding: 0.6rem 0.9rem;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 11;
+        }
+        @media (max-width: 768px) {
+            .js-views #nav-toggle { display: block; }
+            .js-views .sidebar { display: none; }
+            .js-views.nav-open .sidebar {
+                display: block;
+                position: fixed;
+                inset: 0;
+                z-index: 10;
+                overflow-y: auto;
+                padding-bottom: 5rem;
+            }
+            .js-views.nav-open body { overflow: hidden; }
+            .section-bar { font-size: 0.8rem; gap: 0.4rem; }
+            .page-jump { max-width: 9.5rem; }
+        }
+        @media print {
+            .js-views .chronicle-section { display: block; }
+            .js-views .chronicle-section.search-view, .section-bar, .section-pager, #nav-toggle { display: none; }
+        }
+'''
+
+PAGE_JS = r'''
+        (function () {
+            const root = document.documentElement;
+            const foldText = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+            const escapeRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+            // --- Zobrazení po oddílech: vidět je vždy jen jeden, adresa (#…) určuje který ---
+            const sections = Array.from(document.querySelectorAll('.chronicle-section'));
+            const navItems = Array.from(document.querySelectorAll('.sidebar .nav-item'));
+            const navToggle = document.getElementById('nav-toggle');
+            const baseTitle = document.title;
+
+            function setNavOpen(open) {
+                root.classList.toggle('nav-open', open);
+                navToggle.textContent = open ? '✕ Zavřít' : '☰ Obsah';
+                navToggle.setAttribute('aria-expanded', open);
+            }
+            navToggle.addEventListener('click', () => setNavOpen(!root.classList.contains('nav-open')));
+
+            function activate(section) {
+                sections.forEach(s => s.classList.toggle('active', s === section));
+                navItems.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + section.id));
+                document.title = section.querySelector('h2').textContent + ' – ' + baseTitle;
+                setNavOpen(false);
+            }
+            // Zobrazí oddíl, do kterého prvek patří
+            function showFor(el) {
+                const section = el.closest('.chronicle-section');
+                if (section) activate(section);
+                return !!section;
+            }
+            function route(initial) {
+                let id = location.hash.slice(1);
+                try { id = decodeURIComponent(id); } catch (e) { /* ponech */ }
+                const target = id ? document.getElementById(id) : null;
+                if (!target || !showFor(target)) {
+                    if (!id) {
+                        activate(sections[0]);
+                        document.title = baseTitle;
+                        if (!initial) window.scrollTo(0, 0);
+                    }
+                    return;
+                }
+                target.scrollIntoView({ block: 'start' });
+                if (target.id === 'hledani') searchInput.focus({ preventScroll: true });
+            }
+            window.addEventListener('hashchange', () => route(false));
+            navItems.forEach(a => a.addEventListener('click', () => {
+                setNavOpen(false);
+                if (a.getAttribute('href') === location.hash) route(false);
+            }));
+            document.querySelectorAll('.page-jump').forEach(select => {
+                select.addEventListener('change', () => {
+                    const page = document.getElementById(select.value);
+                    select.selectedIndex = 0;
+                    if (!page) return;
+                    history.replaceState(null, '', '#' + page.id);
+                    page.scrollIntoView({ block: 'start' });
+                });
+            });
+
+            // --- Rejstříky: příjmení, místa, domy ---
+            document.querySelectorAll('section.name-index').forEach(section => {
+                const input = section.querySelector('.ni-search');
+                const status = section.querySelector('.ni-status');
+                const empty = section.querySelector('.ni-empty');
+                const entries = Array.from(section.querySelectorAll('.ni-entry'));
+                const groups = Array.from(section.querySelectorAll('.ni-group'));
+                const keys = entries.map(li => li.dataset.search.split(' '));
+                const total = entries.length;
+
+                function filter() {
+                    const q = foldText(input.value.trim()).replace(/^c\.\s*(p\.\s*)?/, '');
+                    const numeric = /^\d+$/.test(q);
+                    let shown = 0;
+                    entries.forEach((li, i) => {
+                        const k = keys[i];
+                        // číslo domu hledej přesně (35 nenajde 135), slova i uprostřed
+                        const hit = !q || (numeric ? k[0] === q
+                            : k.some(w => w.startsWith(q)) || (q.length >= 3 && k.some(w => w.includes(q))));
+                        li.hidden = !hit;
+                        if (hit) shown++;
+                    });
+                    groups.forEach(g => { g.hidden = !g.querySelector('.ni-entry:not([hidden])'); });
+                    const open = q && shown <= 5;
+                    entries.forEach(li => { if (!li.hidden) li.querySelector('details').open = open; });
+                    status.textContent = q ? `nalezeno ${shown} z ${total}` : section.dataset.total;
+                    empty.hidden = shown > 0;
+                }
+                input.addEventListener('input', filter);
+            });
+
+            // --- Skok na stranu se zvýrazněním hledaného (z rejstříku nebo z hledání) ---
+            const back = document.getElementById('ni-back');
+            let returnTo = null;
+            function clearMarks() {
+                document.querySelectorAll('mark.ni-hit').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
+                document.querySelectorAll('.page.ni-target').forEach(p => p.classList.remove('ni-target'));
+            }
+            // re: skupina 1 = znak před shodou (nezvýrazní se), skupina 2 = shoda
+            function markMatches(page, re) {
+                const walker = document.createTreeWalker(page.querySelector('.transcription'), NodeFilter.SHOW_TEXT);
+                const nodes = [];
+                while (walker.nextNode()) nodes.push(walker.currentNode);
+                nodes.forEach(node => {
+                    const text = node.nodeValue;
+                    re.lastIndex = 0;
+                    if (!re.test(text)) return;
+                    re.lastIndex = 0;
+                    const frag = document.createDocumentFragment();
+                    let last = 0, m;
+                    while ((m = re.exec(text))) {
+                        if (!m[2]) { re.lastIndex++; continue; }
+                        const start = m.index + m[1].length;
+                        frag.append(text.slice(last, start));
+                        const mark = document.createElement('mark');
+                        mark.className = 'ni-hit';
+                        mark.textContent = m[2];
+                        frag.append(mark);
+                        last = start + m[2].length;
+                    }
+                    frag.append(text.slice(last));
+                    node.replaceWith(frag);
+                });
+            }
+            function goToPage(page, re, origin, backLabel) {
+                clearMarks();
+                showFor(page);
+                markMatches(page, re);
+                page.classList.add('ni-target');
+                returnTo = origin;
+                back.textContent = backLabel;
+                back.hidden = false;
+                history.pushState(null, '', '#' + page.id);
+                const first = page.querySelector('mark.ni-hit');
+                (first || page).scrollIntoView({ block: first ? 'center' : 'start' });
+            }
+            document.querySelectorAll('.ni-pages a').forEach(a => {
+                a.addEventListener('click', e => {
+                    const page = document.getElementById(a.getAttribute('href').slice(1));
+                    if (!page) return;
+                    e.preventDefault();
+                    const li = a.closest('.ni-entry');
+                    const forms = li.dataset.forms.split('|').map(f => escapeRe(f).replace(/\s+/g, '\\s*'));
+                    goToPage(page, new RegExp(`(^|[^\\p{L}\\d])(${forms.join('|')})(?![\\p{L}\\d])`, 'gu'),
+                             li, '↩ Zpět do rejstříku');
+                });
+            });
+            back.addEventListener('click', () => {
+                if (returnTo && returnTo.isConnected) {
+                    const section = returnTo.closest('.chronicle-section');
+                    history.pushState(null, '', '#' + section.id);
+                    activate(section);
+                    returnTo.scrollIntoView({ block: 'center' });
+                }
+                back.hidden = true;
+            });
+
+            // --- Hledání v celém textu (nahrazuje Ctrl+F, které vidí jen zobrazený oddíl) ---
+            const searchSection = document.getElementById('hledani');
+            const searchInput = searchSection.querySelector('.ft-search');
+            const searchStatus = searchSection.querySelector('.ft-status');
+            const searchResults = searchSection.querySelector('.ft-results');
+            const MAX_PAGES = 150, MAX_SNIPPETS = 3, CONTEXT = 70;
+            const VARIANTS = { a: 'aáä', c: 'cč', d: 'dď', e: 'eéěë', i: 'ií', n: 'nň', o: 'oóö', r: 'rř',
+                               s: 'sš', t: 'tť', u: 'uúůü', y: 'yý', z: 'zž' };
+            let fullText = null;
+
+            // Bez diakritiky a se stejnou délkou jako originál, aby pozice shody platily i v něm
+            function foldSameLength(text) {
+                const folded = foldText(text);
+                if (folded.length === text.length) return folded;
+                let out = '';
+                for (const ch of text.split('')) {
+                    const f = foldText(ch);
+                    out += f.length === 1 ? f : ch;
+                }
+                return out;
+            }
+            function buildFullText() {
+                fullText = Array.from(document.querySelectorAll('.page')).map(page => {
+                    const text = page.querySelector('.transcription').textContent.replace(/\s+/g, ' ').trim();
+                    return {
+                        page, text, folded: foldSameLength(text),
+                        label: page.querySelector('.page-number').textContent,
+                        section: page.closest('.chronicle-section').querySelector('h2').textContent,
+                    };
+                });
+            }
+            function queryRegex(q) {
+                const pattern = q.split('').map(ch =>
+                    ch === ' ' ? '\\s+' : VARIANTS[ch] ? `[${VARIANTS[ch]}]` : escapeRe(ch)).join('');
+                return new RegExp(`()(${pattern})`, 'giu');
+            }
+            function search() {
+                const q = foldText(searchInput.value.trim()).replace(/\s+/g, ' ');
+                searchResults.textContent = '';
+                if (q.length < 3) {
+                    searchStatus.textContent = q ? 'napište aspoň 3 znaky' : '';
+                    return;
+                }
+                if (!fullText) buildFullText();
+                const re = queryRegex(q);
+                let pages = 0, hits = 0, lastSection = null;
+                const frag = document.createDocumentFragment();
+                for (const item of fullText) {
+                    const positions = [];
+                    for (let i = item.folded.indexOf(q); i !== -1; i = item.folded.indexOf(q, i + q.length)) positions.push(i);
+                    if (!positions.length) continue;
+                    pages++;
+                    hits += positions.length;
+                    if (pages > MAX_PAGES) continue;
+                    if (item.section !== lastSection) {
+                        const h = document.createElement('h3');
+                        h.textContent = lastSection = item.section;
+                        frag.append(h);
+                    }
+                    const a = document.createElement('a');
+                    a.className = 'ft-hit';
+                    a.href = '#' + item.page.id;
+                    const label = document.createElement('span');
+                    label.className = 'ft-label';
+                    label.textContent = item.label + (positions.length > 1 ? ` (${positions.length}×)` : '');
+                    a.append(label);
+                    positions.slice(0, MAX_SNIPPETS).forEach(pos => {
+                        const start = Math.max(0, pos - CONTEXT), end = Math.min(item.text.length, pos + q.length + CONTEXT);
+                        const snippet = document.createElement('span');
+                        snippet.className = 'ft-snippet';
+                        const hit = document.createElement('b');
+                        hit.textContent = item.text.slice(pos, pos + q.length);
+                        snippet.append((start > 0 ? '…' : '') + item.text.slice(start, pos), hit,
+                                       item.text.slice(pos + q.length, end) + (end < item.text.length ? '…' : ''));
+                        a.append(snippet);
+                    });
+                    a.addEventListener('click', e => {
+                        e.preventDefault();
+                        goToPage(item.page, re, a, '↩ Zpět k hledání');
+                    });
+                    frag.append(a);
+                }
+                searchResults.append(frag);
+                searchStatus.textContent = !hits ? 'nic nenalezeno'
+                    : `výskytů: ${hits}, stran: ${pages}` + (pages > MAX_PAGES ? ` (zobrazeno prvních ${MAX_PAGES})` : '');
+            }
+            let searchTimer = null;
+            searchInput.addEventListener('input', () => {
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(search, 250);
+            });
+
+            route(true);
+        })();
+'''
+
+
 def _page_html(page_id, label: str, scan_url: str, scan_label: str, formatted: str, thumb_html: str = "",
                related_html: str = "") -> str:
     return f'''
@@ -405,6 +822,9 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
         page_count = len(transcriptions.get(name, {}))
         status = f" ({page_count} stránek)" if page_count > 0 else " (nepřepsáno)"
         nav_items.append(f'<a href="#{slug}" class="nav-item">{html.escape(name)}<span class="count">{status}</span></a>')
+    # Oddíly v pořadí čtení (kronika, pak tisky) pro listování předchozí / další
+    reading = [(slugify(s["name"]), s["name"], SECTION_SHORT.sub("", s["name"])) for s in SECTIONS]
+    reading += [(slugify(s["name"]), s["name"], s["short"]) for s in extras]
 
     nav_html = "\n".join(nav_items)
     extra_nav_html = ""
@@ -423,12 +843,13 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
 
     # Content sections
     content_sections = []
-    for section in SECTIONS:
+    for position, section in enumerate(SECTIONS):
         name = section["name"]
         slug = slugify(name)
         section_transcriptions = transcriptions.get(name, {})
 
         pages_html = []
+        jump = []
         if not section_transcriptions:
             pages_html.append('<p class="empty">Tato sekce zatím nebyla přepsána.</p>')
         else:
@@ -446,6 +867,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
                 if year:
                     label += f" · {html.escape(year)}"
                 scan_url = f"https://www.vranov.cz/evt_image.php?img={img_id}"
+                jump.append((img_id, label))
 
                 thumb_html = ""
                 if with_thumbnails:
@@ -462,27 +884,34 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
                     img_id, label, scan_url, "originální sken", formatted, thumb_html,
                     build_page_related_html(related_by_page.get(img_id, []))))
 
+        # První oddíl je vidět hned při načtení; ostatní zobrazuje skript podle adresy
         content_sections.append(f'''
-        <section id="{slug}" class="chronicle-section">
+        <section id="{slug}" class="chronicle-section{" active" if position == 0 else ""}">
             <h2>{html.escape(name)}</h2>
+            {_section_bar_html(reading, position, jump)}
             {"".join(pages_html)}
+            {_section_pager_html(reading, position)}
         </section>''')
 
-    for section in extras:
+    for position, section in enumerate(extras, len(SECTIONS)):
         pages_html = []
+        jump = []
         for page in section["pages"]:
             label = f"Strana {page['number']}" if page["number"] else "Nečíslovaná strana"
             label += f" · sken {page['scan']}/{len(section['pages'])}"
+            jump.append((page["id"], label))
             pages_html.append(_page_html(page["id"], label, section["source_url"], "sken (PDF)",
                                          format_text(page["text"], keep_breaks=True)))
         content_sections.append(f'''
         <section id="{slugify(section["name"])}" class="chronicle-section">
             <h2>{html.escape(section["name"])}</h2>
+            {_section_bar_html(reading, position, jump)}
             <p class="section-intro">{html.escape(section["intro"])}</p>
             {"".join(pages_html)}
+            {_section_pager_html(reading, position)}
         </section>''')
 
-    content_sections += [related_html, index_html, place_html, house_html]
+    content_sections += [related_html, index_html, place_html, house_html, SEARCH_SECTION_HTML]
     content_html = "\n".join(content_sections)
 
     # Stats
@@ -501,6 +930,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kronika obce Vranov – Přepis</title>
+    <script>document.documentElement.classList.add('js-views');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,700;1,7..72,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
     <style>
@@ -865,6 +1295,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
         .nd-mentions a {{ font-weight: 600; padding: 0 0.3em 0 0; }}
         .nd-mentions b {{ color: var(--color-text); }}
         .ni-intro code {{ font-size: 0.85em; }}
+        .ni-intro a, .ni-empty a {{ color: var(--color-accent); }}
         .page.ni-target {{ box-shadow: 0 0 0 2px var(--color-accent-light); }}
         #ni-back {{
             position: fixed;
@@ -916,7 +1347,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             .header {{ padding: 1rem; }}
             .page {{ break-inside: avoid; }}
         }}
-    </style>
+{VIEWS_CSS}    </style>
 </head>
 <body>
     <div class="header">
@@ -938,6 +1369,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
     <div class="container">
         <nav class="sidebar">
             <div class="nav-indexes">
+                <a href="#hledani" class="nav-item nav-index js-only">Hledat v textu<span class="count">(celá kronika najednou)</span></a>
                 <a href="#rejstrik" class="nav-item nav-index">Rejstřík příjmení<span class="count">({surname_count} příjmení)</span></a>
                 <a href="#rejstrik-mist" class="nav-item nav-index">Rejstřík míst<span class="count">({place_count} míst)</span></a>
                 <a href="#rejstrik-domu" class="nav-item nav-index">Rejstřík domů<span class="count">({house_count} čísel domů)</span></a>
@@ -959,105 +1391,9 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
     </div>
 
     <button type="button" id="ni-back" hidden>↩ Zpět do rejstříku</button>
+    <button type="button" id="nav-toggle" aria-expanded="false">☰ Obsah</button>
 
-    <script>
-        // Smooth scrolling for navigation
-        document.querySelectorAll('.nav-item').forEach(link => {{
-            link.addEventListener('click', e => {{
-                e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
-                if (target) target.scrollIntoView({{ behavior: 'smooth', block: 'start' }});
-            }});
-        }});
-
-        // --- Rejstříky: příjmení, místa, domy ---
-        (function () {{
-            const foldText = s => s.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g, '');
-            document.querySelectorAll('section.name-index').forEach(section => {{
-                const input = section.querySelector('.ni-search');
-                const status = section.querySelector('.ni-status');
-                const empty = section.querySelector('.ni-empty');
-                const entries = Array.from(section.querySelectorAll('.ni-entry'));
-                const groups = Array.from(section.querySelectorAll('.ni-group'));
-                const keys = entries.map(li => li.dataset.search.split(' '));
-                const total = entries.length;
-
-                function filter() {{
-                    const q = foldText(input.value.trim()).replace(/^c\\.\\s*(p\\.\\s*)?/, '');
-                    const numeric = /^\\d+$/.test(q);
-                    let shown = 0;
-                    entries.forEach((li, i) => {{
-                        const k = keys[i];
-                        // číslo domu hledej přesně (35 nenajde 135), slova i uprostřed
-                        const hit = !q || (numeric ? k[0] === q
-                            : k.some(w => w.startsWith(q)) || (q.length >= 3 && k.some(w => w.includes(q))));
-                        li.hidden = !hit;
-                        if (hit) shown++;
-                    }});
-                    groups.forEach(g => {{ g.hidden = !g.querySelector('.ni-entry:not([hidden])'); }});
-                    const open = q && shown <= 5;
-                    entries.forEach(li => {{ if (!li.hidden) li.querySelector('details').open = open; }});
-                    status.textContent = q ? `nalezeno ${{shown}} z ${{total}}` : section.dataset.total;
-                    empty.hidden = shown > 0;
-                }}
-                input.addEventListener('input', filter);
-            }});
-
-            // Zvýraznění jména na cílové stránce
-            const back = document.getElementById('ni-back');
-            let returnTo = null;
-            function clearMarks() {{
-                document.querySelectorAll('mark.ni-hit').forEach(m => m.replaceWith(document.createTextNode(m.textContent)));
-                document.querySelectorAll('.page.ni-target').forEach(p => p.classList.remove('ni-target'));
-            }}
-            function highlight(page, forms) {{
-                const escaped = forms.map(f => f.replace(/[.*+?^${{}}()|[\\]\\\\]/g, '\\\\$&').replace(/\\s+/g, '\\\\s*'));
-                const re = new RegExp(`(^|[^\\p{{L}}\\d])(${{escaped.join('|')}})(?![\\p{{L}}\\d])`, 'gu');
-                const walker = document.createTreeWalker(page.querySelector('.transcription'), NodeFilter.SHOW_TEXT);
-                const nodes = [];
-                while (walker.nextNode()) nodes.push(walker.currentNode);
-                nodes.forEach(node => {{
-                    const text = node.nodeValue;
-                    re.lastIndex = 0;
-                    if (!re.test(text)) return;
-                    re.lastIndex = 0;
-                    const frag = document.createDocumentFragment();
-                    let last = 0, m;
-                    while ((m = re.exec(text))) {{
-                        const start = m.index + m[1].length;
-                        frag.append(text.slice(last, start));
-                        const mark = document.createElement('mark');
-                        mark.className = 'ni-hit';
-                        mark.textContent = m[2];
-                        frag.append(mark);
-                        last = start + m[2].length;
-                    }}
-                    frag.append(text.slice(last));
-                    node.replaceWith(frag);
-                }});
-            }}
-            document.querySelectorAll('.ni-pages a').forEach(a => {{
-                a.addEventListener('click', e => {{
-                    const page = document.querySelector(a.getAttribute('href'));
-                    if (!page) return;
-                    e.preventDefault();
-                    clearMarks();
-                    const li = a.closest('.ni-entry');
-                    highlight(page, li.dataset.forms.split('|'));
-                    page.classList.add('ni-target');
-                    returnTo = li;
-                    back.hidden = false;
-                    history.pushState(null, '', a.getAttribute('href'));
-                    const first = page.querySelector('mark.ni-hit');
-                    (first || page).scrollIntoView({{ block: first ? 'center' : 'start' }});
-                }});
-            }});
-            back.addEventListener('click', () => {{
-                if (returnTo) returnTo.scrollIntoView({{ block: 'center' }});
-                back.hidden = true;
-            }});
-        }})();
-    </script>
+    <script>{PAGE_JS}    </script>
 </body>
 </html>'''
 

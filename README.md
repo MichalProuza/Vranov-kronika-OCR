@@ -150,7 +150,10 @@ python 04_build_html.py --with-thumbnails
 ## Výstup
 
 - `output/kronika_vranov.html` – kompletní přepis jako HTML stránka
-- Responzivní design, navigace po sekcích, tisk-friendly
+- Responzivní design, tisk-friendly
+- Zobrazuje se vždy jen jeden oddíl (desetiletí, rejstřík…): listování předchozí/další, skok na stranu,
+  odkazy na oddíl i stranu v adrese (`#rok-1920-1929`, `#page-123`)
+- Hledání v celém textu kroniky najednou (bez ohledu na diakritiku) se skokem na nalezené místo
 - Rejstřík příjmení, míst a domů s vyhledáváním (bez ohledu na diakritiku) a zvýrazněním na stránce
 - Nejistá slova označena oranžově, nečitelná červeně
 - Text zarovnaný do bloku (justify) – OCR řádkové zlomy se automaticky spojují do plynulého textu
