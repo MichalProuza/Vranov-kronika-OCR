@@ -66,6 +66,11 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
 - Automaticky preferuje uhlazené přepisy, pokud existují (s fallbackem na surové)
 - S `--raw` použije pouze surové OCR přepisy
 - Struktura: navigace po sekcích, jednotlivé stránky s přepisem
+- Jeden soubor, ale zobrazuje se vždy jen jeden oddíl (sekce, rejstřík, Souvislosti):
+  oddíl určuje adresa (`#rok-1920-1929`, `#page-123`, `#rejstrik`), přepíná je skript
+  `PAGE_JS`; lišta nad oddílem má předchozí/další a skok na stranu. Protože Ctrl+F vidí
+  jen zobrazený oddíl, je na stránce „Hledat v textu“ (`#hledani`) přes celou kroniku.
+  Bez JavaScriptu a při tisku je vidět vše pod sebou
 - Volitelně: vedle přepisu zobrazí i miniaturu originálu
 - Za kroniku zařadí tisky mimo kroniku ze seznamu `EXTRA_SECTIONS` v `config.py`
   (strany v `data/ocr_pages/<dir>/page_NNN.txt`, první řádek „- 4 -“ je tištěné číslo strany);
