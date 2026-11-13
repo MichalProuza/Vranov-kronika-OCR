@@ -10,6 +10,8 @@ on:
     paths:
       - "data/transcriptions.json"
       - "04_build_html.py"
+      - "brand.py"
+      - "data/znak_obce.png"
       - "name_index.py"
       - "place_index.py"
       - "data/rejstrik_vyjimky.txt"

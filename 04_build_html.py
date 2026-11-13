@@ -15,6 +15,8 @@ import html
 import json
 import re
 
+from brand import (BRAND_CSS, FONTS_URL, HEX, build_logomanual_html, favicon_uri, lockup_html,
+                   mark_svg, rosette_svg, svg_data_uri)
 from config import OUTPUT_HTML, POLISHED_FILE, RELATED_FILE, SECTIONS, TRANSCRIPTIONS_FILE
 from config import EXTRA_SECTIONS, PAGES_DIR
 from name_index import build_index
@@ -415,7 +417,8 @@ VIEWS_CSS = '''
         .js-views .chronicle-section.active { display: block; }
         .nav-item.active {
             background: var(--color-bg);
-            border-left-color: var(--color-accent);
+            border-left-color: var(--color-gold);
+            color: var(--color-accent);
             font-weight: 600;
         }
         .page { scroll-margin-top: 3.5rem; }
@@ -911,7 +914,9 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             {_section_pager_html(reading, position)}
         </section>''')
 
-    content_sections += [related_html, index_html, place_html, house_html, SEARCH_SECTION_HTML]
+    content_sections += [related_html, index_html, place_html, house_html, SEARCH_SECTION_HTML, build_logomanual_html()]
+    header_pattern = svg_data_uri(rosette_svg("#ffffff", HEX["carmine"]).replace("<svg ", '<svg opacity="0.045" '))
+    rosette_uri = svg_data_uri(rosette_svg(HEX["ochre"], HEX["paper"]))
     content_html = "\n".join(content_sections)
 
     # Stats
@@ -932,18 +937,27 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
     <title>Kronika obce Vranov – Přepis</title>
     <script>document.documentElement.classList.add('js-views');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,700;1,7..72,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{favicon_uri()}">
+    <meta name="theme-color" content="{HEX["carmine"]}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="{FONTS_URL}" rel="stylesheet">
     <style>
         :root {{
-            --color-bg: #faf8f4;
-            --color-paper: #ffffff;
-            --color-text: #2c2416;
+            /* barvy a písma: viz brand.py a oddíl Logomanuál */
+            --color-bg: {HEX["parchment"]};
+            --color-paper: {HEX["paper"]};
+            --color-text: {HEX["ink"]};
             --color-text-light: #6b5e4e;
-            --color-accent: #8b4513;
-            --color-accent-light: #d4a574;
-            --color-border: #e8dfd3;
-            --color-uncertain: #c77b2a;
+            --color-accent: {HEX["carmine"]};
+            --color-accent-light: #d9bd77;
+            --color-red: {HEX["red"]};
+            --color-gold: {HEX["gold"]};
+            --color-ochre: {HEX["ochre"]};
+            --color-blue: {HEX["petrol"]};
+            --color-border: #e6dbc6;
+            --color-uncertain: #a85f12;
             --color-unreadable: #b44;
+            --font-display: 'Grenze Gotisch', 'Literata', 'Georgia', serif;
             --font-body: 'Literata', 'Georgia', serif;
             --font-ui: 'Source Sans 3', sans-serif;
         }}
@@ -960,21 +974,33 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
 
         /* --- Header --- */
         .header {{
-            background: var(--color-accent);
-            color: #faf3eb;
-            padding: 3rem 2rem;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.13), transparent 62%),
+                url("{header_pattern}") 0 0 / 46px 46px,
+                var(--color-accent);
+            color: #fdf6ea;
+            padding: 2.6rem 2rem 2.4rem;
             text-align: center;
+            border-bottom: 7px solid var(--color-gold);
+            box-shadow: 0 3px 0 {HEX["blue"]};
+            margin-bottom: 3px;
         }}
         .header h1 {{
-            font-size: 2.4rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.02em;
+            font-family: var(--font-display);
+            font-size: clamp(2.6rem, 7vw, 4.2rem);
+            font-weight: 600;
+            line-height: 1.05;
+            margin-bottom: 0.7rem;
+            color: #fffaf0;
+            text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
         }}
         .header .subtitle {{
             font-family: var(--font-ui);
-            font-size: 1rem;
-            opacity: 0.85;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #f3d98a;
         }}
         .stats {{
             font-family: var(--font-ui);
@@ -1003,6 +1029,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             height: 100vh;
             overflow-y: auto;
         }}
+        .sidebar .nav-about {{ margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--color-border); }}
         .sidebar h3 {{
             font-family: var(--font-ui);
             font-size: 0.75rem;
@@ -1043,11 +1070,22 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             margin-bottom: 4rem;
         }}
         .chronicle-section h2 {{
-            font-size: 1.6rem;
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 2.7rem);
+            font-weight: 600;
+            line-height: 1.15;
             color: var(--color-accent);
-            border-bottom: 2px solid var(--color-accent-light);
-            padding-bottom: 0.5rem;
             margin-bottom: 2rem;
+        }}
+        /* linka s růžicí z koruny */
+        .chronicle-section h2::after {{
+            content: "";
+            display: block;
+            height: 14px;
+            margin-top: 0.5rem;
+            background:
+                url("{rosette_uri}") left center / 14px 14px no-repeat,
+                linear-gradient(var(--color-gold), var(--color-gold)) 22px 50% / calc(100% - 22px) 2px no-repeat;
         }}
 
         /* --- Page --- */
@@ -1055,7 +1093,9 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             margin-bottom: 2.5rem;
             background: var(--color-paper);
             border: 1px solid var(--color-border);
+            border-top: 3px solid var(--color-gold);
             border-radius: 4px;
+            box-shadow: 0 1px 2px rgba(60, 40, 10, 0.06), 0 6px 18px rgba(60, 40, 10, 0.05);
             overflow: hidden;
         }}
         .page-header {{
@@ -1070,7 +1110,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
         .scan-link {{
             font-family: var(--font-ui);
             font-size: 0.75rem;
-            color: var(--color-accent);
+            color: var(--color-blue);
             text-decoration: none;
             white-space: nowrap;
         }}
@@ -1082,7 +1122,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             padding: 1rem 1.25rem;
             background: var(--color-paper);
             border: 1px solid var(--color-border);
-            border-left: 4px solid var(--color-accent-light);
+            border-left: 4px solid var(--color-gold);
             border-radius: 4px;
             font-family: var(--font-ui);
             font-size: 0.9rem;
@@ -1344,13 +1384,17 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
         /* --- Print --- */
         @media print {{
             .sidebar, .ni-tools, .ni-letters, #ni-back {{ display: none; }}
-            .header {{ padding: 1rem; }}
+            .header {{ padding: 1rem; background: none; color: var(--color-text); box-shadow: none; }}
+            .header h1 {{ color: var(--color-accent); text-shadow: none; }}
+            .header .subtitle {{ color: var(--color-text-light); }}
+            .js-views .chronicle-section.logomanual {{ display: none; }}
             .page {{ break-inside: avoid; }}
         }}
-{VIEWS_CSS}    </style>
+{VIEWS_CSS}{BRAND_CSS}    </style>
 </head>
 <body>
     <div class="header">
+        {mark_svg("color", 104)}
         <h1>Kronika obce Vranov</h1>
         <p class="subtitle">Přepis ručně psané obecní kroniky</p>
         <p class="stats">Přepsáno {total_pages} stránek · {total_chars_fmt} znaků · rejstřík <a href="#rejstrik" style="color: inherit;">příjmení</a>, <a href="#rejstrik-mist" style="color: inherit;">míst</a> a <a href="#rejstrik-domu" style="color: inherit;">domů</a> · Zdroj: <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/" style="color: inherit;">vranov.cz</a></p>
@@ -1368,6 +1412,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
 
     <div class="container">
         <nav class="sidebar">
+            <a href="#{reading[0][0]}" class="sidebar-brand" title="Na začátek kroniky">{lockup_html("color", size=44)}</a>
             <div class="nav-indexes">
                 <a href="#hledani" class="nav-item nav-index js-only">Hledat v textu<span class="count">(celá kronika najednou)</span></a>
                 <a href="#rejstrik" class="nav-item nav-index">Rejstřík příjmení<span class="count">({surname_count} příjmení)</span></a>
@@ -1378,6 +1423,8 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             <h3>Obsah kroniky</h3>
             {nav_html}
             {extra_nav_html}
+            <h3 class="nav-about">O webu</h3>
+            <a href="#logomanual" class="nav-item">Logomanuál<span class="count">(značka, barvy, písmo)</span></a>
         </nav>
 
         <main class="content">
@@ -1386,8 +1433,10 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
     </div>
 
     <div class="footer">
+        {mark_svg("ink", 40)}
         <p>Přepis vytvořen pomocí Claude AI (Anthropic) z naskenovaných stránek obecní kroniky.</p>
         <p>Originální skeny: <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/">Oficiální stránky obce Vranov</a></p>
+        <p>Vzhled webu vychází ze znaku obce: <a href="#logomanual">logomanuál</a>.</p>
     </div>
 
     <button type="button" id="ni-back" hidden>↩ Zpět do rejstříku</button>

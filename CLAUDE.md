@@ -86,6 +86,11 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
   v `data/souvislosti.json`; pole `strany` obsahuje ID skenů stran, pod kterými se
   odkaz zobrazí, všechny články jsou navíc v přehledu „Souvislosti“ před rejstříky
 
+- Vzhled (barvy, písma, značka) je v `brand.py` a vychází ze znaku obce
+  (`data/znak_obce.png`, jen jako předloha). Značka webu je zjednodušená SVG kresba
+  `mark_svg()`; pravidla užití popisuje oddíl „Logomanuál“ (`#logomanual`), který
+  `build_logomanual_html()` přidává na konec stránky. Barvy se mění jen v `COLORS`
+
 ## Důležité poznámky
 
 - Ručně psaný text je obtížný na OCR – počítej s chybami, zvlášť u starších zápisů
