@@ -47,6 +47,18 @@ přepisem sestavíte příkazem `python 04_build_html.py --raw`
 číslování stran, duplicitní skeny mezi galeriemi, známé nejistoty) jsou v souborech
 `README.md` v adresářích `data/ocr_pages/section_XX/`.
 
+## Tisky k 750. výročí obce (1990)
+
+Mimo kroniku jsou přepsané i dva strojopisné tisky z roku 1990, jejichž skeny jsou
+v releasu [Vranov_1990](https://github.com/MichalProuza/Vranov-kronika-OCR/releases/tag/Vranov_1990):
+
+| Tisk | Stran | Souvislý přepis | Strany |
+| --- | --- | --- | --- |
+| Vranov u Brna 750 (1240–1990) – historie v datech, pomístní jména | 33 | [vranov-u-brna-750-1240-1990.md](docs/transcriptions/vranov-u-brna-750-1240-1990.md) | `data/ocr_pages/vranov_1240-1990/` |
+| Vranovák, srpen–září 1990 | 16 | [vranovak-1990.md](docs/transcriptions/vranovak-1990.md) | `data/ocr_pages/vranovak_1990_1/` |
+
+Tyto přepisy nejsou součástí `data/transcriptions.json`, a tedy ani webu a rejstříků.
+
 ## Jak to funguje
 
 1. **Scraping** – ze stránek obce se stáhnou URL všech naskenovaných stránek kroniky (~700+ obrázků)
