@@ -12,6 +12,7 @@ OUTPUT_DIR = PROJECT_DIR / "output"
 IMAGE_URLS_FILE = DATA_DIR / "image_urls.json"
 TRANSCRIPTIONS_FILE = DATA_DIR / "transcriptions.json"
 POLISHED_FILE = DATA_DIR / "transcriptions_polished.json"
+RELATED_FILE = DATA_DIR / "souvislosti.json"
 OUTPUT_HTML = OUTPUT_DIR / "kronika_vranov.html"
 
 # Create directories

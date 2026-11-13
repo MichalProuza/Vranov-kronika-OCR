@@ -73,6 +73,10 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
   seznamu `data/rejstrik_mist.txt` (chybějící kandidáty vypíše
   `python place_index.py --kandidati`), domy podle „č. 35“ / „č. p. 35“
   s úryvkem okolního textu
+- „Souvislosti“: články z Vranovského zpravodaje (PDF na vranov.cz), které zápisy
+  kroniky doplňují (např. vzpomínky na osvobození 1945). Ruční seznam je
+  v `data/souvislosti.json`; pole `strany` obsahuje ID skenů stran, pod kterými se
+  odkaz zobrazí, všechny články jsou navíc v přehledu „Souvislosti“ před rejstříky
 
 ## Důležité poznámky
 

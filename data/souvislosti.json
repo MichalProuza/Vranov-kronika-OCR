@@ -1,0 +1,560 @@
+{
+ "_popis": "Články z jiných pramenů, které doplňují zápisy kroniky. 'strany' jsou ID skenů (img) stran kroniky, u nichž se má odkaz zobrazit; prázdný seznam = článek je jen v souhrnném přehledu.",
+ "clanky": [
+  {
+   "zdroj": "Vranovský zpravodaj 2/2005",
+   "rok": 2005,
+   "strany_pdf": "1–2",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_18.pdf&original=ZPRAVO-2_05.pdf#page=1",
+   "titul": "Vzpomínka kronikáře na dobu osvobození",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Osvobození 1945",
+   "popis": "Vzpomínky tehdy sedmiletého pozdějšího kronikáře: lazaret ve škole, bomba na Opletalův dům, úkryt v lese „Za Šraňkem“, příjezd Rudé armády od Březiny.",
+   "strany": [
+    156,
+    157,
+    164
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 2/2005",
+   "rok": 2005,
+   "strany_pdf": "3–7",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_18.pdf&original=ZPRAVO-2_05.pdf#page=3",
+   "titul": "Vzpomínka na konec II. světové války",
+   "autor": "Jiří Skoupý",
+   "tema": "Osvobození 1945",
+   "popis": "Nejpodrobnější souvislé vylíčení dubna a května 1945 den po dni: uprchlíci z Brna, divize „Hirsch“, německý lazaret a hroby u hřbitova, tři pumy 27. dubna, zásah domu č. p. 137, ústup Němců, zátaras ze stromů, padlý rudoarmějec a pomník z roku 1973, první národní výbor.",
+   "strany": [
+    156,
+    157,
+    164,
+    166
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 2/2005",
+   "rok": 2005,
+   "strany_pdf": "7–8",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_18.pdf&original=ZPRAVO-2_05.pdf#page=7",
+   "titul": "Úryvky z kroniky obce Vranov – zápisky kronikáře Metoděje Drexlera",
+   "autor": "redakce zpravodaje",
+   "tema": "Osvobození 1945",
+   "popis": "Tištěný opis vybraných pasáží této kroniky z roku 1945 (strany 147–158). Hodí se ke kontrole přepisu; čtení některých jmen a čísel se od zdejšího přepisu liší.",
+   "strany": [
+    155,
+    156,
+    157,
+    164,
+    165,
+    166
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 2/2005",
+   "rok": 2005,
+   "strany_pdf": "10–11",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_18.pdf&original=ZPRAVO-2_05.pdf#page=10",
+   "titul": "Osvobození Vranova, jak je popsáno v kronice TJ Sokol Vranov",
+   "autor": "František Žáček, kronikář Sokola",
+   "tema": "Osvobození 1945",
+   "popis": "Jiný pramen k témuž dni: Ladislav Pačes a Jaroslav Vejmola přivádějí první ruskou hlídku, odklízení zátarasu, operační sál v sokolské tělocvičně, setkání s prezidentem Benešem u zříceného mostu v České.",
+   "strany": [
+    163,
+    164,
+    166
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 2/2005",
+   "rok": 2005,
+   "strany_pdf": "12",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_18.pdf&original=ZPRAVO-2_05.pdf#page=12",
+   "titul": "Oběti II. světové války z řad občanů Vranova; soupis konfiskovaného německého majetku",
+   "autor": "redakce zpravodaje",
+   "tema": "Osvobození 1945",
+   "popis": "Jmenný seznam obětí s roky narození a místy úmrtí, občané bojující na západní frontě a čísla popisná dvanácti konfiskovaných domů.",
+   "strany": [
+    166,
+    168,
+    171
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj říjen 2014",
+   "rok": 2014,
+   "strany_pdf": "19–21",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_44.pdf&original=ZpravodajVranov_10-2014_web.pdf#page=19",
+   "titul": "Tenkrát o volbách",
+   "autor": "Pavel Galík",
+   "tema": "Obecní správa",
+   "popis": "Obecní volby a vedení obce od roku 1849 podle kroniky, včetně první poválečné schůze v květnu 1945 a odvolání předsedy Řeholky v srpnu 1945.",
+   "strany": [
+    166,
+    170
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 4/2007",
+   "rok": 2007,
+   "strany_pdf": "7",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_9.pdf&original=Zpravodaj+4_07.pdf#page=7",
+   "titul": "Vzpomínka (František Knotek)",
+   "autor": "",
+   "tema": "Druhá světová válka",
+   "popis": "Vranovský občan František Knotek, člen posádky bombardéru Wellington, v září 1940 nouzově přistál v Holandsku a padl do zajetí.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 1/2004",
+   "rok": 2004,
+   "strany_pdf": "9",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_24.pdf&original=ZPRAVO-1_04.pdf#page=9",
+   "titul": "Z naší minulosti: voják Jan Holešovský (1. část)",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Druhá světová válka",
+   "popis": "Osud vranovského občana v československé zahraniční armádě; pokračování v čísle 2/2004.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 2/2004",
+   "rok": 2004,
+   "strany_pdf": "12",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_23.pdf&original=ZPRAVO-+2_04.pdf#page=12",
+   "titul": "Z naší minulosti: voják Jan Holešovský (dokončení)",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Druhá světová válka",
+   "popis": "Pokračování: odjezd z Francie do Anglie a služba v československé brigádě.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj zima 2018",
+   "rok": 2018,
+   "strany_pdf": "2–3",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_56.pdf&original=zpravodaj%20zima%202018.pdf#page=2",
+   "titul": "Vranováci ve válečných zákopech",
+   "autor": "Pavel Galík",
+   "tema": "První světová válka",
+   "popis": "Vranovští muži na frontách první světové války, mimo jiné podle vzpomínek rodiny Heinrichových.",
+   "strany": [
+    27,
+    28
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj léto 2018",
+   "rok": 2018,
+   "strany_pdf": "12–13",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_55.pdf&original=zpravodaj%20leto%2020018.pdf#page=12",
+   "titul": "Vranov v prvních dnech samostatného československého státu",
+   "autor": "Pavel Galík",
+   "tema": "Vznik republiky 1918",
+   "popis": "Konec války a převrat v říjnu 1918 ve Vranově.",
+   "strany": [
+    29
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj jaro 2019",
+   "rok": 2019,
+   "strany_pdf": "14–15",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_57.pdf&original=zpravodaj%20jaro%202019_II.pdf#page=14",
+   "titul": "Z vranovské kroniky: Vranov v době založení Sokola",
+   "autor": "Pavel Galík",
+   "tema": "Spolky",
+   "popis": "Obec v roce 1919, kdy byl založen vranovský Sokol.",
+   "strany": [
+    30
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 2/2007",
+   "rok": 2007,
+   "strany_pdf": "5–6",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_11.pdf&original=ZPRAVO-2_07.pdf#page=5",
+   "titul": "Z naší minulosti: Tělovýchovná jednota Sokol na Vranově",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Spolky",
+   "popis": "Dějiny vranovského Sokola od založení 29. května 1919, s výpisy z knihy protokolů včetně první schůze po osvobození 7. června 1945.",
+   "strany": [
+    30
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj říjen 2013",
+   "rok": 2013,
+   "strany_pdf": "14–17",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_45.pdf&original=ZpravodajVranov_10-2013_web.pdf#page=14",
+   "titul": "Z obecní kroniky: Sláva a pád vranovského spolku Moravan (1. část)",
+   "autor": "Pavel Galík",
+   "tema": "Spolky",
+   "popis": "Čtenářsko-pěvecký spolek Moravan: knihovna, noviny, ochotnické divadlo do roku 1914.",
+   "strany": [
+    27,
+    31
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj prosinec 2013",
+   "rok": 2013,
+   "strany_pdf": "9–11",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_43.pdf&original=ZpravodajVranov_12-2013_web.pdf#page=9",
+   "titul": "Z obecní kroniky: Sláva a pád vranovského spolku Moravan (dokončení)",
+   "autor": "Pavel Galík",
+   "tema": "Spolky",
+   "popis": "Spolek za první světové války a jeho zánik po roce 1918.",
+   "strany": [
+    27,
+    31
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 1/2003",
+   "rok": 2003,
+   "strany_pdf": "6–7",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_30.pdf&original=ZPRAV-+1_03.pdf#page=6",
+   "titul": "Z naší minulosti: Sbor dobrovolných hasičů",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Spolky",
+   "popis": "Počátky hasičského sboru založeného roku 1913; v čísle 3/2003 (s. 6) navazují výpisy z hasičské kroniky od roku 1915.",
+   "strany": [
+    31,
+    592,
+    658
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 3/2004",
+   "rok": 2004,
+   "strany_pdf": "10–11",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_22.pdf&original=ZPRAVO-+3_04.pdf#page=10",
+   "titul": "Z naší minulosti: Agitka Máj",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Spolky",
+   "popis": "Svazácký pěvecký soubor „Agitka Máj“ (1953–1957) a setkání jeho bývalých členů; další vzpomínka v čísle 3/2007 (s. 9).",
+   "strany": [
+    320
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj duben 2013",
+   "rok": 2013,
+   "strany_pdf": "16–19",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_41.pdf&original=ZpravodajVranov_04-2013_web+%282%29.pdf#page=16",
+   "titul": "Z obecní kroniky: Vranov v prezidentských kulisách",
+   "autor": "Pavel Galík",
+   "tema": "Z kroniky",
+   "popis": "Jak kronika zaznamenávala československé prezidenty od Masaryka po konec šedesátých let.",
+   "strany": [
+    119
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj říjen 2012",
+   "rok": 2012,
+   "strany_pdf": "18–20",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_40.pdf&original=ZpravodajVranov_10-2012_web.pdf#page=18",
+   "titul": "Z obecní kroniky: Lanovkou do Vranova",
+   "autor": "Pavel Galík",
+   "tema": "Z kroniky",
+   "popis": "Záměr lanovky z Adamova na Vranov, o kterou národní výbor žádal 22. února 1948.",
+   "strany": [
+    181
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj prosinec 2012",
+   "rok": 2012,
+   "strany_pdf": "18–21",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_39.pdf&original=ZpravodajVranov_12-2012_web.pdf#page=18",
+   "titul": "Z obecní kroniky: Vranovský advent v běhu času",
+   "autor": "Pavel Galík",
+   "tema": "Z kroniky",
+   "popis": "Advent a Vánoce ve Vranově podle kroniky: špitálníci v kostele, telefon 1930, hospodářská krize, válečné adventy.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj zima 2015/16",
+   "rok": 2015,
+   "strany_pdf": "7–9",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_50.pdf&original=zpravodaj.pdf#page=7",
+   "titul": "Z obecní kroniky: Jak bylo o Vánocích před rovným stoletím",
+   "autor": "Pavel Galík",
+   "tema": "Z kroniky",
+   "popis": "Vánoce za první světové války.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj říjen 2016",
+   "rok": 2016,
+   "strany_pdf": "17–21",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_52.pdf&original=zpravodaj+10-2016.pdf#page=17",
+   "titul": "Vranovské pranostiky",
+   "autor": "Pavel Galík",
+   "tema": "Z kroniky",
+   "popis": "Počasí, sucha a pranostiky v zápisech kronikáře Drexlera.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj podzim 2020",
+   "rok": 2020,
+   "strany_pdf": "4–6",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_60.pdf&original=VR_2020%20podzim_nahl_II%20%281%29.pdf#page=4",
+   "titul": "Vranovské zimy",
+   "autor": "Pavel Galík",
+   "tema": "Z kroniky",
+   "popis": "Tuhé zimy a lyžařská sláva Vranova podle kroniky, mimo jiné zápis z roku 1929 o „procesích lyžařů“.",
+   "strany": [
+    66
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj jaro 2018",
+   "rok": 2018,
+   "strany_pdf": "25–27",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_54.pdf&original=A5_Zpravodaj_Vranov_4_2018.pdf#page=25",
+   "titul": "Z obecní kroniky: Vranov Květy Legátové",
+   "autor": "Pavel Galík",
+   "tema": "Osobnosti",
+   "popis": "Spisovatelka Květa Legátová (Věra Hofmanová) byla dcerou vranovského řídícího učitele a náčelníka Sokola Karla Hofmana, který do obce přišel roku 1929.",
+   "strany": [
+    75
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj jaro 2020",
+   "rok": 2020,
+   "strany_pdf": "18–20",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_59.pdf&original=VR_2020%20jaro_korektura.pdf#page=18",
+   "titul": "Z vranovské kroniky: Vranov ve stínu morové nákazy",
+   "autor": "Pavel Galík",
+   "tema": "Starší dějiny",
+   "popis": "Morové epidemie 17. století a jejich stopy ve Vranově.",
+   "strany": [
+    269
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj jaro 2018",
+   "rok": 2018,
+   "strany_pdf": "6",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_54.pdf&original=A5_Zpravodaj_Vranov_4_2018.pdf#page=6",
+   "titul": "Historie pivovarnictví na Vranově",
+   "autor": "",
+   "tema": "Starší dějiny",
+   "popis": "Klášterní pivovar paulánů od založení konventu roku 1633.",
+   "strany": [
+    24
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj zima–jaro 2024",
+   "rok": 2024,
+   "strany_pdf": "14–17",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_64.pdf&original=Vranovsky%20zpravodaj_2024_04_A%20%289%29.pdf#page=14",
+   "titul": "Vranovské pivní dějiny",
+   "autor": "Pavel Galík",
+   "tema": "Starší dějiny",
+   "popis": "Pivovar, šenkovna a vranovské hospody od 17. století po hotel Barták.",
+   "strany": [
+    24
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj podzim 2023",
+   "rok": 2023,
+   "strany_pdf": "18–20",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_63.pdf&original=Vranovsk%C3%BD%20zpravodaj_2023_09_Zd_wiew.pdf#page=18",
+   "titul": "Zaniklá vranovská zákoutí",
+   "autor": "Pavel Galík",
+   "tema": "Starší dějiny",
+   "popis": "Zbořené domy a obyvatelé obce podle sčítání lidu z roku 1880.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj červen 2014",
+   "rok": 2014,
+   "strany_pdf": "12–15",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_46.pdf&original=ZpravodajVranov_6-2014_web.pdf#page=12",
+   "titul": "Z obecní kroniky: Vranov ve službách poutníků",
+   "autor": "Pavel Galík",
+   "tema": "Poutě a kostel",
+   "popis": "Poutní tradice jako základ existence obce.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 4/2004",
+   "rok": 2004,
+   "strany_pdf": "9–10",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_21.pdf&original=ZPRAVO-+4_04.pdf#page=9",
+   "titul": "Z naší minulosti: Poutníci – poutě Vranov",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Poutě a kostel",
+   "popis": "Dějiny a podoba vranovských poutí.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj jaro 2015",
+   "rok": 2015,
+   "strany_pdf": "14–17",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_48.pdf&original=ZpravodajVranov_Jaro2015_web.pdf#page=14",
+   "titul": "Z obecní kroniky: Vranovské zázraky",
+   "autor": "Pavel Galík",
+   "tema": "Poutě a kostel",
+   "popis": "Zázračná uzdravení připisovaná vranovské Panně Marii.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj prosinec 2016",
+   "rok": 2016,
+   "strany_pdf": "15–18",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_53.pdf&original=zpravodaj+12-2016.pdf#page=15",
+   "titul": "Příběh vranovských jesliček",
+   "autor": "Pavel Galík",
+   "tema": "Poutě a kostel",
+   "popis": "Vznik jesliček po druhé světové válce a osud salvatoriána Františka Janků.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 6/2003",
+   "rok": 2003,
+   "strany_pdf": "8–9",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_25.pdf&original=ZPRAV-+6_03.pdf#page=8",
+   "titul": "Z naší minulosti: Historie a osud vranovských zvonů",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Poutě a kostel",
+   "popis": "Zvony vranovského kostela a jejich rekvizice za obou světových válek.",
+   "strany": [
+    24,
+    88
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj červenec 2012",
+   "rok": 2012,
+   "strany_pdf": "8–10",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_38.pdf&original=ZpravodajVranov_07-2012_web.pdf#page=8",
+   "titul": "Z obecní kroniky: Zamilovaná Maria od studánky",
+   "autor": "Pavel Galík",
+   "tema": "Poutě a kostel",
+   "popis": "Příběh reliéfu na studánce Zdrávas Maria.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj léto 2019",
+   "rok": 2019,
+   "strany_pdf": "10–11",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_58.pdf&original=VR_zpravodaj%20leto2019_tisk.pdf#page=10",
+   "titul": "Z vranovské kroniky: Zamilovaný kníže František",
+   "autor": "Pavel Galík",
+   "tema": "Starší dějiny",
+   "popis": "Romantický příběh z rodu Lichtenštejnů.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj srpen 2013",
+   "rok": 2013,
+   "strany_pdf": "22–25",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_42.pdf&original=ZpravodajVranov_08-2013_web.pdf#page=22",
+   "titul": "Z obecní kroniky: Zapomenuté tajemství vranovské Kolonády",
+   "autor": "Pavel Galík",
+   "tema": "Starší dějiny",
+   "popis": "Lichtenštejnská vyhlídková kolonáda z počátku 19. století.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 3/2003",
+   "rok": 2003,
+   "strany_pdf": "7",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_28.pdf&original=ZPRAV-+3_03.pdf#page=7",
+   "titul": "Z naší minulosti: Nový hrad (1. část)",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Starší dějiny",
+   "popis": "Dějiny Nového hradu nad Svitavou, k jehož panství Vranov patřil; pokračování v číslech 4/2003 (s. 5–6) a 5/2003 (s. 6–7, švédské obléhání).",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 2/2003",
+   "rok": 2003,
+   "strany_pdf": "8",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_29.pdf&original=ZPRAV-+2_03.pdf#page=8",
+   "titul": "Z naší minulosti: staré vranovské rody",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Starší dějiny",
+   "popis": "Rody doložené ve Vranově od roku 1633 (Vejmolové a další).",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 2/2002",
+   "rok": 2002,
+   "strany_pdf": "8",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_34.pdf&original=ZPRAV-+2_02.pdf#page=8",
+   "titul": "Z naší minulosti: obecní radnice",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Obecní správa",
+   "popis": "Obecní zastupitelstvo po roce 1849 a jeho radnice.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 3/2002",
+   "rok": 2002,
+   "strany_pdf": "7–8",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_33.pdf&original=ZPRAV-+3_02.pdf#page=7",
+   "titul": "Z naší minulosti: obecní cesty a silnice",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Obecní správa",
+   "popis": "Stavba cest a silnic do sousedních obcí, zejména v letech 1904–1909.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 4/2002",
+   "rok": 2002,
+   "strany_pdf": "6–7",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_32.pdf&original=ZPRAV-+4_02.pdf#page=6",
+   "titul": "Z naší minulosti: starostové a počty obyvatel",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Obecní správa",
+   "popis": "Vedení obce po roce 1909 a statistika obyvatel a domů 1834–1930.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 5/2002",
+   "rok": 2002,
+   "strany_pdf": "7–8",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_31.pdf&original=ZPRAV-+5_02.pdf#page=7",
+   "titul": "Z naší minulosti: vranovská škola",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Obecní správa",
+   "popis": "Dějiny školy od roku 1785.",
+   "strany": []
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 5/2004",
+   "rok": 2004,
+   "strany_pdf": "12–13",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_20.pdf&original=ZPRAVO-+5_04.pdf#page=12",
+   "titul": "Z naší minulosti: kulturní památky a chráněná území",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Z kroniky",
+   "popis": "Komentář k zápisu kroniky z roku 1983 o státem chráněných památkách v obci.",
+   "strany": [
+    665,
+    666
+   ]
+  },
+  {
+   "zdroj": "Vranovský zpravodaj 1/2008",
+   "rok": 2008,
+   "strany_pdf": "10–11",
+   "url": "https://www.vranov.cz/e_download.php?file=data/editor/71cs_8.pdf&original=Zpravodaj+1_08.pdf#page=10",
+   "titul": "Kronika vzpomíná",
+   "autor": "Jaroslav Nedoma st.",
+   "tema": "Z kroniky",
+   "popis": "Dějiny samotné obecní kroniky od rozhodnutí zastupitelstva roku 1923 a její kronikáři.",
+   "strany": [
+    8,
+    10
+   ]
+  }
+ ]
+}
