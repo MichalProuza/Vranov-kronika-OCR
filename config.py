@@ -40,6 +40,21 @@ SECTIONS = [
     {"name": "Rok 1990–1993", "slug": "rok-1990-1993-14cs.html"},
 ]
 
+# Další přepsané tisky mimo kroniku (strany leží v data/ocr_pages/<dir>/page_NNN.txt).
+# Na webu se zobrazí jako sekce za kronikou; id_base odlišuje jejich strany od skenů kroniky.
+PAGES_DIR = DATA_DIR / "ocr_pages"
+_RELEASE_1990 = "https://github.com/MichalProuza/Vranov-kronika-OCR/releases/download/Vranov_1990/"
+EXTRA_SECTIONS = [
+    {"name": "Vranov u Brna 750 (1240–1990)", "short": "Vranov 750", "dir": "vranov_1240-1990",
+     "id_base": 10000, "source_url": _RELEASE_1990 + "vranov.1240-1990.pdf",
+     "intro": "Brožura vydaná k 750. výročí obce: historie v datech 1240–1989 (Jiří Skoupý, Jaroslav Nedoma), "
+              "pomístní jména (Jiří Skoupý) a ukázky místního nářečí. Strojopis, zveřejněno se souhlasem držitelů práv."},
+    {"name": "Vranovák (srpen–září 1990)", "short": "Vranovák 1990", "dir": "vranovak_1990_1",
+     "id_base": 11000, "source_url": _RELEASE_1990 + "vranovak.1990.1.pdf",
+     "intro": "Zpravodaj vydaný Drobnými provozovnami MNV Vranov u Brna k oslavám 750 let obce. "
+              "Strojopis, zveřejněno se souhlasem držitelů práv."},
+]
+
 # --- Claude API ---
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 CLAUDE_MODEL = "claude-opus-4-20250514"
