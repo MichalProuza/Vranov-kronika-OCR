@@ -356,10 +356,12 @@ def build_related_section_html(related: list[dict], meta: dict) -> str:
     return f'''
         <section id="souvislosti" class="chronicle-section related-section">
             <h2>Souvislosti</h2>
-            <p class="ni-intro">Články, které zápisy kroniky doplňují: vzpomínky pamětníků, výpisy z jiných kronik
-            a komentáře obecních kronikářů. Většina je z Vranovského zpravodaje (2002–2024) a odkazy vedou na PDF na
-            <a href="https://www.vranov.cz/obec/zpravodaj-/">webu obce Vranov</a>; ostatní odkazy (označené „web“) vedou
-            na stránky jiných autorů. U stran kroniky, kterých se článek týká, je na něj odkaz přímo pod přepisem. Seznam je ruční výběr (soubor <code>data/souvislosti.json</code>) a není úplný.</p>
+            <p class="ni-intro">Články, které zápisy kroniky doplňují: vzpomínky pamětníků, výpisy z jiných kronik,
+            komentáře obecních kronikářů a práce badatelů. Zhruba polovina je z Vranovského zpravodaje (2002–2024)
+            a odkazy vedou na PDF na <a href="https://www.vranov.cz/obec/zpravodaj-/">webu obce Vranov</a>; ostatní
+            vedou na stránky jiných autorů a institucí (regionální badatelské weby, encyklopedie, digitální knihovny).
+            Texty se sem nepřebírají, u každého je jen krátká anotace, a kde se pramen s kronikou rozchází, je to v ní
+            uvedeno. U stran kroniky, kterých se článek týká, je na něj odkaz přímo pod přepisem. Seznam je ruční výběr (soubor <code>data/souvislosti.json</code>) a není úplný.</p>
             {"".join(blocks)}
         </section>'''
 
