@@ -44,7 +44,9 @@ kliknutí se hledané slovo na stránce zvýrazní):
 Pod některými stranami je rámeček **Souvislosti** s odkazy na články
 [Vranovského zpravodaje](https://www.vranov.cz/obec/zpravodaj-/), které zápis doplňují
 – například vzpomínky pamětníků a výpisy ze sokolské kroniky k osvobození v květnu 1945
-(zpravodaj 2/2005). Přehled všech 44 vybraných článků je na stránce před rejstříky;
+(zpravodaj 2/2005). Výjimečně jde o článek z jiného webu, například o pádu německého
+cvičného letounu u Vranova za války (Badatelna, davar.cz). Přehled všech 45 vybraných
+článků je na stránce před rejstříky;
 seznam se udržuje ručně v `data/souvislosti.json` (pole `strany` = ID skenů stran
 kroniky, k nimž článek patří).
 

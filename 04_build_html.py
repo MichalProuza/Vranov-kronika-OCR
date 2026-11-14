@@ -323,8 +323,9 @@ def _related_source(article: dict) -> str:
 
 def _related_link(article: dict) -> str:
     author = f' <span class="rel-author">({html.escape(article["autor"])})</span>' if article.get("autor") else ""
+    kind = "PDF" if ".pdf" in article["url"].lower() else "web"
     return (f'<a href="{html.escape(article["url"])}" target="_blank" rel="noopener">{html.escape(article["titul"])}</a>'
-            f'{author} <span class="rel-source">– {html.escape(_related_source(article))}, PDF ↗</span>')
+            f'{author} <span class="rel-source">– {html.escape(_related_source(article))}, {kind} ↗</span>')
 
 
 def build_page_related_html(articles: list[dict]) -> str:
@@ -355,10 +356,10 @@ def build_related_section_html(related: list[dict], meta: dict) -> str:
     return f'''
         <section id="souvislosti" class="chronicle-section related-section">
             <h2>Souvislosti</h2>
-            <p class="ni-intro">Články z Vranovského zpravodaje (2002–2024), které zápisy kroniky doplňují: vzpomínky pamětníků,
-            výpisy z jiných kronik a komentáře obecních kronikářů. Odkazy vedou na PDF na
-            <a href="https://www.vranov.cz/obec/zpravodaj-/">webu obce Vranov</a>; u stran kroniky, kterých se článek týká,
-            je na něj odkaz přímo pod přepisem. Seznam je ruční výběr (soubor <code>data/souvislosti.json</code>) a není úplný.</p>
+            <p class="ni-intro">Články, které zápisy kroniky doplňují: vzpomínky pamětníků, výpisy z jiných kronik
+            a komentáře obecních kronikářů. Většina je z Vranovského zpravodaje (2002–2024) a odkazy vedou na PDF na
+            <a href="https://www.vranov.cz/obec/zpravodaj-/">webu obce Vranov</a>; ostatní odkazy (označené „web“) vedou
+            na stránky jiných autorů. U stran kroniky, kterých se článek týká, je na něj odkaz přímo pod přepisem. Seznam je ruční výběr (soubor <code>data/souvislosti.json</code>) a není úplný.</p>
             {"".join(blocks)}
         </section>'''
 

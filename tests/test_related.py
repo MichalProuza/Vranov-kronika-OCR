@@ -33,7 +33,9 @@ def test_data_file_is_consistent():
     for a in articles:
         for key in ("zdroj", "url", "titul", "tema", "popis", "strany"):
             assert key in a, (key, a.get("titul"))
-        assert a["url"].startswith("https://www.vranov.cz/"), a["url"]
+        assert a["url"].startswith("https://"), a["url"]
+        if a.get("strany_pdf"):
+            assert a["url"].startswith("https://www.vranov.cz/") and ".pdf" in a["url"], a["url"]
         assert set(a["strany"]) <= known, a["titul"]
 
 
@@ -51,3 +53,10 @@ def test_no_related_no_section():
     out = build.build_html(TRANSCRIPTIONS, related=[])
     assert 'id="souvislosti"' not in out
     assert 'class="related"' not in out
+
+
+def test_link_kind_pdf_or_web():
+    assert "PDF ↗" in build._related_link(ARTICLE)
+    web = {**ARTICLE, "url": "https://davar.cz/badatelna/xref/let_vranov.htm", "strany_pdf": ""}
+    link = build._related_link(web)
+    assert "web ↗" in link and "PDF" not in link and ", s. " not in link
