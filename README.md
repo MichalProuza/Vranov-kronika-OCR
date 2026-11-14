@@ -1,12 +1,12 @@
 # 📜 Kronika obce Vranov – OCR přepis
 
-Automatický přepis ručně psané obecní kroniky obce Vranov pomocí Claude AI (vision).
+Přepis ručně psané obecní kroniky obce Vranov (u Brna) pomocí Claude AI (vision) a statický web s přepisem, rejstříky a hledáním.
 
 Zdrojové skeny kroniky: [vranov.cz/obec/historie/kronika-obce-vranov](https://www.vranov.cz/obec/historie/kronika-obce-vranov/)
 
 **Přepis online:** [michalprouza.github.io/Vranov-kronika-OCR](https://michalprouza.github.io/Vranov-kronika-OCR/)
-(stránku sestavuje a publikuje workflow `.github/workflows/pages.yml` při každé změně
-`data/transcriptions.json` ve větvi `main`).
+(stránku sestavuje a publikuje workflow `.github/workflows/pages.yml` při změně přepisů,
+dat nebo skriptů webu ve větvi `main`, viz [Publikace](#publikace)).
 
 **Kronika je přepsaná celá: všech 828 skenů ve 13 sekcích.** Přepis vznikl přímým
 čtením skenů (a jejich zvětšených výřezů) jazykovým modelem s vizí; zachovává
@@ -55,7 +55,7 @@ Všechny strany jsou také v `data/transcriptions.json`; HTML stránku s celým
 přepisem sestavíte příkazem `python 04_build_html.py --raw`
 (výstup `output/kronika_vranov.html`). Podrobnosti k jednotlivým sekcím (kronikáři,
 číslování stran, duplicitní skeny mezi galeriemi, známé nejistoty) jsou v souborech
-`README.md` v adresářích `data/ocr_pages/section_XX/`.
+`README.md` v adresářích `data/ocr_pages/section_XX/` (sekce 01 a 11 je nemají).
 
 ## Tisky k 750. výročí obce (1990)
 
@@ -71,29 +71,60 @@ Na webu jsou oba tisky zařazeny jako samostatné sekce za kronikou a rejstřík
 v `data/transcriptions.json`; `04_build_html.py` je čte přímo ze souborů stran podle seznamu
 `EXTRA_SECTIONS` v `config.py`.
 
-## Jak to funguje
+## Jak přepis vznikl
 
-1. **Scraping** – ze stránek obce se stáhnou URL všech naskenovaných stránek kroniky (~700+ obrázků)
-2. **Download** – obrázky se stáhnou v plném rozlišení
-3. **OCR přepis** – každý obrázek se odešle do Claude API (vision model), který přečte ručně psaný český text
-4. **Uhlazení textu** – surové OCR přepisy se pošlou jazykovému modelu, který opraví překlepy, gramatiku a chyby OCR
-5. **HTML výstup** – z přepisů se sestaví přehledná webová stránka s navigací
+Repozitář obsahuje dvě cesty k přepisu. Zveřejněný přepis vznikl tou druhou.
+
+**A. Původní pipeline přes Claude API (skripty 01–05)**
+
+1. **Scraping** (`01_scrape_urls.py`) – z 13 galerií na webu obce vytáhne ID a URL skenů do
+   `data/image_urls.json` (828 skenů, soubor je v repozitáři).
+2. **Download** (`02_download_images.py`) – stáhne skeny v plném rozlišení do
+   `data/images/section_XX/page_NNN_idID.jpg` (adresář není v gitu).
+3. **OCR přepis** (`03_ocr_transcribe.py`) – pošle každý sken do Claude API (vision) spolu s koncem
+   přepisu předchozí strany jako kontextem; výsledek ukládá do `data/transcriptions.json`.
+4. **Uhlazení textu** (`05_polish_text.py`) – surové přepisy pošle jazykovému modelu k opravě
+   překlepů a chyb OCR; výsledek ukládá do `data/transcriptions_polished.json`.
+5. **HTML výstup** (`04_build_html.py`) – z přepisů sestaví webovou stránku.
+
+**B. Přepis po stranách do souborů (takto vznikl současný stav)**
+
+Strany jsou přepsané přímým čtením skenů a uložené jako textové soubory
+`data/ocr_pages/section_XX/page_NNN_idID.txt` (první řádek je číslo strany kroniky, druhý rok
+nebo prázdný řádek). Skript `06_merge_page_texts.py` je podle `data/image_urls.json` sloučí do
+`data/transcriptions.json` ve stejném formátu, jaký vyrábí krok 3. Soubor
+`data/transcriptions.json` v repozitáři odpovídá souborům stran přesně (828 stran). Uhlazení
+(krok 4) se na zveřejněný přepis nepoužilo: `data/transcriptions_polished.json` v repozitáři
+není a web se sestavuje s `--raw`.
+
+Souvislé přepisy a seznamy míst k ověření v `docs/transcriptions/` jsou uložené hotové; skript,
+který by je generoval, v repozitáři není.
 
 ## Požadavky
 
-- Python 3.10+
-- Anthropic API klíč (Claude Sonnet 4)
-- Cca 700 API volání → odhadem **$5–15** dle velikosti obrázků
+- Python 3.10+ (testy běží v CI na 3.10, web se sestavuje na 3.12).
+- Sestavení HTML (`04_build_html.py`), sloučení stran (`06_merge_page_texts.py`) a rejstříky
+  nepotřebují nic mimo standardní knihovnu – ani API klíč, ani internet.
+- Skripty 01 a 02 potřebují `requests`, `beautifulsoup4` a `tqdm`; skripty 03 a 05 balíček
+  `anthropic` a API klíč v proměnné `ANTHROPIC_API_KEY`. Vše je v `requirements.txt`.
+
+> **Pozor – modely ve skriptech 03 a 05 je před použitím potřeba aktualizovat.**
+> `config.py` má `CLAUDE_MODEL = "claude-opus-4-20250514"` (používá ho `03_ocr_transcribe.py`)
+> a `05_polish_text.py` nabízí `claude-opus-4-20250514`, `claude-sonnet-4-20250514`
+> a `claude-haiku-4-5-20251001`. Modely Claude Opus 4 a Sonnet 4 už Anthropic neprovozuje
+> (vyřazeny 15. 6. 2026), takže krok 3 a volby `opus`/`sonnet` v kroku 5 bez úpravy ID modelu
+> skončí chybou API. Cenu nového běhu je proto nutné spočítat podle aktuálního ceníku; částky,
+> které vypisuje `05_polish_text.py` (~$38 / ~$8 / ~$2 za celou kroniku), platily pro původní modely.
 
 ## Instalace
 
 ```bash
-git clone <repo-url>
-cd kronika-vranov-ocr
+git clone https://github.com/MichalProuza/Vranov-kronika-OCR.git
+cd Vranov-kronika-OCR
 pip install -r requirements.txt
 ```
 
-Nastav API klíč – podle prostředí:
+API klíč (jen pro skripty 03 a 05) – podle prostředí:
 
 **Linux / macOS (bash/zsh):**
 ```bash
@@ -109,58 +140,89 @@ $env:ANTHROPIC_API_KEY = 'sk-ant-api03-...'
 
 ## Spuštění
 
+### Sestavení webu z přepisů v repozitáři
+
 ```bash
-# 1. Stáhni URL obrázků z webu
-python 01_scrape_urls.py
+# Po úpravě souborů stran v data/ocr_pages/section_XX/ je slouč do transcriptions.json
+python 06_merge_page_texts.py
 
-# 2. Stáhni obrázky (700+ souborů, může trvat)
-python 02_download_images.py
-
-# 3. OCR přepis pomocí Claude API
-#    Celé najednou:
-python 03_ocr_transcribe.py
-
-#    Nebo po sekcích:
-python 03_ocr_transcribe.py --section "Úvod až rok 1919"
-python 03_ocr_transcribe.py --section-index 2
-
-#    Jen náhled bez volání API:
-python 03_ocr_transcribe.py --dry-run
-
-# 4. Uhlaď přepisy jazykovým modelem
-#    Interaktivně se zeptá na model (opus/sonnet/haiku):
-python 05_polish_text.py
-
-#    Nebo rovnou s konkrétním modelem:
-python 05_polish_text.py --model sonnet
-
-#    Po sekcích:
-python 05_polish_text.py --section "Úvod až rok 1919"
-
-#    Přepsat existující uhlazení jiným modelem:
-python 05_polish_text.py --force --model opus
-
-# 5. Sestav HTML stránku (automaticky použije uhlazené přepisy)
-python 04_build_html.py
-
-# Ze surových OCR přepisů (bez uhlazení):
+# Sestav HTML (stejně jako workflow pro GitHub Pages); trvá zhruba půl minuty
 python 04_build_html.py --raw
 
-# S miniaturami originálních skenů:
-python 04_build_html.py --with-thumbnails
+# S miniaturami skenů vedle přepisu (načítají se z vranov.cz až při prohlížení)
+python 04_build_html.py --raw --with-thumbnails
 ```
+
+Bez `--raw` použije `04_build_html.py` uhlazené přepisy z `data/transcriptions_polished.json`,
+pokud soubor existuje (strany, které v něm chybí, doplní ze surových); jinak sestaví ze surových.
+
+### Původní pipeline (stahuje z webu obce a volá placené API)
+
+```bash
+# 1. Stáhni URL obrázků z webu (přepíše data/image_urls.json)
+python 01_scrape_urls.py
+
+# 2. Stáhni obrázky (828 souborů, může trvat)
+python 02_download_images.py
+
+# 3. OCR přepis pomocí Claude API (obrázky posílá jako URL, plná kvalita)
+python 03_ocr_transcribe.py
+python 03_ocr_transcribe.py --section "Úvod až rok 1919"   # jen sekce (stačí část názvu)
+python 03_ocr_transcribe.py --section-index 2              # sekce podle pořadí (od 1)
+python 03_ocr_transcribe.py --limit 5                      # nejvýš 5 stran
+python 03_ocr_transcribe.py --local                        # obrázky z disku (po kroku 2)
+python 03_ocr_transcribe.py --no-context                   # bez přepisu předchozí strany
+python 03_ocr_transcribe.py --force                        # přepíše i hotové strany
+python 03_ocr_transcribe.py --dry-run                      # jen vypíše, co by dělal
+
+# 4. Uhlaď přepisy jazykovým modelem
+python 05_polish_text.py                 # na model (opus/sonnet/haiku) se zeptá
+python 05_polish_text.py --model haiku   # nebo rovnou s modelem
+python 05_polish_text.py --section "Úvod až rok 1919"
+python 05_polish_text.py --force --model haiku   # přepíše existující uhlazení
+# dále --section-index, --limit, --no-context, --dry-run jako u kroku 3
+
+# 5. Sestav HTML (automaticky použije uhlazené přepisy, pokud existují)
+python 04_build_html.py
+```
+
+`03_ocr_transcribe.py` zapisuje do stejného `data/transcriptions.json`, ve kterém je hotový
+přepis; hotové strany přeskakuje, s `--force` by je ale přepsal výstupem API.
+
+### Testy
+
+```bash
+pip install pytest
+pytest
+```
+
+V `tests/` je 29 testů (rejstřík příjmení, míst a domů, Souvislosti, tisky mimo kroniku,
+přepínání oddílů, vzhled, slučování stran). Skripty 01–03 a 05 testy nemají. Workflow
+`.github/workflows/python-app.yml` pouští flake8 a pytest při pushi do `main` a u pull requestů.
 
 ## Výstup
 
-- `output/kronika_vranov.html` – kompletní přepis jako HTML stránka
+- `output/kronika_vranov.html` – celý přepis v jednom souboru (asi 4,4 MB, adresář `output/`
+  není v gitu). CSS i skript jsou vložené; z internetu se načítají jen písma (Google Fonts),
+  odkazované skeny a případné miniatury
 - Responzivní design, tisk-friendly
-- Zobrazuje se vždy jen jeden oddíl (desetiletí, rejstřík…): listování předchozí/další, skok na stranu,
-  odkazy na oddíl i stranu v adrese (`#rok-1920-1929`, `#page-123`)
+- Zobrazuje se vždy jen jeden oddíl (desetiletí, tisk, rejstřík…): listování předchozí/další, skok na stranu,
+  odkazy na oddíl i stranu v adrese (`#rok-1920-1929`, `#page-123`). Bez JavaScriptu a při tisku je
+  vidět vše pod sebou
 - Hledání v celém textu kroniky najednou (bez ohledu na diakritiku) se skokem na nalezené místo
 - Rejstřík příjmení, míst a domů s vyhledáváním (bez ohledu na diakritiku) a zvýrazněním na stránce
+- Souvislosti pod stranami a v souhrnném přehledu, tisky k 750. výročí jako sekce za kronikou
+- U každé strany odkaz na originální sken na webu obce (u tisků na PDF v releasu)
 - Nejistá slova označena oranžově, nečitelná červeně
-- Text zarovnaný do bloku (justify) – OCR řádkové zlomy se automaticky spojují do plynulého textu
+- Text zarovnaný do bloku (justify) – OCR řádkové zlomy se automaticky spojují do plynulého textu;
+  u strojopisných tisků se řádky ponechávají
 - Rozdělovníky na konci řádku se automaticky spojí (např. `Schön-` + `brunn` → `Schönbrunn`)
+- Na konci stránky je **logomanuál** (`#logomanual`): značka webu, barvy a písma. Vzhled je
+  v `brand.py` a vychází ze znaku obce (`data/znak_obce.png`); značka je zjednodušená kresba,
+  ne úřední znak
+
+Strany se v sekci řadí podle ID skenu, ne podle pořadí v galerii. V sekci 1951–1954 proto web
+ukazuje strany v pořadí 3, 1, 2 (skeny 245, 246, 247).
 
 ## Rejstřík příjmení
 
@@ -216,9 +278,26 @@ z úryvku.
 
 ## Resume podpora
 
-Skripty 02, 03 a 05 podporují přerušení a pokračování – přeskočí už stažené/přepsané/uhlazené stránky. Můžeš klidně zpracovávat po sekcích a průběžně kontrolovat kvalitu.
+Skripty 02, 03 a 05 podporují přerušení a pokračování – přeskočí už stažené/přepsané/uhlazené stránky. Skripty 03 a 05 ukládají po každé straně a mezi voláními API čekají 2 sekundy.
+
+- Skript 02 považuje za stažený každý neprázdný soubor. Po přerušeném stahování proto nedokončený
+  obrázek smaž ručně, jinak se už nestáhne znovu.
+- Skripty 03 a 05 při překročení limitu API (rate limit) počkají 60 s a stranu zkusí ještě jednou.
+  Jinou chybu jen vypíšou a pokračují další stranou; chybějící strany doplní další spuštění.
+- Odpověď oříznutou limitem 8192 výstupních tokenů skripty nepoznají a uloží ji jako hotovou.
 
 Skript 05 při opakovaném spuštění detekuje existující uhlazené přepisy a nabídne přepsání jiným modelem, zpracování jen chybějících stránek, nebo zrušení.
+
+## Publikace
+
+Web na GitHub Pages sestavuje a publikuje `.github/workflows/pages.yml`: spustí
+`python 04_build_html.py --raw` a výsledek nasadí jako `index.html`. Spouští se při pushi do
+`main`, který změní `data/transcriptions.json`, `data/souvislosti.json`, seznamy rejstříků
+(`data/rejstrik_mist.txt`, `data/rejstrik_vyjimky.txt`), strany tisků v `data/ocr_pages/vranov_1240-1990/`
+a `data/ocr_pages/vranovak_1990_1/`, `data/znak_obce.png`, `04_build_html.py`, `brand.py`,
+`name_index.py`, `place_index.py`, `config.py` nebo samotný workflow; lze ho pustit i ručně.
+Změna souborů stran kroniky v `data/ocr_pages/section_XX/` se na webu projeví až po sloučení
+skriptem `06_merge_page_texts.py`.
 
 ## Struktura projektu
 
@@ -226,29 +305,39 @@ Skript 05 při opakovaném spuštění detekuje existující uhlazené přepisy 
 ├── CLAUDE.md               # Instrukce pro Claude Code
 ├── README.md
 ├── requirements.txt
-├── config.py               # Sdílená konfigurace
+├── config.py               # Sdílená konfigurace (cesty, sekce, EXTRA_SECTIONS, model, prompty)
 ├── 01_scrape_urls.py       # Stáhne URL obrázků
 ├── 02_download_images.py   # Stáhne obrázky
 ├── 03_ocr_transcribe.py    # OCR přepis (Claude API)
 ├── 04_build_html.py        # Sestaví HTML výstup
 ├── 05_polish_text.py       # Uhlazení textu (Claude API)
+├── 06_merge_page_texts.py  # Sloučí data/ocr_pages/section_XX/*.txt do transcriptions.json
 ├── name_index.py           # Rejstřík příjmení (používá 04_build_html.py)
 ├── place_index.py          # Rejstřík míst a domů (používá 04_build_html.py)
+├── brand.py                # Vzhled webu: barvy, písma, značka, logomanuál
+├── tests/                  # Testy (pytest)
+├── .github/workflows/
+│   ├── pages.yml           # Sestavení a publikace na GitHub Pages
+│   └── python-app.yml      # flake8 + pytest
 ├── data/
-│   ├── image_urls.json     # URL obrázků (generováno)
-│   ├── images/             # Stažené obrázky (generováno)
+│   ├── image_urls.json     # URL obrázků (výstup kroku 1)
+│   ├── images/             # Stažené obrázky (generováno, není v gitu)
+│   ├── ocr_pages/          # Přepisy po stranách: section_01–13 (kronika), dva tisky z roku 1990
+│   ├── transcriptions.json # Přepisy všech stran kroniky (z 06 nebo 03)
+│   ├── transcriptions_polished.json # Uhlazené přepisy (generováno krokem 4, v repozitáři není)
+│   ├── souvislosti.json    # Ruční seznam souvisejících článků
 │   ├── rejstrik_mist.txt   # Seznam míst a jejich tvarů pro rejstřík míst
 │   ├── rejstrik_vyjimky.txt # Slova vyřazená z rejstříku příjmení
-│   ├── transcriptions.json # Surové OCR přepisy (generováno)
-│   └── transcriptions_polished.json # Uhlazené přepisy (generováno)
+│   └── znak_obce.png       # Znak obce (předloha vzhledu, zobrazen v logomanuálu)
+├── docs/transcriptions/    # Souvislé přepisy sekcí (Markdown) a seznamy míst k ověření
+├── vranov-kronika-ocr-web/ # Starší samostatná ukázka prvních 5 stran; web ji nepoužívá
 └── output/
-    └── kronika_vranov.html # Finální HTML (generováno)
+    └── kronika_vranov.html # Finální HTML (generováno, není v gitu)
 ```
 
 ## Tipy
 
 - **Kvalita přepisu** závisí na čitelnosti originálu. Starší zápisy (kurent, ornamentální písmo) budou méně přesné.
-- **Po sekcích** – doporučuji zpracovat nejdřív 1–2 sekce a zkontrolovat kvalitu, než pustíš vše.
-- **Cena OCR** – jeden obrázek stojí cca $0.01–0.02 (Sonnet). Celá kronika tak vyjde na $5–15.
-- **Cena uhlazení** – závisí na modelu: Opus ~$38, Sonnet ~$8, Haiku ~$2 za celou kroniku.
+- **Po sekcích** – při novém běhu přes API doporučuji zpracovat nejdřív 1–2 sekce (nebo `--limit 5`) a zkontrolovat kvalitu, než pustíš vše.
+- **Místa k ověření** – seznamy nejistých čtení po sekcích jsou v `docs/transcriptions/*-k-overeni.md`.
 - **Claude Code** – otevři projekt v Claude Code (`claude` v terminálu) a můžeš iterativně ladit přepisy.
