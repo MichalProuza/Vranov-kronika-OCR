@@ -43,6 +43,7 @@ SECTIONS = [
 
 # Další přepsané tisky mimo kroniku (strany leží v data/ocr_pages/<dir>/page_NNN.txt).
 # Na webu se zobrazí jako sekce za kronikou; id_base odlišuje jejich strany od skenů kroniky.
+# source_label je text odkazu na sken (výchozí „sken (PDF)“).
 PAGES_DIR = DATA_DIR / "ocr_pages"
 _RELEASE_1990 = "https://github.com/MichalProuza/Vranov-kronika-OCR/releases/download/Vranov_1990/"
 EXTRA_SECTIONS = [
@@ -54,6 +55,12 @@ EXTRA_SECTIONS = [
      "id_base": 11000, "source_url": _RELEASE_1990 + "vranovak.1990.1.pdf",
      "intro": "Zpravodaj vydaný Drobnými provozovnami MNV Vranov u Brna k oslavám 750 let obce. "
               "Strojopis, zveřejněno se souhlasem držitelů práv."},
+    {"name": "Vranov, poutní místo u Brna (1937)", "short": "Vranov 1937", "dir": "vranov_poutni_misto_1937",
+     "id_base": 12000, "source_url": "https://ndk.cz/uuid/uuid:2bff7e60-8f98-11ef-9e23-5ef3fc9bb22f",
+     "source_label": "sken v Národní knihovně",
+     "intro": "Turistická brožurka Františka Fürsta ze svazku 24 edice Brno a okolí, 3. vydání z roku 1937: "
+              "dějiny kostela sv. Barbory, poutního kostela, kláštera paulánů a knížecí hrobky, pověst "
+              "o slepém Vilémovi a poutě. Sken je volně dostupný v Národní digitální knihovně."},
 ]
 
 # --- Claude API ---

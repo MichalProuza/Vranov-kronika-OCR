@@ -52,6 +52,14 @@ def test_extra_section_rendered_after_chronicle(tmp_path):
     assert "Přepsáno 2 stránek" in page
 
 
+def test_scan_label_default_and_override(tmp_path):
+    (section,) = _extras(tmp_path)
+    assert "sken (PDF) ↗" in build_html.build_html({}, extras=[section])
+    page = build_html.build_html({}, extras=[{**section, "source_label": "sken v Národní knihovně"}])
+    assert "sken v Národní knihovně ↗" in page
+    assert "sken (PDF) ↗" not in page
+
+
 def test_no_extras_keeps_chronicle_only():
     page = build_html.build_html({}, extras=[])
-    assert "Tisky k 750. výročí" not in page.split("<body>")[1].split('<main class="content">')[0]
+    assert "Tisky mimo kroniku" not in page.split("<body>")[1].split('<main class="content">')[0]
