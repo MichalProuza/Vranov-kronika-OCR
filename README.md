@@ -49,7 +49,7 @@ Pod některými stranami je rámeček **Souvislosti** s odkazy na články
 města Brna, Paměť národa a na dobové noviny a knihy z let 1864–1950 v
 [Národní digitální knihovně](https://ndk.cz/) (volně dostupné skeny: svěcení školy 1885,
 vyloupení lichtenštejnské hrobky 1871, Topografie diecése brněnské 1908, poutě 1947…).
-Přehled všech 116 vybraných článků je na stránce před rejstříky;
+Přehled všech 120 vybraných článků je na stránce před rejstříky;
 seznam se udržuje ručně v `data/souvislosti.json` (pole `strany` = ID skenů stran
 kroniky, k nimž článek patří).
 
@@ -78,7 +78,7 @@ v `data/transcriptions.json`; `04_build_html.py` je čte přímo ze souborů str
 ### Národní knihovna
 
 Plné texty Národní digitální knihovny (Kramerius NK) obsahují spojení „Vranov u Brna“ na zhruba
-2 900 stranách. Asi 190 z nich je volně dostupných; z nich je vybráno 35 zpráv do Souvislostí a
+2 900 stranách. Asi 190 z nich je volně dostupných; z nich je vybráno 39 zpráv do Souvislostí a
 brožurka z roku 1937 je přepsaná výše. Ostatní díla (např. Vladimír Beránek: *Vranov u Brna – historie
 a památky*, 1940; sborník *Poutní místo Vranov*, 1997; Rovnost, Vlastivědný věstník moravský) jsou
 chráněná autorským právem a otevřou se jen přihlášenému čtenáři NK. Jejich pracovní seznam s odkazy
