@@ -44,10 +44,12 @@ kliknutí se hledané slovo na stránce zvýrazní):
 Pod některými stranami je rámeček **Souvislosti** s odkazy na články
 [Vranovského zpravodaje](https://www.vranov.cz/obec/zpravodaj-/), které zápis doplňují
 – například vzpomínky pamětníků a výpisy ze sokolské kroniky k osvobození v květnu 1945
-(zpravodaj 2/2005). Zhruba polovina odkazů vede na jiné weby: badatelské stránky
+(zpravodaj 2/2005). Další odkazy vedou na badatelské stránky
 (např. o pádu německého cvičného letounu u Vranova na davar.cz), Encyklopedii dějin
-města Brna, Paměť národa, digitální knihovny a další. Přehled všech 81 vybraných
-článků je na stránce před rejstříky;
+města Brna, Paměť národa a na dobové noviny a knihy z let 1864–1950 v
+[Národní digitální knihovně](https://ndk.cz/) (volně dostupné skeny: svěcení školy 1885,
+vyloupení lichtenštejnské hrobky 1871, Topografie diecése brněnské 1908, poutě 1947…).
+Přehled všech 116 vybraných článků je na stránce před rejstříky;
 seznam se udržuje ručně v `data/souvislosti.json` (pole `strany` = ID skenů stran
 kroniky, k nimž článek patří).
 
@@ -57,19 +59,30 @@ přepisem sestavíte příkazem `python 04_build_html.py --raw`
 číslování stran, duplicitní skeny mezi galeriemi, známé nejistoty) jsou v souborech
 `README.md` v adresářích `data/ocr_pages/section_XX/` (sekce 01 a 11 je nemají).
 
-## Tisky k 750. výročí obce (1990)
+## Tisky mimo kroniku
 
 Mimo kroniku jsou přepsané i dva strojopisné tisky z roku 1990, jejichž skeny jsou
-v releasu [Vranov_1990](https://github.com/MichalProuza/Vranov-kronika-OCR/releases/tag/Vranov_1990):
+v releasu [Vranov_1990](https://github.com/MichalProuza/Vranov-kronika-OCR/releases/tag/Vranov_1990),
+a tištěná brožurka z roku 1937, jejíž sken je volně v Národní digitální knihovně:
 
 | Tisk | Stran | Souvislý přepis | Strany |
 | --- | --- | --- | --- |
 | Vranov u Brna 750 (1240–1990) – historie v datech, pomístní jména | 33 | [vranov-u-brna-750-1240-1990.md](docs/transcriptions/vranov-u-brna-750-1240-1990.md) | `data/ocr_pages/vranov_1240-1990/` |
 | Vranovák, srpen–září 1990 | 16 | [vranovak-1990.md](docs/transcriptions/vranovak-1990.md) | `data/ocr_pages/vranovak_1990_1/` |
+| František Fürst: Vranov, poutní místo u Brna (3. vyd., 1937) – [sken v NDK](https://ndk.cz/uuid/uuid:2bff7e60-8f98-11ef-9e23-5ef3fc9bb22f) | 12 | [vranov-poutni-misto-1937.md](docs/transcriptions/vranov-poutni-misto-1937.md) | `data/ocr_pages/vranov_poutni_misto_1937/` |
 
-Na webu jsou oba tisky zařazeny jako samostatné sekce za kronikou a rejstříky zahrnují i je. Nejsou
+Na webu jsou tisky zařazeny jako samostatné sekce za kronikou a rejstříky zahrnují i je. Nejsou
 v `data/transcriptions.json`; `04_build_html.py` je čte přímo ze souborů stran podle seznamu
-`EXTRA_SECTIONS` v `config.py`.
+`EXTRA_SECTIONS` v `config.py` (`source_label` mění text odkazu na sken, výchozí je „sken (PDF)“).
+
+### Národní knihovna
+
+Plné texty Národní digitální knihovny (Kramerius NK) obsahují spojení „Vranov u Brna“ na zhruba
+2 900 stranách. Asi 190 z nich je volně dostupných; z nich je vybráno 35 zpráv do Souvislostí a
+brožurka z roku 1937 je přepsaná výše. Ostatní díla (např. Vladimír Beránek: *Vranov u Brna – historie
+a památky*, 1940; sborník *Poutní místo Vranov*, 1997; Rovnost, Vlastivědný věstník moravský) jsou
+chráněná autorským právem a otevřou se jen přihlášenému čtenáři NK. Jejich pracovní seznam s odkazy
+přímo na strany se zmínkou je v [docs/narodni-knihovna-po-prihlaseni.md](docs/narodni-knihovna-po-prihlaseni.md).
 
 ## Jak přepis vznikl
 
@@ -196,7 +209,7 @@ pip install pytest
 pytest
 ```
 
-V `tests/` je 29 testů (rejstřík příjmení, míst a domů, Souvislosti, tisky mimo kroniku,
+V `tests/` je 30 testů (rejstřík příjmení, míst a domů, Souvislosti, tisky mimo kroniku,
 přepínání oddílů, vzhled, slučování stran). Skripty 01–03 a 05 testy nemají. Workflow
 `.github/workflows/python-app.yml` pouští flake8 a pytest při pushi do `main` a u pull requestů.
 
@@ -211,8 +224,8 @@ přepínání oddílů, vzhled, slučování stran). Skripty 01–03 a 05 testy 
   vidět vše pod sebou
 - Hledání v celém textu kroniky najednou (bez ohledu na diakritiku) se skokem na nalezené místo
 - Rejstřík příjmení, míst a domů s vyhledáváním (bez ohledu na diakritiku) a zvýrazněním na stránce
-- Souvislosti pod stranami a v souhrnném přehledu, tisky k 750. výročí jako sekce za kronikou
-- U každé strany odkaz na originální sken na webu obce (u tisků na PDF v releasu)
+- Souvislosti pod stranami a v souhrnném přehledu, tisky mimo kroniku (1937, 1990) jako sekce za kronikou
+- U každé strany odkaz na originální sken na webu obce (u tisků z roku 1990 na PDF v releasu, u brožurky z roku 1937 na Národní knihovnu)
 - Nejistá slova označena oranžově, nečitelná červeně
 - Text zarovnaný do bloku (justify) – OCR řádkové zlomy se automaticky spojují do plynulého textu;
   u strojopisných tisků se řádky ponechávají
@@ -322,7 +335,7 @@ skriptem `06_merge_page_texts.py`.
 ├── data/
 │   ├── image_urls.json     # URL obrázků (výstup kroku 1)
 │   ├── images/             # Stažené obrázky (generováno, není v gitu)
-│   ├── ocr_pages/          # Přepisy po stranách: section_01–13 (kronika), dva tisky z roku 1990
+│   ├── ocr_pages/          # Přepisy po stranách: section_01–13 (kronika), tisky z let 1937 a 1990
 │   ├── transcriptions.json # Přepisy všech stran kroniky (z 06 nebo 03)
 │   ├── transcriptions_polished.json # Uhlazené přepisy (generováno krokem 4, v repozitáři není)
 │   ├── souvislosti.json    # Ruční seznam souvisejících článků
@@ -330,6 +343,7 @@ skriptem `06_merge_page_texts.py`.
 │   ├── rejstrik_vyjimky.txt # Slova vyřazená z rejstříku příjmení
 │   └── znak_obce.png       # Znak obce (předloha vzhledu, zobrazen v logomanuálu)
 ├── docs/transcriptions/    # Souvislé přepisy sekcí (Markdown) a seznamy míst k ověření
+├── docs/narodni-knihovna-po-prihlaseni.md # Díla o Vranově v NDK dostupná jen po přihlášení
 ├── vranov-kronika-ocr-web/ # Starší samostatná ukázka prvních 5 stran; web ji nepoužívá
 └── output/
     └── kronika_vranov.html # Finální HTML (generováno, není v gitu)

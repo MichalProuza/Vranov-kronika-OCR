@@ -74,15 +74,16 @@ ručně psaný český text (většinou kurzívní pero/inkoust).
 - Volitelně: vedle přepisu zobrazí i miniaturu originálu
 - Za kroniku zařadí tisky mimo kroniku ze seznamu `EXTRA_SECTIONS` v `config.py`
   (strany v `data/ocr_pages/<dir>/page_NNN.txt`, první řádek „- 4 -“ je tištěné číslo strany);
-  rejstříky zahrnují i je
+  rejstříky zahrnují i je. Díla o Vranově v NDK dostupná jen po přihlášení vypisuje
+  `docs/narodni-knihovna-po-prihlaseni.md`
 - Na konec stránky přidá rejstřík příjmení s vyhledáváním (`name_index.py`);
   omylem zařazená slova se vyřazují v `data/rejstrik_vyjimky.txt`
 - Dále rejstřík míst a rejstřík domů (`place_index.py`): místa podle ručního
   seznamu `data/rejstrik_mist.txt` (chybějící kandidáty vypíše
   `python place_index.py --kandidati`), domy podle „č. 35“ / „č. p. 35“
   s úryvkem okolního textu
-- „Souvislosti“: články z Vranovského zpravodaje (PDF na vranov.cz) a z jiných
-  webů (jen odkaz a anotace, text se nepřebírá), které zápisy
+- „Souvislosti“: články z Vranovského zpravodaje (PDF na vranov.cz), z jiných
+  webů a z dobových tisků v Národní digitální knihovně (jen odkaz a anotace, text se nepřebírá), které zápisy
   kroniky doplňují (např. vzpomínky na osvobození 1945). Ruční seznam je
   v `data/souvislosti.json`; pole `strany` obsahuje ID skenů stran, pod kterými se
   odkaz zobrazí, všechny články jsou navíc v přehledu „Souvislosti“ před rejstříky

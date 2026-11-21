@@ -357,9 +357,11 @@ def build_related_section_html(related: list[dict], meta: dict) -> str:
         <section id="souvislosti" class="chronicle-section related-section">
             <h2>Souvislosti</h2>
             <p class="ni-intro">Články, které zápisy kroniky doplňují: vzpomínky pamětníků, výpisy z jiných kronik,
-            komentáře obecních kronikářů a práce badatelů. Zhruba polovina je z Vranovského zpravodaje (2002–2024)
-            a odkazy vedou na PDF na <a href="https://www.vranov.cz/obec/zpravodaj-/">webu obce Vranov</a>; ostatní
-            vedou na stránky jiných autorů a institucí (regionální badatelské weby, encyklopedie, digitální knihovny).
+            komentáře obecních kronikářů, práce badatelů a dobové noviny. Asi dvě pětiny jsou z Vranovského zpravodaje
+            (2002–2024) a odkazy vedou na PDF na <a href="https://www.vranov.cz/obec/zpravodaj-/">webu obce Vranov</a>;
+            zprávy z dobových novin a knih (1864–1950) vedou na volně dostupné skeny v
+            <a href="https://ndk.cz/">Národní digitální knihovně</a>; ostatní vedou na stránky jiných autorů a institucí
+            (regionální badatelské weby, encyklopedie).
             Texty se sem nepřebírají, u každého je jen krátká anotace, a kde se pramen s kronikou rozchází, je to v ní
             uvedeno. U stran kroniky, kterých se článek týká, je na něj odkaz přímo pod přepisem. Seznam je ruční výběr (soubor <code>data/souvislosti.json</code>) a není úplný.</p>
             {"".join(blocks)}
@@ -838,7 +840,7 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
         extra_items = [
             f'<a href="#{slugify(s["name"])}" class="nav-item">{html.escape(s["name"])}'
             f'<span class="count"> ({len(s["pages"])} stránek)</span></a>' for s in extras]
-        extra_nav_html = "<h3>Tisky k 750. výročí (1990)</h3>\n" + "\n".join(extra_items)
+        extra_nav_html = "<h3>Tisky mimo kroniku</h3>\n" + "\n".join(extra_items)
     index_pages, index_meta = _collect_pages(transcriptions, extras)
     index_html, surname_count = build_name_index_html(index_pages, index_meta)
     place_html, place_count = build_place_index_html(index_pages, index_meta)
@@ -906,7 +908,8 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
             label = f"Strana {page['number']}" if page["number"] else "Nečíslovaná strana"
             label += f" · sken {page['scan']}/{len(section['pages'])}"
             jump.append((page["id"], label))
-            pages_html.append(_page_html(page["id"], label, section["source_url"], "sken (PDF)",
+            pages_html.append(_page_html(page["id"], label, section["source_url"],
+                                         section.get("source_label", "sken (PDF)"),
                                          format_text(page["text"], keep_breaks=True)))
         content_sections.append(f'''
         <section id="{slugify(section["name"])}" class="chronicle-section">
@@ -1409,8 +1412,9 @@ def build_html(transcriptions: dict, with_thumbnails: bool = False, related: lis
         zejména u vlastních jmen. <span class="uncertain">Čárkovaně podtržená</span> místa jsou nejistá,
         <span class="unreadable">[nečitelné]</span> označuje nerozpoznaný text. Rozhodující je vždy originál: u každé strany
         je odkaz na její sken na <a href="https://www.vranov.cz/obec/historie/kronika-obce-vranov/">webu obce Vranov</a>.
-        Za kronikou jsou zařazeny dva strojopisné tisky k 750. výročí obce z roku 1990; odkaz u jejich stran vede na sken v PDF
-        a rejstříky zahrnují i je.
+        Za kronikou jsou zařazeny tisky mimo kroniku: dva strojopisy k 750. výročí obce z roku 1990 (odkaz u jejich stran
+        vede na sken v PDF) a brožurka Vranov, poutní místo u Brna z roku 1937 (odkaz vede na sken v Národní knihovně).
+        Rejstříky zahrnují i je.
     </div>
 
     <div class="container">
