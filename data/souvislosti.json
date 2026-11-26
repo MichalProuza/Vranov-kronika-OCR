@@ -1428,9 +1428,11 @@
    "url": "https://plsek.eu/liechtenstein.html",
    "titul": "Lichtenštejnské panství – mapa hraničních kamenů",
    "autor": "",
-   "tema": "Lesy a krajina",
+   "tema": "Hrobka Lichtenštejnů",
    "popis": "Interaktivní mapa lichtenštejnských hraničních kamenů v okolí Vranova u Brna.",
-   "strany": []
+   "strany": [
+    24
+   ]
   }
  ]
 }
